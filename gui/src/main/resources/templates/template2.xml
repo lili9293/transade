@@ -1,0 +1,7 @@
+<template name="template2">
+    <date></date>
+    <xmlfilepath>C:\Users\tap_tap_tap\Desktop\excelSample.xml</xmlfilepath>
+    <mode>modeusercompile</mode>
+    <showreport>false</showreport>
+    <transferids>transfer_haha</transferids>
+</template>

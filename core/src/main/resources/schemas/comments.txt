@@ -1,0 +1,36 @@
+# Special .xml characters used in Deburnat (see http://xml.silmaril.ie/specials.html)
+&lt; =: <
+&gt; =: >
+&quot; =: "
+&apos; =: '
+&amp; = &
+
+# Other .xml special characters (see https://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references)
+
+# Schema (see http://www.w3schools.com/schema/schema_schema.asp)
+  xmlns =: the elements and data types used in the schema come from this namespace (http://www.w3.org/2001/XMLSchema)
+  targetNamespace =: the elements defined by this schema come from here
+  elementFormDefault="qualified" =: any elements used by the XML instance document which were declared
+                                    in this schema must be namespace qualified
+
+
+TODO
+<ref id="" label=""><!--id:use="required", label:use="required"-->
+    <!--
+    The ref node is the equivalent of the node without attribute,
+    whose label is equal to the value of the "label" attribute above.
+    The identifier has to be unique within the scope of the "references" node.
+    -->
+</ref>
+<parse targetname="" ref="">
+    <sourcename/><!--sourcename:maxOccurs="1"-->
+    <!--
+    # The target name always represents the name of a column or a name.
+    # The source name however can not only represent the name of a column or a name,
+      but also a value.
+      # Its default state is the value state. The following data types are supported:
+        boolean, number, string (the default type).
+      # To indicate that the given word is the name of a column or name the user has to
+        encircle it with the following signs: ${ on the left- & } on the right side.
+    -->
+</parse>

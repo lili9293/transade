@@ -1,0 +1,32 @@
+<transfer language="english"><!--%TEXT% =: placeholder, # =: line breaker-->
+    <author>author</author>
+    <bug>Something went wrong during the transfer.</bug>
+    <con>Initializing and connecting the attributes.</con>
+    <date>date</date>
+    <description><!-- description of the pdf file -->
+        This document describes the results obtained after
+        parsing and compiling the file specified above using the "deburnat" app.
+    </description>
+    <discon>Disconnecting the attributes.</discon>
+    <donot>do nothing</donot>
+    <filename>report</filename>
+    <gen>generator</gen>
+    <gensource>Based on the [source] node id: %TEXT%</gensource>
+    <info>This class is the result of a specific conversion of xml in scala.</info>
+    <loopend>The loop iterator has ended.</loopend>
+    <loopstart>Starting the loop iterator.</loopstart>
+    <modify>Last modified on the</modify>
+    <param>These parameters have been %TEXT%</param>
+    <preview>
+        This is a preview of the newly created .scala class.#
+        There was therefore no compilation.
+    </preview>
+    <roundsf>Number of rounds so far</roundsf>
+    <roundtt>Total number of rounds</roundtt>
+    <subject>The result of the computation of the %TEXT% file</subject>
+    <success>The transfer was successful.</success>
+    <title>Report</title><!-- report file name -->
+    <transferdoc>doc</transferdoc><!-- name of the transfer classes directory -->
+    <transferbin>bin</transferbin><!-- name of the transfer bins directory -->
+    <xml>.xml file</xml>
+</transfer>

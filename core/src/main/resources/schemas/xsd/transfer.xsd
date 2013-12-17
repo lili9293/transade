@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:gr="http://www.example.org/groups"
+        targetNamespace="http://www.example.org/transfer"
+        elementFormDefault="qualified">
+    <element name="transfer"> <!--TRANSFER-->
+        <complexType>
+            <sequence>
+                <element name="metadata" minOccurs="0"> <!--METADATA-->
+                    <complexType mixed="true">
+                        <sequence>
+                            <element name="description" minOccurs="0"/>
+                        </sequence>
+                        <attribute name="projectname" type="string"/>
+                        <attribute name="admin" type="string"/>
+                    </complexType>
+                </element>
+                <element name="source" maxOccurs="unbounded"> <!--SOURCE-->
+                    <complexType>
+                        <sequence>
+                            <group ref="gr:definitionsGroup"/>
+                            <group ref="gr:targetGroup"/>
+                        </sequence>
+                        <attributeGroup ref="gr:storageGroup"/>
+                        <attribute name="author" type="string"/>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>    
+</schema>

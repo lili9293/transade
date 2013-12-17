@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:gr="http://www.example.org/groups"
+        targetNamespace="http://www.example.org/report"
+        elementFormDefault="qualified">
+    <element name="report">
+        <complexType>
+            <sequence>
+                <element name="process" maxOccurs="unbounded">
+                    <complexType>
+                        <group ref="gr:process"/>
+                        <attribute name="scala" use="required" type="string"/>
+                        <attribute name="start" use="required" type="date"/>
+                        <attribute name="end" use="required" type="date"/>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

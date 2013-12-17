@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is be included in the main "deburnat" file -->
+<transfer id=""><!--id:use="required"-->
+    <metadata projectname="" admin="">
+        ...
+        <description>
+            This block will appear in the report.
+        </description>
+        ...
+    </metadata>
+    <source id="" format="" ref="" authors=""><!--id:use="required", format:use="required"-->
+        <definitions ref="">
+            <def key="" value=""/><!--key:use="required", value:use="required"-->
+            <!--def:maxOccurs="unbounded"-->
+        </definitions>
+        <target id="" format="" ref=""><!--id:use="required", format:use="required"-->
+            <definitions/><!--this=source:definitions-->
+            <parse targetname="firstname" sourcename=""/><!--targetname:use="required"-->
+            <!-- OR -->
+            <parse targetname="" ref="">
+                <sourcename/><!--sourcename:maxOccurs="1"-->
+            </parse>
+            <!-- OR -->
+            <parse targetname="" ref="">
+                <if condition="" sourcename=""/>
+                <!-- OR -->
+                <if condition="">
+                    <sourcename/><!--this=parse:sourcename-->
+                </if>
+                <!--if:maxOccurs="unbounded"-->
+            </parse>
+            <!--parse:maxOccurs="unbounded"-->
+        </target>
+        <!--target:maxOccurs="unbounded"-->
+    </source>
+    <!--source:maxOccurs="unbounded"-->
+</transfer>

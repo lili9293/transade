@@ -1,0 +1,7 @@
+<template name="newtemplate"> 
+		<date>2013.10.08 - 19:55:02</date> 
+		<xmlfilepath>C:\Users\tap_tap_tap\Documents\csvSample.xml</xmlfilepath> 
+		<mode>modepreview</mode> 
+		<showreport>false</showreport> 
+		<transferids>Transfer1</transferids> 
+</template>

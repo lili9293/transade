@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is be included in the main "deburnat" file -->
+<references>
+    <ref id="ref1" label="source"><!--id:use="required", label:use="required"-->
+        <definitions/>
+        <target/>
+    </ref>
+    <!-- OR -->
+    <ref id="ref2" label="target">
+        <definitions/>
+        <parse/>
+    </ref>
+    <!-- OR -->
+    <ref id="ref3" label="definitions">
+        <def/>
+    </ref>
+    <!-- OR -->
+    <ref id="ref4" label="parse">
+        <sourcename/>
+    </ref>
+    <!-- OR -->
+    <ref id="ref5" label="parse">
+        <if/>
+    </ref>
+    <!--ref:maxOccurs="unbounded"-->
+</references>

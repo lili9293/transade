@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<deburnat>
+	<references>
+		<ref id="ref1" label="target">
+		</ref>
+	</references>
+	
+	<transfer>
+        <metadata/>
+		<source storagename="test_source" format="sql">
+			<definitions for="source:storagename:test_source">
+				<def key="url" value="localhost"/>
+				<def key="username" value="root"/>
+				<def key="password" value="11111"/>
+			</definitions>
+			<target storagename="test_target" format="excel">
+				<definitions>
+					<def key="url" value="localhost"/>
+					<def key="username" value="root2"/>
+					<def key="password" value="22222"/>
+				</definitions>
+				<parse targetrow="_firstname" sourcerow="${firstname}"/>
+				<parse targetrow="_lastname" sourcerow="${lastname}"/>
+				<parse targetrow="_age">
+					<sourcerow datatype="number">${age}</sourcerow>
+				</parse>
+				<parse targetrow="_address">
+					<if condition="${age} &gt; 26 &amp;&amp; ${age} &lt; 79">
+						<sourcerow datatype="text">${own_address}</sourcerow>
+					</if>
+					<if condition="${age} &lt;= 26" sourcerow="${moms_address}"/>
+					<if>
+						<sourcerow></sourcerow>
+					</if>
+				</parse>
+			</target>
+			<target storagename="test_target2" format="sql">
+				<definitions>
+					<def key="url" value="localhost"/>
+					<def key="username" value="root3"/>
+					<def key="password" value="33333"/>
+				</definitions>
+				<parse targetrow="_profession">
+					<sourcerow>"student"</sourcerow>
+				</parse>
+				<parse targetrow="_alive" sourcerow="${alive}"/>
+				<parse targetrow="_zipcode">
+					<if condition="${alive} == true">
+						<sourcerow datatype="number">68161</sourcerow>
+					</if>
+					<if sourcerow="0000"/>
+				</parse> 
+				<parse targetrow="_salary">
+					<if condition="${profession} == &quot;computer scientist&quot; &amp;&amp; ${age} != &quot;79&quot;">
+						<sourcerow datatype="text">1230€</sourcerow>
+					</if>
+					<if condition="${profession} != ${tester}"><!-- &quot;tester&quot; -->
+						<sourcerow datatype="text">1000€</sourcerow>
+					</if>
+					<if sourcerow="800€"/>
+				</parse>
+			</target>
+		</source>
+	</transfer>
+</deburnat>

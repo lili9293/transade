@@ -1,0 +1,9 @@
+resources.jars
+--------------
+
+Until further notice this directory should only contain .jar files.
+All the jars are available under http://mvnrepository.com
+
+SQL -> mysql-connector-java-5.1.26
+EXCEL -> poi-3.9
+CSV -> opencsv-2.3

@@ -1,0 +1,18 @@
+<!--
+Since this file is meant for developing purposes there is not xdt file for its validation.
+However there is a template that should be followed in order to achieve it's complete interpretation.
+ -  no attribute should be used
+ -  each node should be unique
+ -  ~ =: file separator
+ -  %TEXT% =: placeholder
+ -  start at resources~
+-->
+
+<platform>
+    <author>Patrick Meppe - tapmeppe@gmail.com</author>
+    <keywords>transade pdf xml</keywords>
+
+    <config>settings~config.xml</config><!-- the file used to configure the gui -->
+    <images>images~</images><!-- the images directory -->
+    <templates>templates</templates><!-- the templates directory. There is no "~" at the end on purpose -->
+</platform>

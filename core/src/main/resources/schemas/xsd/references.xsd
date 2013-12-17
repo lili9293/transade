@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:gr="http://www.example.org/groups"
+        targetNamespace="http://www.example.org/references"
+        elementFormDefault="qualified">
+    <element name="references"> <!--REFERENCES-->
+        <complexType>
+            <sequence>
+                <element name="ref" maxOccurs="unbounded"> <!--REF-->
+                    <complexType>
+                        <choice>
+                            <sequence> <!--source-->
+                                <group ref="gr:definitionsGroup"/>
+                                <group ref="gr:targetGroup"/>
+                            </sequence>
+
+                            <sequence> <!--target-->
+                                <group ref="gr:definitionsGroup"/>
+                                <group ref="gr:parseGroup"/>
+                            </sequence>
+
+                            <group ref="gr:sourcenameGroup"/> <!--parse (sourcename)-->
+                            <group ref="gr:ifGroup"/> <!--parse (if)-->
+
+                            <group ref="gr:defGroup"/> <!--defs-->
+                        </choice>
+                        <attributeGroup ref="gr:idGroup"/>
+                        <attribute name="label" use="required"> <!--LABEL-->
+                            <simpleType>
+                                <restriction base="string">
+                                    <enumeration value="source"/>
+                                    <enumeration value="target"/>
+                                    <enumeration value="parse"/>
+                                    <enumeration value="definitions"/>
+                                </restriction>
+                            </simpleType>
+                        </attribute>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

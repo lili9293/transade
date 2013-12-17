@@ -1,0 +1,31 @@
+<bug><!--placeholder =: %TEXT%, line break =: #-->
+    <class>This class couldn't be processed</class>
+    <classname>No class name found!</classname>
+    <compile>The .scala class couldn't be compiled</compile>
+    <connection>Not connected yet</connection>
+    <definitions>The definitions node is absent or empty.</definitions>
+    <format>The {%TEXT%} storage format isn't supported.</format>
+    <metadata>The metadata node is missing or at the wrong place</metadata>
+    <node>
+        This node couldn't be parsed or its parsed class couldn't be compiled
+    </node>
+    <os>The operating system couldn't be identified</os>
+    <parse>
+        Due to a bad or poor parsing of the source node
+        one or more of the following items are missing:#
+        source node -id, -parsed body
+    </parse>
+    <pdf>The %TEXT% file could not be saved in the pdf format.</pdf>
+    <savenot>The %TEXT% file couldn't be saved</savenot>
+    <set>%TEXT% has not been set yet</set>
+    <source>
+        One or more of the following attributes are missing:
+        id, storagename, format; or this node has no children
+    </source>
+    <target>
+        One or more of the following attributes are missing:
+        storagename, format; or this node has no children
+    </target>
+    <wrongnode>This node has been used instead of the %TEXT% node.</wrongnode>
+    <wrongstorage>%TEXT% storages aren't allowed to invoke this method.</wrongstorage>
+</bug>

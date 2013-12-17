@@ -1,0 +1,37 @@
+<report><!-- done -->
+    <transfer id="" projectname="" admin="" start="" end="">
+        <description>
+            text
+        </description>
+        <source id="" format="">
+            <definitions>
+                params
+            </definitions>
+            <target id="" format="">
+                <definitions>
+                    params
+                </definitions>
+                <parse status="good|poorly|bad">
+                    nodes parsed
+                </parse>
+                <!--parse:maxOccurs="3"-->
+            </target>
+            <!--target:maxOccurs="unbounded"-->
+            <process scala="">
+                preview text
+            </process>
+            <!-- OR -->
+            <process scala="">
+                <output><!--output:maxOccurs="1"-->
+                    All the outputs
+                </output>
+                <error><!--error:maxOccurs="1"-->
+                    All the errors
+                </error>
+            </process>
+            <!--process:maxOccurs="unbounded"-->
+        </source>
+        <!--source:maxOccurs="unbounded"-->
+    </transfer>
+    <!--transfer:maxOccurs="unbounded"-->
+</report>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<deburnat>
+	<references include="">
+        <ref id="ref1" label="source"><!--id:use="required", label:use="required"-->
+            <definitions/>
+            <target/>
+        </ref>
+        <!-- OR -->
+        <ref id="ref2" label="target">
+            <definitions/>
+            <parse/>
+        </ref>
+        <!-- OR -->
+        <ref id="ref3" label="definitions">
+            <def/>
+        </ref>
+        <!-- OR -->
+        <ref id="ref4" label="parse">
+            <sourcename/>
+        </ref>
+        <!-- OR -->
+        <ref id="ref5" label="parse">
+            <if/>
+        </ref>
+        <!--ref:maxOccurs="unbounded"-->
+	</references>
+	<transfer id="" include=""><!--id:use="required"-->
+		<metadata projectname="" admin="">
+		    ...
+            <description>
+                This block will appear in the report.
+            </description>
+            ...
+		</metadata>
+		<source id="" format="" ref="" authors=""><!--id:use="required", format:use="required"-->
+			<definitions ref="">
+				<def key="" value=""/><!--key:use="required", value:use="required"-->
+                <!--def:maxOccurs="unbounded"-->
+			</definitions>
+			<target id="" format="" ref=""><!--id:use="required", format:use="required"-->
+				<definitions/><!--this=source:definitions-->
+                <parse targetname="firstname" sourcename=""/><!--targetname:use="required"-->
+                <!-- OR -->
+                <parse targetname="" ref="">
+					<sourcename/><!--sourcename:maxOccurs="1"-->
+				</parse>
+                <!-- OR -->
+                <parse targetname="" ref="">
+                    <if condition="" sourcename=""/>
+                    <!-- OR -->
+                    <if condition="">
+                        <sourcename/><!--this=parse:sourcename-->
+                    </if>
+                    <!--if:maxOccurs="unbounded"-->
+				</parse>
+                <!--parse:maxOccurs="unbounded"-->
+			</target>
+            <!--target:maxOccurs="unbounded"-->
+		</source>
+        <!--source:maxOccurs="unbounded"-->
+	</transfer>
+    <!--transfer:maxOccurs="unbounded"-->
+</deburnat>

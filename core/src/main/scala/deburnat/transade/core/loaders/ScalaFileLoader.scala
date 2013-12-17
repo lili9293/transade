@@ -1,0 +1,97 @@
+package deburnat.transade.core.loaders
+
+import xml.{Elem, XML}
+import XML.loadFile
+import collection.mutable.{ListBuffer, Map}
+
+import java.io.File
+
+import deburnat.transade.core.admins.{PdfCreator, CoreAdmin}
+import CoreAdmin._
+import deburnat.transade.core.conc.Concurrency
+
+
+/**
+ * An algorithm for data transfer.
+ * Project name: deburnat
+ * Date: 9/30/13
+ * Time: 6:18 AM
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ *
+ *
+ */
+protected[transade] final class ScalaFileLoader(admin: CoreAdmin) {
+
+  /**
+   * This method is used to process scala classes created by parsing a (Deburnat) .xml file
+   * @param paths The list of files: scala file -> (imports) .xml file
+   * @return see the last compute method
+   */
+  def compute(paths: Map[String, String]): File = if(admin.goodToGo){
+    val _paths = Map[String, Elem]()
+    paths.foreach{path => 
+      try{
+        val (_path, impRoot) = (getCanPath(path._1), loadFile(getCanPath(path._2)))
+        if(_path.endsWith(_sc) && impRoot.label.equals(imps)) _paths += _path -> impRoot
+      }catch{case e: Exception =>} //org.xml.sax.SAXParseException, FileNotFoundException
+      /* simply skip the current path if:
+       * - an exception occurs or
+       * - the path supposed to be the path of a .scala file isn't one or
+       * - the .xml file root's label isn't "imports".
+       */
+    }
+
+    _compute(_paths, admin.output)
+  }else null
+
+
+  /**
+   * This method is used to process scala classes created by parsing a (Deburnat) .xml file
+   * @param scalaFilepaths The list of .scala files.
+   *                       The (imports) .xml files must
+   *                       - be in the same directory as that of their respective .scala file and
+   *                       - have the name of this .scala file as root file name
+   *                         and the term "_imports" as suffix.
+   *                         E.g.: Test1.scala, Test1_imports.xml
+   * @return see the last compute method
+   */
+  def compute(scalaFilepaths: ListBuffer[String]): File = if(admin.goodToGo){
+    val _paths = Map[String, Elem]()
+    scalaFilepaths.foreach{path => 
+      try{
+        val (_path, impRoot) = (getCanPath(path), loadFile(getCanPath(path.replace(_sc, _imps+_xml))))
+        if(_path.endsWith(_sc) && impRoot.label.equals(imps)) _paths += _path -> impRoot
+      }catch{case e: Exception =>} //org.xml.sax.SAXParseException, FileNotFoundException
+      /* simply skip the current path if:
+       * - an exception occurs or
+       * - the path supposed to be the path of a .scala file isn't one or
+       * - the .xml file root's label isn't "imports".
+       */
+
+    } 
+
+    _compute(_paths, admin.output)
+  }else null
+
+
+  /**
+   * This method is actually the one
+   * - processing and executing the .scala file;
+   * - saving and returning the report file.
+   * @param paths The filtered paths object.
+   * @param output see the class core.admin.CoreAdmin.
+   * @return the report file is everything has been executed flawlessly
+   *         otherwise null
+   */
+  private def _compute(paths: Map[String, Elem], output: String => Unit) = if(paths.nonEmpty){
+    val reportFile = PdfCreator.saveReport(
+      "<%s>%s</%s>".format(root, br+Concurrency.compute(paths, output)+br, root), //report
+      paths.keys.mkString(hash)
+    )
+    
+    output(view.read("outputreport") + ": " + reportFile.getCanonicalPath)
+    emptyBinDir //empty the bin directory
+    
+    reportFile
+  }else null
+}

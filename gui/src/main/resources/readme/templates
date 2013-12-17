@@ -1,0 +1,10 @@
+resources.templates
+-------------------
+
+<template name="">
+    <date/>
+    <xmlfilepath/>
+    <mode/>
+    <showreport/>
+    <transferids/>
+</template>

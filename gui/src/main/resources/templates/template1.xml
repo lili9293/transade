@@ -1,0 +1,7 @@
+<template name="template1">
+    <date></date>
+    <xmlfilepath>C:\Users\tap_tap_tap\Documents\csvSample.xml</xmlfilepath>
+    <mode>modebetacompile</mode>
+    <showreport>true</showreport>
+    <transferids>Transfer1</transferids>
+</template>

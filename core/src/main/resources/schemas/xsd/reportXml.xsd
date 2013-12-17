@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:gr="http://www.example.org/groups"
+        targetNamespace="http://www.example.org/report"
+        elementFormDefault="qualified">
+    <attributeGroup name="storageGroup">
+        <attribute name="id" type="string" use="required"/>
+        <attribute name="format" type="string" use="required"/>
+    </attributeGroup>
+
+    <group name="defs">
+        <all><element name="definitions"/></all>
+    </group>
+
+    <element name="report">
+        <complexType>
+            <sequence>
+                <element name="transfer" maxOccurs="unbounded">
+                    <complexType>
+                        <sequence>
+                            <element name="description"/>
+                            <element name="source" maxOccurs="unbounded">
+                                <complexType>
+                                    <sequence>
+                                        <element name="definitions"/>
+                                        <group ref="xmlns:defs"/>
+                                        <element name="target" maxOccurs="unbounded">
+                                            <complexType>
+                                                <sequence>
+                                                    <group ref="xmlns:defs"/>
+                                                    <element name="parse" maxOccurs="3">
+                                                        <complexType mixed="true">
+                                                            <attribute name="status" use="required">
+                                                                <simpleType>
+                                                                    <restriction base="string">
+                                                                        <enumeration value="good"/>
+                                                                        <enumeration value="porly"/>
+                                                                        <enumeration value="bad"/>
+                                                                    </restriction>
+                                                                </simpleType>
+                                                            </attribute>
+                                                        </complexType>
+                                                    </element>
+                                                </sequence>
+                                                <attributeGroup ref="xmlns:storageGroup"/>
+                                            </complexType>
+                                        </element>
+                                        <element name="process" maxOccurs="unbounded">
+                                            <complexType mixed="true">
+                                                <group ref="gr:process" minOccurs="0"/>
+                                                <attribute name="scala" use="required" type="string"/>
+                                            </complexType>
+                                        </element>
+                                    </sequence>
+                                    <attributeGroup ref="xmlns:storageGroup"/>
+                                </complexType>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

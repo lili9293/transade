@@ -1,0 +1,11 @@
+<report>
+    <process scala="" start="" end="">
+        <output><!--output:maxOccurs="1"-->
+            All the outputs
+        </output>
+        <error><!--error:maxOccurs="1"-->
+            All the errors
+        </error>
+    </process>
+    <!--process:maxOccurs="unbounded"-->
+</report>

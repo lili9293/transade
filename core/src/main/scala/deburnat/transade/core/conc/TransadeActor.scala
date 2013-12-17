@@ -1,0 +1,53 @@
+package deburnat.transade.core.conc
+
+import actors.Actor
+import collection.mutable.ListBuffer
+import deburnat.transade.core.{admins, readers}
+import admins.CoreAdmin.{br, tab1, proc, bug, getExceptionNode}
+import deburnat.transade.core.readers.Reader._
+
+/**
+ * Project name: transade
+ * Description: 
+ * Date: 12/17/13
+ * Time: 11:39 AM
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ */
+protected[conc] abstract class TransadeActor extends Actor{
+
+  private val report = new ListBuffer[String]()
+  protected final val len = 4 //used during the creation of the exception node
+
+  protected val maxLen: Int //the limit of the act.loopWhile
+  protected def startSubActors: Unit //this method is used to start all the sub actors
+  /**
+   *
+   * @param source
+   * @param e
+   * @return
+   */
+  protected def getExceptionNode(source: String, e: Exception): String
+
+
+  protected final def startSubActor(actor: Actor){
+    link(actor) //link the sub actor to its main actor
+    actor.start
+  }
+
+  override def act{react{case Message.start =>
+    val to = sender
+    startSubActors
+
+    /* The append of the report object could actually be done be the sub actor
+     * returning the report or firing the exception.
+     * The problem is however while being faster and relieving for this main actor,
+     * it would increase the probability of data racing.
+     * 2 sub actors appending the report object at the same time can only end bad.
+     */
+    loopWhile(report.length < maxLen){react{
+      case report: String => this.report += report //allocate the processed reports
+      case (source: String, e: Exception) => report += getExceptionNode(source, e)
+    }}andThen to ! report.mkString(br) //return
+  }}
+
+}

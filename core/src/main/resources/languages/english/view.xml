@@ -1,0 +1,100 @@
+<view><!--placeholder =: %TEXT%, line break =: #, punctuation at the end if necessary-->
+    <all>All transfer nodes</all>
+    <confirm>Please confirm!</confirm>
+    <confirmclose>Shut down the application?</confirmclose>
+    <confirmids>Transfer Id's</confirmids>
+    <confirmrunmode>Mode</confirmrunmode>
+    <confirmno>No</confirmno>
+    <confirmrunfile>File</confirmrunfile>
+    <confirmpopupupdate>
+        The application has to be reset for the changes to take effect.#
+        Continue?
+    </confirmpopupupdate>
+    <confirmtemplate>Template</confirmtemplate>
+    <confirmtemplatedelete>
+        Your are about to delete the template known as %TEXT%.
+    </confirmtemplatedelete>
+    <confirmtemplateerror>
+        The file %TEXT% is either missing or its schema couldn't be validated.#
+        The template will be removed now.
+    </confirmtemplateerror>
+    <confirmtemplateexit>This template will override the existing one.</confirmtemplateexit>
+    <confirmtemplatenew>This is a new template.</confirmtemplatenew>
+    <confirmtitle>Your action in summary.</confirmtitle>
+    <confirmyes>Yes</confirmyes>
+    <download>Download schemas</download>
+    <files>files</files>
+    <info>Information</info>
+    <manuals>Manuals</manuals>
+    <manualsgui>GUI manual</manualsgui>
+    <manualstransade>TRANSADé manual</manualstransade>
+    <modebetacompile>beta compile mode</modebetacompile>
+    <modepreview>preview mode</modepreview>
+    <modeusercompile>user compile mode</modeusercompile>
+    <openreport>Show the report</openreport>
+    <outputend>transfer [id=%TEXT%] - END</outputend>
+    <outputothers>Other files</outputothers>
+    <outputreport>Report file</outputreport>
+    <outputstart>transfer [id=%TEXT%] - START</outputstart>
+    <outputtitle>Output</outputtitle>
+    <outputwelcome>Welcome !!!</outputwelcome>
+    <popupdirtitle>The work directory</popupdirtitle>
+    <popupdirtooltip>
+        This is the current work directory. Change it to set a new directory
+    </popupdirtooltip>
+    <popuplangtitle>The language</popuplangtitle>
+    <popuplangtooltip>Change it to set a new directory</popuplangtooltip>
+    <popuptitle>Settings</popuptitle>
+    <schemas>Schemas</schemas>
+    <templatetext>Save the current procedure as ...</templatetext>
+    <textfilechooser>Choose a file to load.</textfilechooser>
+    <title>Deburnat</title>
+    <tooltipcheckboxclick>Left click to check. Right click to visualize the node.</tooltipcheckboxclick>
+    <tooltipdelete>Click here to remove the current item from the template list.</tooltipdelete>
+    <tooltipfilechooser>Left click to use the file chooser. Right click to type.</tooltipfilechooser>
+    <tooltipinfo>Click on this button for more information about the software.</tooltipinfo>
+    <tooltipopenreport>
+        Check if you want to view the report file right after the computation.
+    </tooltipopenreport>
+    <tooltiprun>Click to run the selected transfers above.</tooltiprun>
+    <tooltipsettings>Click to set the language and the report directory.</tooltipsettings>
+    <tooltiptemplatechoose>Choose one the previously saved templates.</tooltiptemplatechoose>
+    <tooltiptemplatetext>
+        Left click to delete the current text. Right click to keep the current text.
+    </tooltiptemplatetext>
+    <tooltipupdate>Click to update the settings.</tooltipupdate>
+    <tooltipview>Click to view the selected files.</tooltipview>
+    <treenodeclick>click me!</treenodeclick>
+    <warndownload>
+        Download done.#
+        Check the %TEXT% directory.
+    </warndownload>
+    <warnfile>No file selected!</warnfile>
+    <warngoodtogo>
+        The configuration parameters aren't properly set.#
+        Check the settings section.
+    </warngoodtogo>
+    <warnitem>No item selected!</warnitem>
+    <warnitemdelete>
+        The item has already been deleted.#Please restart the application.
+    </warnitemdelete>
+    <warnitemdeletenot>The item couldn't be deleted.</warnitemdeletenot>
+    <warnitemsuccess>The item has been successfully deleted.</warnitemsuccess>
+    <warnnode>No node selected!</warnnode>
+    <warnpopupnochange>No significant changes detected.</warnpopupnochange>
+    <warnpopupnoupdate>
+        The updates couldn't be executed.#
+        Please try again later.
+    </warnpopupnoupdate>
+    <warnpopupnoupdatecritical>
+        Something seems not to proceed as expected.#
+        Please contact the developer as soon as possible.#
+        Name: Patrick Meppe#
+        Email: tapmeppe@gmail.com
+    </warnpopupnoupdatecritical>
+    <warnschema>No .xml file or xml file with a wrong schema selected!</warnschema>
+    <warntemplatefile>File: %TEXT%</warntemplatefile>
+    <warntemplatemissing>The following transfer node are no long available: %TEXT</warntemplatemissing>
+    <warntitle>This is a warning, no further action will be taken!</warntitle>
+    <warnyes>Ok!</warnyes>
+</view>

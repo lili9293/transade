@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.example.org/groups"
+        elementFormDefault="qualified">
+    <!--attribute groups start-->
+    <attributeGroup name="idGroup">
+        <attribute name="id" type="string" use="required"/>
+    </attributeGroup>
+
+    <attributeGroup name="includeGroup">
+        <attribute name="include" type="string"/><!--default use="optional"-->
+    </attributeGroup>
+
+    <attributeGroup name="refGroup">
+        <attribute name="ref" type="string"/>
+    </attributeGroup>
+
+    <attributeGroup name="sourcenameAttrGroup">
+        <attribute name="sourcename" type="string"/>
+    </attributeGroup>
+
+    <attributeGroup name="storageGroup">
+        <attributeGroup ref="xmlns:idGroup"/>
+        <attribute name="format" type="string" use="required">
+						<simpleType>
+								<restriction base="string">
+										<enumeration value="sql"/>
+										<enumeration value="csv"/>
+										<enumeration value="excel"/>                                
+								</restriction>
+						</simpleType>
+				</attribute>
+        <attributeGroup ref="xmlns:refGroup"/>
+    </attributeGroup>
+    <!--attribute groups end-->
+
+    <!--groups start-->
+    <group name="defGroup"> <!--DEFS-->
+        <sequence>
+            <element name="def" maxOccurs="unbounded">
+                <complexType>
+                    <attribute name="key" type="string" use="required">
+                        <simpleType>
+                            <restriction base="string">
+                                <enumeration value="username"/><!--SQL storage-->
+                                <enumeration value="password"/>
+                                <enumeration value="table"/>
+                                <enumeration value="path"/><!--CSV storage-->
+																<enumeration value="location"/><!--EXCEL storage-->
+                                <enumeration value="delimiter"/><!--CSV & EXCEL storage-->
+                                <enumeration value="quote"/>
+                                <enumeration value="colnamesrow"/>
+                                <enumeration value="start"/>
+                                <enumeration value="end"/>                                
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="value" type="string" use="required"/>
+                </complexType>
+            </element>
+        </sequence>
+    </group>
+
+    <group name="definitionsGroup"> <!--DEFINITIONS-->
+        <all>
+            <element name="definitions"> <!--one and only one definitions node-->
+                <complexType>
+                    <group ref="xmlns:defGroup"/>
+                    <attributeGroup ref="xmlns:refGroup"/>
+                </complexType>
+            </element>
+        </all>
+    </group>
+
+    <group name="sourcenameGroup"> <!--SOURCE NAME-->
+        <all><element name="sourcename"/></all> <!--one and only one sourcename node-->
+    </group>
+
+    <group name="ifGroup"> <!--IF-->
+        <sequence>
+            <element name="if" maxOccurs="unbounded">
+                <complexType>
+                    <group ref="xmlns:sourcenameGroup" minOccurs="0"/>
+                    <attribute name="condition">
+                        <simpleType>
+                            <restriction base="string">
+                                <pattern value="^[ (]*(\$\{.+\}( *(!|=|&gt;|&lt;)=? *.*)?[ )]*((&amp;&amp;|\|\|)[ (]*)?)+$"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attributeGroup ref="xmlns:sourcenameAttrGroup"/>
+                </complexType>
+            </element>
+        </sequence>
+    </group>
+
+    <group name="parseGroup"><!--PARSE-->
+        <sequence>
+            <element name="parse" maxOccurs="unbounded">
+                <complexType>
+                    <choice>
+                        <group ref="xmlns:sourcenameGroup"/>
+                        <group ref="xmlns:ifGroup"/>
+                    </choice>
+                    <attribute name="targetrow" use="required"/>
+                    <attributeGroup ref="xmlns:sourcenameAttrGroup"/>
+                    <attributeGroup ref="xmlns:refGroup"/>
+                </complexType>
+            </element>
+        </sequence>
+    </group>
+
+    <group name="targetGroup"><!--TARGET-->
+        <sequence>
+            <element name="target" maxOccurs="unbounded">
+                <complexType>
+                    <sequence>
+                        <group ref="xmlns:definitionsGroup"/>
+                        <group ref="xmlns:parseGroup"/>
+                    </sequence>
+                    <attributeGroup ref="xmlns:storageGroup"/>
+                </complexType>
+            </element>
+        </sequence>
+    </group>
+    <!--groups end-->
+
+    <!--report group start-->
+    <group name="process">
+        <all>
+            <element name="output"/>
+            <element name="error"/>
+        </all>
+    </group>
+    <!--report group end-->
+</schema>
