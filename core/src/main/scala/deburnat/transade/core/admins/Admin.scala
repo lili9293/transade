@@ -7,11 +7,16 @@ import java.util.Date
 import deburnat.transade.core.readers.XmlReader
 
 /**
- * An algorithm for data transfer.
- * Project name: deburnat
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
  * Date: 9/2/13
  * Time: 4:13 AM
- * @author Patrick Meppe (tapmeppe@gmail.com)
+ *
+ * This trait is the abstract form of the application main admins.
  */
 protected[transade] trait Admin {
   /********** ATTRIBUTES - START **********/
@@ -44,28 +49,28 @@ protected[transade] trait Admin {
    * raw resources path =: root~src~main~resources
    * jar resources path =: root~target~classes
    * @note The user directory
-   * new java.io.File( "." ).getCanonicalPath =: absolute path or System.getProperty("user.dir")
+   *        new java.io.File( "." ).getCanonicalPath =: absolute path or
+   *        System.getProperty("user.dir")
    */
-  private val resources = getCanPath("%starget%sclasses".format(resourcesRoot.trim + sep, sep)) + sep
-  private val platform = new XmlReader(resources + "settings" + sep + "platform" + _xml)
+  protected val resourcesRoot: String
+  //resources as to use the "lazy" prefix to avoid an initialisation error
+  private lazy val resources = getCanPath("%starget%sclasses".format(resourcesRoot.trim + sep, sep)) + sep
+  private lazy val platform = new XmlReader(resources + "settings" + sep + "platform" + _xml)
   /********** ATTRIBUTES - END **********/
 
 
   /********** METHODS - START **********/
-  protected def resourcesRoot: String
-
   /**
-   * This is the most essential method for the "Admin".
-   * It is used to get information from the "platform.xml" file, which is the root of the resources.
-   * @param node
-   * @return
+   * This is the most essential method for the Admin.
+   * It is used to get information from the platform.xml file, which is the root of the resources.
+   * @param node The node (actually the node's label) whose text/information is required.
+   * @return A string object containing the node's (adapted) information.
    */
-  def platform(node: String, isPath: Boolean): String =
-    if(isPath) resources + platform.read(node).replace(_sep, sep) else platform.read(node)
-  def platform(node: String): String = platform(node, true)
+  def _platform(node: String): String = platform.read(node)
+  def platform(node: String): String = resources + _platform(node).replace(_sep, sep)
 
  /**
-  * This method is used to check the validity of the directory.
+  * This method is used to check the validity of a given directory.
   * @param dirPath The directory path
   * @return true only if the file denoted by this path is an unhidden directory.
   */

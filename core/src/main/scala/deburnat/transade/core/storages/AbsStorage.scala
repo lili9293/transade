@@ -9,27 +9,27 @@ import deburnat.transade.core.admins.CoreAdmin
 import CoreAdmin._
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
  * Date: 7/25/13
  * Time: 9:52 PM
- * @author Patrick Meppe (tapmeppe@gmail.com)
+ */
+
+/**
+ * This is simple set of static values.
  */
 private object AbsStorage{
-  val registers = Map[Int, Map[String, Int]]()
+  /* storage objects repository =: k1 -> k2 -> counter
+   * k1 =: the computation unit id (1 computation unit =: source storage + its target storages)
+   * k2 =: target storage simple name <code>this.getClass.getSimpleName</code>
+   * counter =: the number of time each specific simple name occurs (starting from 0)
+   */
+  val repository = Map[Int, Map[String, Int]]()
   var counter = 0
-
-  /*
-  extAttrs (extender/external) attributes.:
-  A map made of attributes created and used by the extenders of this class. Hence the name.
-  AbsStorage solely improves this attributes names to avoid a collision among the extenders during
-  the parsing stage.
-
-  intAttrs (internal attributes).:
-  A map made of attributes only used within this class.
-  The choice of the Map object was made to avoid using too much "var" prefixes.
- */
 
   val (
     src, queryCounter, defs, leftW, rightW,
@@ -46,22 +46,37 @@ private object AbsStorage{
   val _br = "(^%s+|%s+$)".format(br, br)
 }
 
+/**
+ *
+ */
 protected[storages] abstract class AbsStorage extends IStorage{
   import AbsStorage._
 
+  /*
+   * extAttrs (extender/external) attributes.:
+   * A map made of attributes created and used by the extenders of this class. Hence the name.
+   * AbsStorage solely improves this attributes names to avoid a collision among the extenders during
+   * the parsing stage.
+   *
+   * intAttrs (internal attributes).:
+   * A map made of attributes only used within this class.
+   * The choice of the Map object was made to avoid using too much "var" prefixes.
+   */
   private val (defCon, _jarFileNames, extAttrs, intAttrs) = (
     "'"+bug.read(con), ListBuffer[String](), Map[String, String](),
-    Map[Symbol, Any](
+    Map[Symbol, Any]( //intern attributes
       src -> null, leftW -> (tempMap + "("+a), rightW -> (a+")"), smq -> new StringBuilder, queryCounter -> -1
     )
   )
   private var dynCounter = -1
+  /* ro, i & j are counters.
+   * -ro =: round counter
+   * -i =: inner counter
+   * -j =: additional counter (additional to i or used in additional methods)
+   */
   protected final val (d, ro, _i, j, break, _fe) = ("^\\d+$", "round", "i", "j", "break", "firstEntry")
-  /*ro, i & j are counters.
-  * -ro =: round counter
-  * -i =: inner counter
-  * -j =: additional counter (additional to i or used in additional methods)
-  * */
+
+
   /********** attributes methods - start **********/
   /**
    *
@@ -144,14 +159,13 @@ protected[storages] abstract class AbsStorage extends IStorage{
    * @return
    */
   final def setTupel(key: String, value: String): String =
-  if(source.isInstanceOf[IStorage]) "%s(%s) = %s".format(tempMap, a+key+a, value)
-  else ""
+    if(source.isInstanceOf[IStorage]) "%s(%s) = %s".format(tempMap, a+key+a, value) else ""
 
 
   final def register = {
     source match{
-      case null => //source storage
-        registers(counter) = Map[String, Int]()
+      case null => //source storage => occurs only once during each computation unit
+        repository(counter) = Map[String, Int]()
         dynCounter = counter
         counter += 1
 
@@ -159,21 +173,22 @@ protected[storages] abstract class AbsStorage extends IStorage{
         val (key1, key2) = (
           source.asInstanceOf[AbsStorage].getDynCounter, this.getClass.getSimpleName
         )
-        val i = if(registers(key1).contains(key2)) registers(key1)(key2) else 0
+        val i = if(repository(key1).contains(key2)) repository(key1)(key2) else 0
 
         //Update all attributes of the object in order to avoid collision with admins
         intAttrs(id) = i //the target identifier within the computing round
         extAttrs.foreach(attr => extAttrs(attr._1) = attr._2 + i)
 
         //register all changes
-        registers(key1)(key2) = i + 1
+        repository(key1)(key2) = i + 1
     }
+    
     this
   }
 
 
   final def register(storage: IStorage) = {
-    intAttrs(src) = storage
+    intAttrs(src) = storage //-> source
     register
   }
 
@@ -198,7 +213,7 @@ protected[storages] abstract class AbsStorage extends IStorage{
   private def beforeParse: Boolean = if(isQueriable){
     jarFileNames.foreach(_fileName => try{
       val fileName = _fileName.replaceAll(jar+"$", "") + jar
-      val (srcPath, destPath) = (platform("jars", true) + fileName, getDocPath_ + fileName)
+      val (srcPath, destPath) = (platform("jars") + fileName, getDocPath_ + fileName)
       _jarFileNames += fileName //this object is used in the compile file
 
       if(!new File(destPath).exists){ //copy the .jar file only if it doesn't exit yet. Purpose =: speed
@@ -228,6 +243,7 @@ protected[storages] abstract class AbsStorage extends IStorage{
     }catch{case e: Exception => return false}) //something stream-like exception :)
     true
   }else false
+
 
   final def getImpQuery = if(beforeParse){
     intAttrs(queryCounter) = source match{
@@ -286,11 +302,12 @@ protected[storages] abstract class AbsStorage extends IStorage{
     val tabs = source.asInstanceOf[AbsStorage].intAttrs(tabPR).asInstanceOf[String]
     (if(getCon == 2 && source.isInstanceOf[IStorage]){
       intAttrs(queryCounter) = 4
-      //since the target is allowed to invoke the "getLoopQuery" method queryCounter is set to 3 instead of 2
+      //since the target is allowed to invoke the "getLoopQuery" method queryCounter is set to 4 instead of 3
       buildWriteQuery(tabs, cols, values).replaceAll(_br, "") + br
     }else tabs + defCon
     ) + br
   }
+
 
   final def getLoopQuery(innerLoop: String) = if(getCon == 3 && source == null){
     //the inner loop queries are from the target node.
@@ -357,7 +374,7 @@ protected[storages] abstract class AbsStorage extends IStorage{
   else new StringBuilder
 
   final def copyJarFileNamesTo(map: Map[String, Int]){
-    _jarFileNames.foreach(jar => map += jar -> 1)
+    _jarFileNames.foreach(map += _ -> 1)
   }
   /********** interfaces implemented methods ii - end **********/
 

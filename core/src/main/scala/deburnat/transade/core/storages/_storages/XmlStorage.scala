@@ -1,4 +1,6 @@
-package deburnat.transade.core.storages
+package deburnat.transade.core.storages._storages
+
+import deburnat.transade.core.storages.AbsStorage
 
 /**
  * An algorithm for dynamic programming. It uses internally a two-dimensional

@@ -5,41 +5,42 @@ import java.io.{FileOutputStream, File}
 import com.lowagie.text.{Font, Paragraph, Document}
 import com.lowagie.text.pdf.PdfWriter
 
-import CoreAdmin.{br, des, _pdf, pdf, system, root, xml, date, bug, trans, platform, getDirPath, getExceptionNode}
+import CoreAdmin._
 import FileAdmin.save
 import deburnat.transade.core.readers.Reader
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
  * Date: 8/24/13
  * Time: 8:38 PM
- * @author Patrick Meppe (tapmeppe@gmail.com)
  */
 protected[transade] object PdfCreator {
-  private val (title, titleFont, boldFont, normFont, xmlFont) = (
+  private val (title, titleFont, boldFont, normFont, xmlFont, read) = (
     "title",
     new Font(Font.TIMES_ROMAN, 25, Font.BOLD),
     new Font(Font.TIMES_ROMAN, 12, Font.BOLD),
     new Font(Font.TIMES_ROMAN, 12, Font.NORMAL),
-    new Font(Font.COURIER, 10)
+    new Font(Font.COURIER, 10),
+    (s: String) => trans.read(s) //val over def simply to highlight the term "read" below
   )
 
-  private def read(s: String) = trans.read(s)
-
   /**
-   *
+   * This method is used to save the new created report as a .pdf file.
    * @see http://www.vogella.com/articles/JavaPDF/article.html
-   * @param report
-   * @return
+   * @param report The report to be saved.
+   * @return A file object representing the newly created report.pdf file.
+   *         However in case of an exception a file representing the newly report.xml file.
    */
   def saveReport(report: String, paths: String) = {
-    val filePath = getDirPath + trans.read("filename") + _pdf
+    val filePath = getDirPath + reportFileName + _pdf //the report file path
 
     try{
-      //initialize the document
-      val (doc, file) = (new Document, new File(filePath))
+      val (doc, file) = (new Document, new File(filePath)) //initialize the document
 
       PdfWriter.getInstance(doc, new FileOutputStream(file))
       doc.open
@@ -47,8 +48,9 @@ protected[transade] object PdfCreator {
       //add metadata
       doc.addTitle(read(title))
       doc.addSubject(trans.read("subject", paths))
-      doc.addKeywords(platform("keywords", false))
-      doc.addAuthor(platform("author", false)) //document.addCreator("")
+      doc.addKeywords(_platform("keywords"))
+      doc.addAuthor(_platform("author"))
+      doc.addCreator(_platform("creator"))
       doc.addCreationDate
 
       //title page
@@ -72,8 +74,7 @@ protected[transade] object PdfCreator {
       doc.add(new Paragraph(report, xmlFont))
 
       doc.close //close the document
-
-      file
+      file //return
     }catch {case e: Exception => //DocumentException
       /* TEMPLATE
         <report exception={e.getClass.getSimpleName}>
@@ -89,11 +90,12 @@ protected[transade] object PdfCreator {
 
 
   /**
-   *
-   * @param par
-   * @param nr
+   * This method is used to add a certain amount of empty lines in a given paragraph.
+   * @param par The paragraph in which the line(s) are to be added.
+   * @param nr The number of lines to add.
    */
-  private def addLine(par: Paragraph, nr: Int){
-    (0 until nr).foreach(_ => par.add(new Paragraph(" ")))
+  private def addLine(par: Paragraph, nr: Int) = (0 until nr).foreach{
+    _ => par.add(new Paragraph(" "))
   }
+
 }

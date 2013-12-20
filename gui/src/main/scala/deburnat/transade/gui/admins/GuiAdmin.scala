@@ -23,7 +23,7 @@ import deburnat.transade.gui.components.TransOptionPane.warn
  */
 protected[transade] object GuiAdmin extends Admin{
 
-	override protected def resourcesRoot = "gui"
+	override protected val resourcesRoot = "gui"
 
   /********** ATTRIBUTES - START **********/
   private val configPath = platform("config")

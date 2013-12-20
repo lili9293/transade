@@ -9,11 +9,18 @@ import CoreAdmin.{br, tab1, proc, bug}
 import deburnat.transade.core.readers.Reader.read
 
 /**
- * An algorithm for data transfer.
- * Project name: deburnat
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
  * Date: 10/1/13
  * Time: 1:27 AM
- * @author Patrick Meppe (tapmeppe@gmail.com)
+ *
+ * This actor concurrently computes the .scala files.
+ * @param paths The path set of the (transade) .scala files
+ * @param output see the class transade.FileLoader
  */
 protected[conc] final class TransadeScalaActor(
   paths: Map[String, Elem], output: String => Unit
@@ -21,6 +28,12 @@ protected[conc] final class TransadeScalaActor(
 
   val maxLen = paths.size
 
+  /**
+   * This actor computes one (transade) .scala file at the time.
+   * @param actor The main actor.
+   * @param scalaPath The path of the .scala file.
+   * @param impRoot The node representing the .jar files to import.
+   */
   private class ScalaActor(actor: TransadeScalaActor, scalaPath: String, impRoot: Elem) extends Actor{
     override def exceptionHandler = {
       case e: Exception => actor ! (scalaPath, e)

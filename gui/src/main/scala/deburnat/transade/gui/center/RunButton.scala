@@ -65,13 +65,13 @@ protected[center] object RunButton{
           //Step 2: handle the new template
           if(templateName.nonEmpty){ //the template is adequately set in the LoadPanel case class
             /*
-              <template name={templateName}>
-                <date>{date}</date> //tDate
-                <xmlfilepath>{loadedFile.xmlFilePath}</xmlfilepath> //tPath
-                <mode>{mode._2}</mode> //tMode
-                <showreport>{showReport}</showreport> //tShow
-                <transferids>{ids.mkString(tSep)}</transferids> //tTrans
-              </template>
+            <template name={templateName}>
+              <date>{date}</date> //tDate
+              <xmlfilepath>{loadedFile.xmlFilePath}</xmlfilepath> //tPath
+              <mode>{mode._2}</mode> //tMode
+              <showreport>{showReport}</showreport> //tShow
+              <transferids>{ids.mkString(tSep)}</transferids> //tTrans
+            </template>
             */
             val content =
             "<%s name=%s> %s<%s>%s</%s> %s<%s>%s</%s> %s<%s>%s</%s> %s<%s>%s</%s> %s<%s>%s</%s> %s</%s>".format(

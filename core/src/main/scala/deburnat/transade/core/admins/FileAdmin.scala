@@ -8,20 +8,38 @@ import java.io.{FileWriter, IOException, File}
 import CoreAdmin._
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
  * Date: 7/25/13
  * Time: 4:46 PM
- * @author Patrick Meppe (tapmeppe@gmail.com)
  */
 protected[transade] object FileAdmin {
+  /* TODO
+   * http://www.java-forums.org/advanced-java/5356-text-image-files-within-jar-files.html
+   *   "Class.getResourceAsStream()"
+   * http://stackoverflow.com/questions/8334501/scala-how-to-read-file-in-jar
+   * this.getClass.getResourceAsStream("/...")
+   */
+
   /*
-  * http://www.java-forums.org/advanced-java/5356-text-image-files-within-jar-files.html
-  *   "Class.getREsourceAsStream()"
-  * http://stackoverflow.com/questions/8334501/scala-how-to-read-file-in-jar
-  * this.getClass.getResourceAsStream("/...")
-  * */
+   * This object represents all the file/directory residing in the {application}/doc directory,
+   * that aren't allowed to be deleted.
+   * In the inner jars directory only .jar files are allowed. The lazy prefix is optional.
+   */
+  private lazy val docFlags =
+    new File(platform("jars")).listFiles
+    .filter(file => file.getName.endsWith(jar)).map(file => file.getName) ++ Array(schemas, manuals)
+
+  /**
+   * This method is used to create a new file or save data in a new file.
+   * @param path The path of the file to be created.
+   * @param data The content of the file to be created.
+   * @return A file object representing the newly created file otherwise null.
+   */
   def save(path: String, data: String): File = {
     val _data = data.trim
     if(path.nonEmpty && _data.nonEmpty) try{
@@ -39,31 +57,23 @@ protected[transade] object FileAdmin {
     }catch {case e: IOException => null} else null
   }
 
-
   /**
-   *
-   * @param srcPath
-   * @param destPath
-   * @return
+   * This method is used to duplicate  given file.
+   * @param srcPath The path of the file that needs to be copied.
+   * @param destPath The destination file path.
+   * @return see the save method.
    */
   def copyFile(srcPath: String, destPath: String): File = save(destPath, fromFile(srcPath).mkString)
 
 
-  private lazy val fileName = trans.read("filename")
   /**
-   *
-   * @return
+   * This method is used to adequately clean the application directory.
+   * To be more specific, it deletes all the report.xml and or report.pdf available.
+   * @param dirPath The application directory path.
+   * @return True if everything goes as planed otherwise false.
    */
-  protected[admins] def emptyDir(dirPath: String): Boolean = try{  //http://mindprod.com/jgloss/exec.html  check this out
-    /* 29.08.2013 - 10:00
-     * Actually both .xml and .pdf can't exist at the same time.
-     * I damn made sure that it won't happen.
-     * But as it always is no code is perfect.
-     * About 30min ago i encountered an exception probably cause by the gui that somehow
-     * lead to the creation of both format for one computation round.
-     * Hence the current code structure.
-     */
-    val filePath = dirPath + sep + fileName
+  protected[admins] def emptyDir(dirPath: String): Boolean = try{
+    val filePath = dirPath + sep + reportFileName
 
     //first delete the possible existing .xml file
     val file1 = new File(filePath + _xml)
@@ -95,34 +105,33 @@ protected[transade] object FileAdmin {
     r1 && r2 //both have to be true to consider it as a success
   }catch{case e: IOException => false} //the file couldn't be deleted
 
-
-  //in the jars directory only .jar files are allowed
-  private lazy val jars = new File(platform("jars", true)).listFiles
-    .filter(file => file.getName.endsWith(jar)).map(file => file.getName)
-
   /**
-   * Self explanatory
-   * @param doc
-   * @return
+   * This method is used to adequately clean the the {application}/doc directory.
+   * It creates the {application}/doc directory if it doesn't exist.
+   * @param doc The doc directory path.
+   * @return True if everything goes as planed otherwise false.
    */
   protected[admins] def emptyDocDir(doc: StringBuilder): Boolean = if(doc.mkString.trim.nonEmpty){
     val _doc = new File(doc.mkString)
     if(_doc.exists){
       val files = _doc.listFiles
-      if(files.nonEmpty) files.map(file => if(jars.contains(file.getName)) true else file.delete)
-        //all the files with the exception of .jar files are deleted (purpose =: gain in speed)
+      if(files.nonEmpty) files.map(file => if(docFlags.contains(file.getName)) true else file.delete)
+        //all the files are deleted with the exception of
+        // - the .jar files (purpose =: gain in speed)
+        // - manuals and schemas (purpose =: avoid repetition)
         .reduceLeft((r1, r2) => r1 && r2) //r1 && r2 =: if(r1 && r2) true else false
       else true
-    }else{
+    }else{ //create the {application}/doc directory if it doesn't exist
       _doc.mkdir
       true
     }
   }else false
 
   /**
-   *
-   * @param bin
-   * @return
+   * This method is used to adequately clean the the {application}/bin directory.
+   * It creates the {application}/bin directory if it doesn't exist.
+   * @param bin The bin directory path.
+   * @return True if everything goes as planed otherwise false.
    */
   protected[admins] def emptyBinDir(bin: StringBuilder): Boolean = if(bin.mkString.trim.nonEmpty){
     val _bin = new File(bin.mkString)
@@ -130,7 +139,7 @@ protected[transade] object FileAdmin {
       val files = _bin.listFiles
       if(files.nonEmpty) files.map(file => file.delete).reduceLeft((r1, r2) => r1 && r2)
       else true
-    }else{
+    }else{ //create the {application}/bin directory if it doesn't exist
       _bin.mkdir
       true
     }

@@ -1,4 +1,4 @@
-# Special .xml characters used in Deburnat (see http://xml.silmaril.ie/specials.html)
+# Special .xml characters used in TRANSADé (see http://xml.silmaril.ie/specials.html)
 &lt; =: <
 &gt; =: >
 &quot; =: "

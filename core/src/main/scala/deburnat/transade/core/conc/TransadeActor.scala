@@ -8,10 +8,15 @@ import deburnat.transade.core.readers.Reader._
 
 /**
  * Project name: transade
- * Description: 
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
  * Date: 12/17/13
  * Time: 11:39 AM
- * @author Patrick Meppe (tapmeppe@gmail.com)
+ *
+ * This actor concurrently computes the [transfer] nodes or the .scala files.
  */
 protected[conc] abstract class TransadeActor extends Actor{
 
@@ -28,11 +33,15 @@ protected[conc] abstract class TransadeActor extends Actor{
    */
   protected def getExceptionNode(source: String, e: Exception): String
 
-
+  /**
+   * This method is used to start a newly created actor.
+   * @param actor The actor to be started.
+   */
   protected final def startSubActor(actor: Actor){
     link(actor) //link the sub actor to its main actor
     actor.start
   }
+
 
   override def act{react{case Message.start =>
     val to = sender

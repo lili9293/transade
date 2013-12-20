@@ -1,0 +1,21 @@
+This file is meant to help the developers improving this api according to their needs.
+
+
+---------------------------
+FORMATS CURRENTLY AVAILABLE
+---------------------------
+
+FORMAT              STORAGE CLASS
+-------------------------------------
+csv                 CsvStorage
+excel               ExcelStorage
+sql                 SqlStorage
+xml                 XmlStorage
+
+
+
+-------------------
+HOW TO ADD A FORMAT
+-------------------
+The format reader (the storages.Storage.getStorage method) is case insensitive.
+TODO

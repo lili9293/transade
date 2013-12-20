@@ -10,42 +10,63 @@ import Reader.read
 import FileAdmin._
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
  * Date: 7/25/13
  * Time: 6:08 AM
- * @author Patrick Meppe (tapmeppe@gmail.com)
+ */
+
+/**
+ * The core administrator object.
  */
 protected[transade] object CoreAdmin extends Admin{
 
-  protected def resourcesRoot = "core"
+  /**
+   * This case class is used as a repository by the setLanguage method.
+   * @param bug The bug.xml reader.
+   * @param transfer The transfer.xml reader.
+   * @param view The view.xml reader.
+   */
+  private case class LangReaders(bug: XmlReader, transfer: XmlReader, view: XmlReader){
+    val isSet = bug.root != null && transfer.root != null && view.root != null
+  }
+
+  protected val resourcesRoot = "core"
 
   /********** ATTRIBUTES - START **********/
+  private var langRds: LangReaders = null
   private val (
-    os, win, lin, _bug, _view, mDeb, mGui, cliProc, scalaBin, langDir, schemaDir, langReaders,
+    os, win, lin, mDeb, mGui, cliProc, scalaBin, langDir, schemaDir,
     dirPath, docPath, binPath, htmlLangPath
   ) = (
-    system("os.name").toLowerCase, "windows", "linux", "bug", "view", "manualDeburnat", "manualGui",
+    system("os.name").toLowerCase, "windows", "linux", "manualDeburnat", "manualGui",
     platform("processor"), platform("scalabin"), platform("languages"), platform(schemas),
-    Map[String, XmlReader](), new StringBuilder, new StringBuilder, new StringBuilder, new StringBuilder
+    new StringBuilder, new StringBuilder, new StringBuilder, new StringBuilder
   )
-  private lazy val schemata = Map(
+  private val schemata = Map(
     xml -> new File(schemaDir+xml).listFiles,
     "xsd" -> new File(schemaDir+"xsd").listFiles,
     "samples" -> new File(schemaDir+"samples").listFiles
   )
-  // cli =: command line interpreter aka shell
+
+  //cli =: command line interpreter aka shell
   protected[admins] val (osIsKnown, cliStart, cliSuffix, cliKillAcro) = if(os.startsWith(win)) (
     true, "cmd.exe /c start ", "bat", "taskkill /im AcroRd%s.exe"
   )else if(os.startsWith(lin)) (
     true, "", "sh", "kill -9 AcroRd%s.exe"//TODO finish the code
   )else (false, "", "", "")
+  protected[admins] val reportFileName = _platform("reportfilename") //used in PdfCreator & FileAdmin
+
   val (root, timePh, sc, _sc, imp, _imp, imps, _imps, proc, con, des, df, tabPh, st, _st) = (
     "report", "%TIME%", "scala", ".scala", "import", "_import", "imports", "_imports", "process",
     "connection", "description", "default", "%TAB%", "Storage", "storage"
   )
-  val (leftPh, rightPh, anyDt, boolDt, numDt, strDt, tab2, tab3, tab4, tab5) = ( //anyDt =: the default data type
+  //anyDt =: the default data type
+  val (leftPh, rightPh, anyDt, boolDt, numDt, strDt, tab2, tab3, tab4, tab5) = (
     "${", "}", "ANY", "BOOLEAN", "NUMBER", "STRING",
     tab1+tab1,
     tab1+tab1+tab1,
@@ -65,7 +86,11 @@ protected[transade] object CoreAdmin extends Admin{
   /***** language - start *****/
   /**
    * This method is used to set the language readers.
-   * @param lang
+   * @param lang The language to be used.
+   * @return true only if
+   *         - the language is recognized by the Admin and
+   *         - the bug.xml, transfer.xml and view.xml files are available;
+   *         otherwise false.
    */
   private def setLanguage(lang: String): Boolean = {
     var set = false
@@ -79,15 +104,19 @@ protected[transade] object CoreAdmin extends Admin{
     htmlLangPath.clear
     htmlLangPath ++= langPath + _html
 
-    langReaders(_bug) = new XmlReader(xmlLangPath.format(_bug))
-    langReaders(transfer) = new XmlReader(xmlLangPath.format(transfer))
-    langReaders(_view) = new XmlReader(xmlLangPath.format(_view))
-    set
+    langRds = LangReaders(
+      new XmlReader(xmlLangPath.format("bug")),
+      new XmlReader(xmlLangPath.format(transfer)),
+      new XmlReader(xmlLangPath.format("view"))
+    )
+
+    set && langRds.isSet
   }
 
-  def bug = langReaders(_bug)
-  def trans = langReaders(transfer)
-  def view = langReaders(_view) //required for the output
+  //the use of "def" instead of "val" is to ensure the access alt all time to the current readers.
+  def bug = langRds.bug
+  def trans = langRds.transfer
+  def view = langRds.view //required for the output
   /**
    * No break at the beginning or at the end.
    * @param label The given transfer label.
@@ -108,15 +137,16 @@ protected[transade] object CoreAdmin extends Admin{
   private def setDirPath(path: String): Boolean = if(isDirPathValid(path)){
     val _path = getCanPath(path) //get the canonical path
     dirPath.clear; binPath.clear; docPath.clear //clear the previously set paths
-    dirPath.append(_path + sep) //set the folder paths
-    binPath.append(_path + sep + trans.read("transferbin"))
-    docPath.append(_path + sep + trans.read("transferdoc"))
 
-    emptyDir(_path) && emptyBinDir && emptyDocDir //if necessary clear the main folder and its sub folder.
+    dirPath.append(_path + sep) //set the folder paths
+    binPath.append(_path + sep + "bin")
+    docPath.append(_path + sep + "doc")
+
+    emptyDir(_path) && emptyBinDir && emptyDocDir //if necessary empty the main folder and its sub folder.
     /* It is known that unless all sub folders within a folder are empty
      * the File.delete method won't be able to totally empty the given folder.
      * The emptyDir - and emptySubDir implementations work around this fact by simply
-     * deleting well defined files. There their order of invocation is irrelevant.
+     * deleting well defined files. Therefore their order of invocation is irrelevant.
      */
   }else false
 
@@ -125,7 +155,7 @@ protected[transade] object CoreAdmin extends Admin{
   def getDirPath = dirPath.mkString
   def getDocPath = docPath.mkString
   def getDocPath_ = docPath.mkString + sep
-  /***** directory path - ends *****/
+  /***** directory path - end *****/
 
   /***** process - start *****/
   /**
@@ -139,10 +169,11 @@ protected[transade] object CoreAdmin extends Admin{
     val (out, err) = (new ListBuffer[String](), new ListBuffer[String]())
     //http://stackoverflow.com/questions/5774970/run-jar-file-in-command-prompt
     //http://docs.oracle.com/javase/tutorial/getStarted/problems/
+    //http://mindprod.com/jgloss/exec.html
     val processed = try{
       Process( //java -> Runtime.getRuntime.exec(cliStart + ...)
-        cliStart + cliProc+cliSuffix + " " +
-          docPath + " " + binPath + " " + jars + " " + className.replaceAll(_sc+"$", "") + " " + scalaBin + " " + cliSuffix
+        cliStart + cliProc + cliSuffix + " " +
+        docPath + " " + binPath + " " + jars + " " + className.replaceAll(_sc+"$", "") + " " + scalaBin + " " + cliSuffix
       ) !! ProcessLogger(o => out += o , e => err += e)
       true
     }catch{case e: IOException =>
@@ -157,7 +188,7 @@ protected[transade] object CoreAdmin extends Admin{
   : (Boolean, ListBuffer[String], ListBuffer[String]) = process(docPath.mkString, jars, className)
 
   /**
-   * This method is used to allocate the processed cli result in the "report" object
+   * This method is used to allocate the processed cli result in the report object.
    * @param report The "report" object
    * @param out The output results of the cli
    * @param err The errors produced by the cli
@@ -186,7 +217,7 @@ protected[transade] object CoreAdmin extends Admin{
    * @param label The node label
    * @param e The exception thrown
    * @param text The node text
-   * @return
+   * @return A string object containing the exception node.
    */
   def getExceptionNode(tab: String, label: String, e:Exception, text: String) = "%s<%s %s=%s>%s%s%s</%s>".format(
     tab, label, "exception", a+e.getClass.getSimpleName+a, br, text+br, tab, label
@@ -202,7 +233,7 @@ protected[transade] object CoreAdmin extends Admin{
 
 
 /**
- * This class represents the application administrator.
+ * This class represents the core administrator.
  * @param dirPath The path of the directory in which all the files are to be saved.
  * @param language The application language.
  * @param output This method object is used to keep the user informed about the computation progress.
@@ -217,12 +248,19 @@ protected[transade] final class CoreAdmin(dirPath: String, language: String, val
   private val htmlLangPath = CoreAdmin.htmlLangPath.mkString
   val htmls = Array(new File(htmlLangPath.format(mDeb)), new File(htmlLangPath.format(mGui)))
 
+  /**
+   * This method is used to download the download (actually copy) the schema directory.
+   * @return A string object representing the new ../schema directory's path.
+   */
   def downloadSchemas: String = {
-    val _dir = CoreAdmin.dirPath.mkString + schemas
+    val _dir = getDocPath_ + schemas //the new schemas directory.
+
     schemata.map{schema =>
-      val dir = _dir +sep+schema._1+sep
+      val dir = _dir +sep+schema._1+sep //the new ../schemas/... directory
       schema._2.map{file => copyFile(file.getPath, dir+file.getName).isFile}
     }
+
     _dir
   }
+
 }

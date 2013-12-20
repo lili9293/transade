@@ -7,10 +7,19 @@ import CoreAdmin.{br, tab1, bug}
 import deburnat.transade.core.readers.Reader.read
 
 /**
- * @author Patrick Meppe, tapmeppe@gmail.com
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
  *
+ * Date: 10/1/13
+ * Time: 1:27 AM
  *
- * @param nodes 1 =: transfer node's list, 2 =: references
+ * This actor concurrently computes the (transade) .xml files.
+ * @param nodes 1 =: [transfer] nodes, 2 =: [references] node
+ * @param preview see the method core.loaders.XmlFileLoader.compute.
+ * @param output see the class transade.FileLoader.
  */
 protected[conc] final class TransadeXmlActor(
   nodes: TransadeNodes, preview: Boolean, output: String => Unit
@@ -18,6 +27,12 @@ protected[conc] final class TransadeXmlActor(
 
   val maxLen = nodes.transfers.length
 
+  /**
+   * This actor computes one (transade) .xml file at the time.
+   * @param actor The main actor.
+   * @param admin The application administrator for the (transade) .xml files.
+   * @param i The given [transfer] node index.
+   */
   private class XmlActor(actor: TransadeXmlActor, admin: TransadeXmlAdmin, i: Int) extends Actor{
     override def exceptionHandler = {
       case e: Exception => actor ! (nodes.transfers(i).label, e)

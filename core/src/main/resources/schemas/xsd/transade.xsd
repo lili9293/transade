@@ -2,13 +2,13 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
         xmlns:refs="http://www.example.org/references"
         xmlns:trans="http://www.example.org/transfer"
-        targetNamespace="http://www.example.org/deburnat"
+        targetNamespace="http://www.example.org/transade"
         elementFormDefault="qualified">
     <attributeGroup name="include">
         <attribute name="id" type="string"/>
     </attributeGroup>
 
-    <element name="deburnat">
+    <element name="transade">
         <complexType>
             <sequence>
                 <element  ref="refs:references" minOccurs="0">

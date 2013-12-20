@@ -12,11 +12,16 @@ import deburnat.transade.gui.admins.GuiAdmin._
 import deburnat.transade.core.readers.XmlReader
 
 /**
- * An algorithm for data transfer.
- * Project name: deburnat
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
  * Date: 9/1/13
  * Time: 12:58 AM
- * @author Patrick Meppe (tapmeppe@gmail.com)
+ *
+ *
  */
 protected[gui] class TemplatesComboBox extends Component with ActionListener with Publisher{
   private lazy val _templates = getTemplates
@@ -28,29 +33,30 @@ protected[gui] class TemplatesComboBox extends Component with ActionListener wit
 
 
   /**
-   * Insertion
-   * @param item
+   * This method is used to alphabetically insert a new item in the current templates combo box.
+   * @param item The item (template) to be inserted.
    */
-  def +=(item: String) = { //sorted insertion
-    //the control wheter or not the item is empty is done in the LoadPanel.scala
+  def +=(item: String) = {
+    //the control whether or not the item is empty is done in the object gui.center.RunButton
     templates += item
-    peer.insertItemAt(item, templates.sorted.indexOf(item))
-    //peer.addItem(item)
+    peer.insertItemAt(item, templates.sorted.indexOf(item)) //peer.addItem(item)
   }
 
   /**
-   * Removal
-   * @param item
+   * This method is used to remove the given item from the current templates combo box.
+   * @param item The item (template) to be removed.
    */
   def -=(item: String) = {
-    //the control whether the item is empty or not is done in the NorthPanel.scala
+    //the control whether the item is empty or not is done in the class gui.north.NorthPanel
     templates -= item
     peer.removeItem(item)
+    reset
   }
 
+  //
   def contains(item: String) = templates.contains(item)
-  def item = peer.getSelectedItem.asInstanceOf[String]
-  def reset{peer.setSelectedIndex(0)} //used by the TransFileChooser and th NorthPanel
+  def item = peer.getSelectedItem.asInstanceOf[String] //get the current selected item.
+  def reset{peer.setSelectedIndex(0)} //used by the -= method and the class TransFileChooser
 
 
   peer.addActionListener(this) //listenTo
@@ -62,8 +68,10 @@ protected[gui] class TemplatesComboBox extends Component with ActionListener wit
 }
 
 /**
- *
- * @param reader
+ * This event is
+ * - fired/published as soon as an item (template) in the template combo box is selected and
+ * - handled/received by the TransferFileChooser, gui.center.LoadPanel and gui.center.TransTabbedPane.
+ * @param reader The selected template (.xml) file reader
  */
 protected[gui] case class TemplateSelectedEvent(reader: XmlReader) extends Event
 

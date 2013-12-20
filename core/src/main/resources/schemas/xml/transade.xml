@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<deburnat>
+<transade>
 	<references include="">
         <ref id="ref1" label="source"><!--id:use="required", label:use="required"-->
             <definitions/>
@@ -61,4 +61,4 @@
         <!--source:maxOccurs="unbounded"-->
 	</transfer>
     <!--transfer:maxOccurs="unbounded"-->
-</deburnat>
+</transade>

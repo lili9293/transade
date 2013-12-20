@@ -4,7 +4,18 @@ import xml.{Elem, Node}
 import collection.mutable.Map
 
 /**
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
  *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ */
+
+/**
+ * This case object is the concurrency wrapper of the application
  */
 protected[transade] case object Concurrency{
   /**
@@ -46,6 +57,6 @@ protected[conc] case object Message{
 /**
  * This case class contains a set of the first generation children of a give [transade] node.
  * @param ref The unique [references] node.
- * @param transfers The [transfer] nodes
+ * @param transfers The [transfer] nodes.
  */
 protected[core] case class TransadeNodes(ref: Node, transfers: Seq[Node])

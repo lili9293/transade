@@ -10,7 +10,6 @@ import deburnat.transade.core.admins.{PdfCreator, CoreAdmin}
 import CoreAdmin._
 import deburnat.transade.core.conc.Concurrency
 
-
 /**
  * An algorithm for data transfer.
  * Project name: deburnat
@@ -18,12 +17,16 @@ import deburnat.transade.core.conc.Concurrency
  * Time: 6:18 AM
  * @author Patrick Meppe (tapmeppe@gmail.com)
  *
- *
+ * This class is used to load .scala files originating from the interpretation
+ * of an .xml file using the transade template.
+ * These files are called: (translade).scala files
+ * @param admin The application admin responsible for the core.
  */
 protected[transade] final class ScalaFileLoader(admin: CoreAdmin) {
 
   /**
-   * This method is used to process scala classes created by parsing a (Deburnat) .xml file
+   * This method is used to process (translade).scala files.
+   * For this method to work at all the admin has to be good to go.
    * @param paths The list of files: scala file -> (imports) .xml file
    * @return see the last compute method
    */
@@ -46,7 +49,8 @@ protected[transade] final class ScalaFileLoader(admin: CoreAdmin) {
 
 
   /**
-   * This method is used to process scala classes created by parsing a (Deburnat) .xml file
+   * This method is used to process (translade).scala files.
+   * For this method to work at all the admin has to be good to go.
    * @param scalaFilepaths The list of .scala files.
    *                       The (imports) .xml files must
    *                       - be in the same directory as that of their respective .scala file and
@@ -78,6 +82,7 @@ protected[transade] final class ScalaFileLoader(admin: CoreAdmin) {
    * This method is actually the one
    * - processing and executing the .scala file;
    * - saving and returning the report file.
+   * For this method to work at all the paths list has to contain at least one path..
    * @param paths The filtered paths object.
    * @param output see the class core.admin.CoreAdmin.
    * @return the report file is everything has been executed flawlessly

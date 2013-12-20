@@ -11,7 +11,9 @@ However there is a template that should be followed in order to achieve it's com
 <platform>
     <author>Patrick Meppe - tapmeppe@gmail.com</author>
 	<keywords>transade pdf xml</keywords>
+    <creator>TRANSADé</creator>
 	<storage>deburnat.transade.core.storages.</storage><!-- storage package -->
+    <reportfilename>report</reportfilename>
 
     <jars>jars~</jars><!-- .jar files -->
     <languages>languages~</languages><!-- language files -->

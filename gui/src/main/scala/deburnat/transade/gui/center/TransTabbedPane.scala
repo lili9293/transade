@@ -102,12 +102,11 @@ protected[center] class TransTabbedPane(
         (allCheckBoxes(i), boxPanes(i), treePanes(i)), ("",""), setParamsAt, null //no template to delete
       ).nodeCheckBoxMap
 
-
-    case TemplateSelectedEvent(reader) => //react accordingly if a template is selected
-      val (i, xmlFilePath) = (selectedIdx, reader.read(tPath))
+    case TemplateSelectedEvent(r) => //react accordingly if a template is selected
+      val (i, xmlFilePath) = (selectedIdx, r.read(tPath))
       nodeCheckBoxMapMap(i) = CheckBoxPanel(
         xmlFilePath, fileLoader.xml.getTransfers(xmlFilePath), (allCheckBoxes(i), boxPanes(i), treePanes(i)),
-        (reader.read(tTrans), tSep), setParamsAt, deleteTemplate
+        (r.read(tTrans), tSep), setParamsAt, deleteTemplate
       ).nodeCheckBoxMap
   }
   /***** TABBED PANE - END *****/

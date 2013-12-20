@@ -3,13 +3,12 @@
     <bug>Something went wrong during the transfer.</bug>
     <con>Initializing and connecting the attributes.</con>
     <date>date</date>
-    <description><!-- description of the pdf file -->
+    <description><!-- description of the report .pdf file -->
         This document describes the results obtained after
         parsing and compiling the file specified above using the "deburnat" app.
     </description>
     <discon>Disconnecting the attributes.</discon>
     <donot>do nothing</donot>
-    <filename>report</filename>
     <gen>generator</gen>
     <gensource>Based on the [source] node id: %TEXT%</gensource>
     <info>This class is the result of a specific conversion of xml in scala.</info>
@@ -25,8 +24,6 @@
     <roundtt>Total number of rounds</roundtt>
     <subject>The result of the computation of the %TEXT% file</subject>
     <success>The transfer was successful.</success>
-    <title>Report</title><!-- report file name -->
-    <transferdoc>doc</transferdoc><!-- name of the transfer classes directory -->
-    <transferbin>bin</transferbin><!-- name of the transfer bins directory -->
+    <title>Report</title><!-- report file name's title -->
     <xml>.xml file</xml>
 </transfer>

@@ -27,8 +27,8 @@ protected[gui] object TemplatesAdmin {
    * @return
    */
   def getTemplates: Array[String] = (
-    ArrayBuffer(ph) ++ new File(templatesDir).listFiles
-      .filter(file => file.getName.endsWith(_xml))
+    ArrayBuffer(ph) ++ new File(templatesDir)
+      .listFiles.filter(file => file.getName.endsWith(_xml))
       .map(file => file.getName.replaceAll(_xml+"$", ""))
   ).toArray
 }

@@ -1,7 +1,7 @@
 <bug><!--placeholder =: %TEXT%, line break =: #-->
     <class>This class couldn't be processed</class>
     <classname>No class name found!</classname>
-    <compile>The .scala class couldn't be compiled</compile>
+    <compile>The scala class couldn't be compiled</compile>
     <connection>Not connected yet</connection>
     <definitions>The definitions node is absent or empty.</definitions>
     <format>The {%TEXT%} storage format isn't supported.</format>

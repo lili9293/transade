@@ -8,11 +8,14 @@ import deburnat.transade.core.readers.Reader.read
 import CoreAdmin.{a, _c, imp, sc, _sc, proc, br, tab1, tab2, timePh, bug, date, process, reportProcess}
 
 /**
- * An algorithm for data transfer.
- * Project name: deburnat
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
  * Date: 9/30/13
  * Time: 6:00 AM
- * @author Patrick Meppe (tapmeppe@gmail.com)
  */
 protected[core] object TransadeScalaAdmin {
 

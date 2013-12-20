@@ -1,36 +1,37 @@
-package deburnat.transade.core.storages
+package deburnat.transade.core.storages._storages
 
 import collection.mutable.ListBuffer
-import deburnat.transade.core.admins.CoreAdmin.{tb1, tb3, tb4, tb5, tb6, a, c, cc, br, brr}
+import deburnat.transade.core.admins.CoreAdmin.{a, c, cc, br, brr, tb1, tb2, tb3, tb4, tb5, tb6, tb7}
+import deburnat.transade.core.storages.AbsStorage
 
 /**
  * An algorithm for dynamic programming. It uses internally a two-dimensional
  * matrix to store the previous results.
  * Project name: deburnat
- * Date: 8/9/13
- * Time: 2:03 AM
+ * Date: 7/26/13
+ * Time: 11:56 PM
  * @author Patrick Meppe (tapmeppe@gmail.com)
  */
-protected[storages] final class CsvStorage extends AbsStorage{
-  //http://viralpatel.net/blogs/java-read-write-csv-file/
-  //http://opencsv.sourceforge.net/
+protected[storages] final class ExcelStorage extends AbsStorage {
+  //http://viralpatel.net/blogs/java-read-write-excel-file-apache-poi/
 
-  private val (_csv, _rows, _row, _keys, map, _co) = (
-    "csv", "rows", "row", "keys", "innerMap", "content"
+  private val (_f, _wb, _sh, _rowIt, _cellIt, _cell, map, _keys, _stream) = (
+    "file", "workBook", "sheet", "rowIt", "cellIt", "cell", "innerMap", "keys",
+    "stream"
   )
-
-  private lazy val (path, fe, csv, keys, co) = (
-    getDef("path"),
-    getAttr(_fe), getAttr(_csv), getAttr(_keys), getAttr(_co)
+  private lazy val (path, loc, i, cellIt, keys, wb, sh, stream, rowIt) = (
+    getDef("path"), getDef("location"),
+    getAttr(_i), getAttr(_cellIt), getAttr(_keys), getAttr(_wb), getAttr(_sh), getAttr(_stream), getAttr(_rowIt)
   )
 
 
   /********** constructors - start **********/
-  setAttr(_csv, _rows, _row, _keys, _fe, _co, _i)
+  setAttr(_f, _wb, _sh, _rowIt, _cellIt, _cell, _i, _keys, _stream)
 
-  private val (left, right) = ("%s(%s".format(map, a), a+")")
-  private def right(s: String): String = "%s.to%s".format(right, s)
-  setPRs(tb5, left, right, left, right("Boolean"), left, right("Double"), left, right)
+  private val left = "%s(%s".format(map, a)
+  private def right(of: String) = "%s).asInstanceOf[%s]".format(a, of)
+  setPRs(tb5, left, a+")", left, right("Boolean"), left, right("Double"), left, right("String"))
+  //1=: tabPr, 2=: aLeftPr, 3=: aRightPr, 4=: bLeftPr, 5=: bRightPr, 6=: nLeftPr, 7=: nRightPr, 8=: sLeftPr, 9=: sRightPr
   /********** constructors - end **********/
 
 
@@ -118,7 +119,7 @@ protected[storages] final class CsvStorage extends AbsStorage{
    * This attribute is used more than once.
    * #####isQueriable - end#####
    */
-  protected lazy val isQueriable: Boolean = path.endsWith(".csv")
+  protected lazy val isQueriable = path.endsWith(".xls")
 
   /**
    * This attribute represents the set of .jar file, that are to be move to the parsed class directory,
@@ -127,7 +128,7 @@ protected[storages] final class CsvStorage extends AbsStorage{
    * - The insertion of the ".jar" suffix at the end of each file name.
    * - This attribute invocation.
    */
-  override protected val jarFileNames = ListBuffer("opencsv-2.3")
+  override protected val jarFileNames = ListBuffer("poi-3.9")
 
   /**
    * This method returns a set import queries based on the chosen storage type.
@@ -141,20 +142,15 @@ protected[storages] final class CsvStorage extends AbsStorage{
    * @return A set of non empty queries
    */
   protected def buildImpQuery: ListBuffer[String] = {
-    def csv(s: String) = "au.com.bytecode.opencsv."+s
-    def io(s: String) = "java.io."+s
-    val list  = "java.util.ArrayList"
-
+    val (poi1, poi2) = (
+      "org.apache.poi.hssf.usermodel.{HSSFWorkbook, HSSFSheet}",
+      "org.apache.poi.ss.usermodel.{Row, Cell}"
+    )
+    def stream(s: String) = "java.io.{File, File%sputStream}".format(s)
     source match{
-      case null => ListBuffer( //reader
-        "import scala.collection.mutable.{Map, ListBuffer}", csv("CSVReader"), io("FileReader")
-      )
-      case st: CsvStorage => ListBuffer( //writer
-        csv("CSVWriter"), io("{File, FileWriter}"), list
-      )
-      case _ => ListBuffer( //writer
-        csv("{CSVWriter, CSVReader}"), io("{File, FileWriter, FileReader}"), list
-      )
+      case null => ListBuffer("scala.collection.mutable.{Map, ListBuffer}", poi1, poi2, stream("In"))
+      case st: ExcelStorage => ListBuffer(stream("Out"))
+      case _ => ListBuffer(poi1, poi2, "java.io.{File, FileInputStream, FileOutputStream}")
     }
   }
 
@@ -163,29 +159,49 @@ protected[storages] final class CsvStorage extends AbsStorage{
    * for the parsed node to connect. It is invoked once.
    * @return A non empty query
    */
-  protected def buildConQuery: String =
-  "%sval %s = new CSV%s".format(tb3 , csv, source match{
-    case null => //reader
-      val (del, quote) = (getDef("delimiter"), getDef("quote"))
-      val others = if(del.length == 1)
-        if(quote.length == 1)", '%s', '%s'".format(del, quote)
-      else ", '%s'".format(del) else ""
-      "Reader(new FileReader(%s)%s)".format(a+path+a, others)
+  protected def buildConQuery: String = {
+    source match{
+      case null => //this object is a source storage
+        val (s1, s2) = if(loc.matches(d)) ("getSheetAt", loc) else ("getSheet", a+loc+a)
 
-    case _ =>
-      "Writer(new FileWriter(%s))%s".format(a+path+a, br) + //writer
-      "%sval (%s, _%s) = if(new File(%s).exists)%s".format(tb3, co, fe, a+path+a, br) +
-      "%s(new CSVReader(new FileReader(%s)).readAll, false)%s".format(tb4, a+path+a, br) +
-      "%selse (new ArrayList[Array[String]](), true)%s".format(tb3, br) +
-      "%svar %s = _%s".format(tb3, fe, fe)
-  })
+        "%sval %s = new FileInputStream(new File(%s))%s".format(//first the input stream
+          tb3, stream, a+path+a, br
+        ) +
+        "%sval %s = new HSSFWorkbook(%s).%s(%s)".format(//second the workbook and the sheet
+          tb3, sh, stream, s1, s2
+        )
+      case _ => //this object is a target storage
+        val f = getAttr(_f)
+
+        "%sval %s = new File(%s)%s%sval %s = new FileOutputStream(%s)%s".format(//first the output stream
+          tb3, f, a+path+a, br,
+          tb3, stream, f, br
+        ) + //second the workbook and the sheet
+        "%sval (%s: HSSFWorkbook, %s: HSSFSheet, _%s: Int) = if(%s.exists)(%s ".format(
+          tb3, wb, sh, i, f, br
+        ) +
+        "%snew HSSFWorkbook(new FileInputStream(%s)),%s%s.getSheet%s,%s%s.getLastRowNum%s".format(
+          tb4, f, br,
+          tb4+wb, if(loc.matches(d)) "At(%s)".format(loc) else "(%s)".format(a+loc+a), br,
+          tb4+sh, br
+        ) +
+        "%s)else (new HSSFWorkbook(), %s.createSheet%s, 0)%s".format(
+          tb3, wb, if(loc.nonEmpty) "(%s)".format(a+loc+a) else "", br
+        ) +
+        "%svar %s = _%s".format(tb3, i, i)
+    }
+  }
 
   /**
    * This method returns the query necessary to read the required part of the storage.
    * It is only invoked (once) by the source storage.
    * @return A non empty query.
    */
-  protected def buildReadQuery: String = "%sval %s = ListBuffer[String]()".format(tb3, keys)
+  protected def buildReadQuery: String =
+  "%sval %s = %s.iterator%s%sval %s = ListBuffer[String]()".format(
+    tb3, rowIt, sh, br,
+    tb3, keys
+  )
 
   /**
    * This method returns the query necessary to write the values obtained from the
@@ -198,16 +214,31 @@ protected[storages] final class CsvStorage extends AbsStorage{
    *               Template =: ${a},,${b},,${c},,${d},,...${z}
    * @return A non empty query.
    */
-  protected def buildWriteQuery(tbn: String, cols: String, values: String): String =
-  "%sif(%s){%s%s = false%s%s.add(Array(%s))%s%s}%s".format( //first write the column names
-    tbn, fe, br,
-    tbn+tb1+fe, br,
-    tbn+tb1+co, a+cols.replace(c, "%s%s %s".format(a, c, a))+a, br,
-    tbn, br
-  ) + "%s%s.add(Array[String](%s))".format( //second continuously write the values
-    tbn, co,
-    values.replace(cc, ".toString%s ".format(c)) + ".toString"
-  )
+  protected def buildWriteQuery(tbn: String, cols: String, values: String): String = {
+    val smq=
+    "%sprivate def write(sheet: HSSFSheet, i: Int, cols: String){%s".format(tb1, br)+
+    "%sval row = sheet.createRow(i)%s".format(tb2, br)+
+    "%svar j = 0%s".format(tb2, br)+
+    "%scols.split(%s,%s).foreach(col => {%s".format(tb2, a, a, br)+
+    "%sj += 1%s".format(tb3, br)+
+    "%srow.createCell(j).setCellValue(col)%s".format(tb3, br)+
+    "%s})%s".format(tb2, br)+
+    tb1+"}"
+    addSupMethod(smq)
+
+    //first write the column names if the file is new
+    "%sif(%s == 0){%s%s += 1%s%swrite(%s, %s, %s)%s%s}%s".format(
+      tbn, i, br,
+      tbn+tb1+i, br,
+      tbn+tb1, sh, i, a+cols+a, br,
+      tbn, br
+    ) +
+    //second continuously write the values
+    "%s += 1%swrite(%s, %s, %s)".format(
+      tbn+i, br+tbn,
+      sh, i, values.replace(cc, "+"+a+c+a+"+")
+    )
+  }
 
   /**
    * This method returns the query used to insert row by row the values of the source
@@ -217,58 +248,62 @@ protected[storages] final class CsvStorage extends AbsStorage{
    * @return A non empty query.
    */
   protected def buildLoopQuery(loopBodyPh: String): String = {
-    val r = getAttr(_row)
     val namesRow = if(getDef("colnamesrow").matches(d)) getDef("colnamesrow") else "1"
     val (start, end) = (if(getDef("start").matches(d)) getDef("start") else namesRow, getDef("end"))
 
-    //round and break initialisation
-    val ini = "%svar (%s, %s) = (0, false)%s".format(tb3, ro, break, br)
+    val ini = "%svar %s%s".format(
+      tb3, if(end.matches(d)) "(%s, %s) = (0, false)".format(ro, break) else "%s = 0".format(ro), br
+    )
 
     val innerStatement = {
-      val ini =
-        "%s += 1%s%sval %s = %s.readNext%s".format(
-          tb4+ro, br,
-          tb4, r, csv, brr
-        ) +
-        //store column names to be able to use them as keys.
-        "%sif(%s == %s) %s.foreach(r => %s += r)%s".format(
-          tb4, ro, namesRow, r, keys, brr
-        ) +
-        //first if statement: break out of the big while-loop once the limit reached.
-        "%sif(%s == null".format(tb4, r) +
-        (if(end.matches(d)) " || %s == %s + 1".format(ro, end) else "") +
-        ") %s = true%s".format(break, br)
-
-      val ifStatements = {
-        val _foreach = "%s%s += 1%s%s%s(%s(%s)) = r".format(
-          tb6, j, br,
-          tb6, map, keys, j
+      def ifStatements(s: String) = {
+        val cell = getAttr(_cell)
+        def _case(s1: String, s2: String) = "%scase %s => %s.get%sCellValue%s".format(
+          tb7, s1, cell, s2, br
         )
-        val arToMap =
-          "%svar %s = -1%s%sval %s = Map[String, String]()%s%s.foreach{r => %s%s%s}%s".format(
+        val switch =
+          "%sval %s = %s.next%s".format(tb6, cell, cellIt, br)+
+          "%s%s(%s(%s)) = %s.getCellType match{%s".format(tb6, map, keys, j, cell, br)+
+          _case("Cell.CELL_TYPE_BOOLEAN","Boolean")+
+          _case("Cell.CELL_TYPE_NUMERIC","Numeric")+
+          _case("_","String")+
+          "%s}%s".format(tb6, br)
+        val itToMap =
+          "%svar %s = -1%s%sval %s = Map[String, Any]()%s%swhile(%s.hasNext){%s%s%s += 1%s%s%s}%s".format(
             tb5, j, br,
             tb5, map, br,
-            tb5+r, br,
-            _foreach,
-            br+tb5,
-            br
+            tb5, cellIt, br,
+            tb6, j, br,
+            switch,
+            tb5, brr
           )
 
-        "%selse if(%s >= %s){%s%s%s}%s".format(
-          tb4, ro, start, br,
-          arToMap + loopBodyPh + br,
+        "%sif(%s >= %s){%s%s%s}%s".format(
+          tb4+s, ro, start, br,
+          itToMap + loopBodyPh + br,
           tb4, br
         )
       }
 
-      ini + ifStatements
+      //store column names to be able to use them as keys.
+      "%sif(%s == %s) while(%s.hasNext) %s += %s.next.getStringCellValue%s".format(
+        tb4, ro, namesRow, cellIt, keys, cellIt, brr
+      )+( //break out of the big while-loop once the limit reached.
+        if(end.matches(d)) "%sif(%s == %s + 1) %s = true%s%s".format(
+          tb4, ro, end, break, br,
+          ifStatements("else ")
+        )
+        else ifStatements("")
+      )
     }
 
-    "%s%swhile(!%s){%s%s%s}".format(
+    "%s%swhile(%s.hasNext%s){%s%s%s += 1%s%sval %s = %s.next.cellIterator%s%s%s}".format(
       ini,
-      tb3, break, br,
+      tb3, rowIt, if(end.matches(d)) " && !%s".format(break) else "", br,
+      tb4, ro, br,
+      tb4, cellIt, rowIt, brr,
       innerStatement,
-      br+tb3
+      tb3
     )
   }
 
@@ -277,8 +312,12 @@ protected[storages] final class CsvStorage extends AbsStorage{
    * attributes/instances. It is invoked once.
    * @return A non empty query.
    */
-  protected def buildDisconQuery: String = (
-    if(source != null) "%s%s.writeAll(%s)%s".format(tb3, csv, co, br) else ""
-  ) + "%s%s.close".format(tb3, csv)
-  /********** overridden attributes & methods - end **********/
+  protected def buildDisconQuery: String = source match{
+    case null => "%s%s.close".format(tb3, stream)
+    case _ => "%s%s.write(%s)%s%s%s.close".format(
+      tb3, wb, stream, br,
+      tb3, stream
+    )
+  }
+  /********** overwritten attributes & methods - end **********/
 }

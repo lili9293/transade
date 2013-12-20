@@ -52,6 +52,7 @@ protected[north] class InfoPopupMenu extends PopupMenu(
             _warn(result)
           }else warn("goodtogo")
         }
+        //TODO think about copying htmls before showing
         if(s2) desktop.browse(htmls(0).toURI)
         if(s3) desktop.browse(htmls(1).toURI)
         if(!(s1 || s2 || s3)) warn("item")

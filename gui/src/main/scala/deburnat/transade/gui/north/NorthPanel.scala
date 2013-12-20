@@ -42,7 +42,6 @@ protected[transade] class NorthPanel extends BorderPanel{
     if(file.exists)
       if(file.delete){
         templates -= item
-        templates.reset
         warn("itemsuccess")
       }else warn("itemdeletenot") //the template couldn't be deleted.
     else warn("itemdelete")

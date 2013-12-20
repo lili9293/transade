@@ -9,6 +9,17 @@ import CoreAdmin._
 import deburnat.transade.core.conc.{TransadeNodes, Concurrency}
 import deburnat.transade.Mode._
 
+/**
+ * An algorithm for data transfer.
+ * Project name: deburnat
+ * Date: 9/30/13
+ * Time: 6:18 AM
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ *
+ * This class is used to load .xml files using the transade template.
+ * These files are called: (translade).xml files
+ * @param admin The application admin responsible for the core.
+ */
 protected[transade] final class XmlFileLoader(admin: CoreAdmin) {
 
   private val (output, xmlFilePath, _ref) = (
@@ -18,14 +29,15 @@ protected[transade] final class XmlFileLoader(admin: CoreAdmin) {
    * prior to the compute method.
    * ref represents the current [references] Node.
    */
-  private var (ref, goodToCompute) = (_ref, false)
+  private var (goodToCompute, ref) = (false, _ref)
 
 
   /**
    * This method is used to get all the transfer nodes and set the references node
-   * in the given .xml file.
-   * @param xmlFilePath The path of the (deburnat).xml file
-   * @return A NodeSeq object representing the list of all transfer found in a the deburnat node
+   * in the given (translade).xml file.
+   * @param xmlFilePath The path of the (translade).xml file
+   * @return A Seq[Node] object representing the list of all transfer found in
+   *         the root element (the [transade] node)
    *         or null otherwise.
    */
   def getTransfers(xmlFilePath: String): Seq[Node] = try{
@@ -36,7 +48,7 @@ protected[transade] final class XmlFileLoader(admin: CoreAdmin) {
      * there is no usage of the root.
      */
 
-    if(root.label.equals("transade")){ //first check whether or not the file root's label is "transade"
+    if(root.label.equals("transade")){ //first check whether or not the root label is "transade"
       this.xmlFilePath.append(_xmlFilePath)
       val temp = root \\ "references"
       ref = if(temp.nonEmpty) temp(0) else _ref
@@ -54,6 +66,10 @@ protected[transade] final class XmlFileLoader(admin: CoreAdmin) {
 
   /**
    * It's invoked to parse and possibly compile the given {transfer} nodes.
+   * @note For this method to work at all, all the following conditions have to be fulfilled:
+   *       - the admin is good to go,
+   *       - the getTransfer method has been invoked prior to this one and
+   *       - the transfer list is made of at least one [transfer] node.
    * @param transfers The {transfer} nodes to parse and possibly compile.
    * @param mode It determines whether or not the files created next to the report
    *             should be compiled.
@@ -95,6 +111,8 @@ protected[transade] final class XmlFileLoader(admin: CoreAdmin) {
   /**
    * @see compute(dirPath: String, transfers: Seq[Node], mode: Mode, output: String => Unit)
    *      for more information.
+   * @note unlike the other compute methods, this one doesn't require to invoke
+   *       the getTransfer method first.
    */
   def compute(xmlFilePath: String): (File, File) = compute(getTransfers(xmlFilePath), USER_COMPILE)
 

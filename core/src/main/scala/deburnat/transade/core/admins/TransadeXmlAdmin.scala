@@ -9,12 +9,18 @@ import deburnat.transade.core.readers.{XmlReader, Reader}
 import deburnat.transade.core.storages.{IStorage, Storage}
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
+ * Project name: transade
+ * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
  * Date: 7/25/13
  * Time: 6:32 PM
- * @author Patrick Meppe (tapmeppe@gmail.com)
+ */
+
+/**
+ * The object administrator of the .xml file using the transade template.
  */
 private object TransadeXmlAdmin {
   /********** attributes - start **********/
@@ -214,11 +220,14 @@ private object TransadeXmlAdmin {
    * This method is invoked to parse a [transade.transfer.source] node.
    * @param _node The [source] node to be parsed.
    * @param references see class TransadeXmlAdmin.references
+   * @param jarFileNames see the method TransadeXmlAdmin.run
+   * @param report see the method TransadeXmlAdmin.run
    * @return 5 string values corresponding to 5 different queries:
    *         [source id=""] attribute, body, authors, import, support methods
    */
-  def parseSource(_node: Node, references: Seq[Node], jarFileNames:Map[String, Int], report: StringBuilder)
-  : (String, String, String, String, String) = {
+  def parseSource(
+    _node: Node, references: Seq[Node], jarFileNames: Map[String, Int], report: StringBuilder
+  ): (String, String, String, String, String) = {
     val (error, id, format) =
       (("","","","", ""), (_node \_id).text, (_node \_format).text)
     report.append("%s<%s %s=%s %s=%s>".format( //report: <source>
@@ -301,11 +310,15 @@ private object TransadeXmlAdmin {
    * @param _node The [target] node to be parsed.
    * @param references see class TransadeXmlAdmin.references
    * @param source The source IStorage object
+   * @param jarFileNames see the method TransadeXmlAdmin.run
+   * @param report see the method TransadeXmlAdmin.run
    * @return 5 string values corresponding to 5 different queries:
    *         -import, -connection, -inner loop, -disconnection, -support methods
    */
-  def parseTarget(_node: Node, references: Seq[Node], source: IStorage, jarFileNames:Map[String, Int], report: StringBuilder)
-  : (String, String, String, String, StringBuilder) = {
+  def parseTarget(
+    _node: Node, references: Seq[Node], source: IStorage,
+    jarFileNames: Map[String, Int], report: StringBuilder
+  ): (String, String, String, String, StringBuilder) = {
     val (error, format, label) = (("","","","",new StringBuilder), (_node \_format).text, _node.label)
     report.append("%s<%s %s=%s %s=%s>".format( //report: <target>
       br+tab3, label, id, a+(_node \_id).text+a, CoreAdmin.format, a+format+a
@@ -373,6 +386,7 @@ private object TransadeXmlAdmin {
     }
   }
 
+
   /**
    * This method is invoked to parse a [transade.transfer.source.target.parse] node.
    * @param _node The [parse] node to be parsed.
@@ -381,7 +395,8 @@ private object TransadeXmlAdmin {
    * @return 4 different values:
    *         statement query, target name, the wrapped target name, parsed status   
    */
-  def parseParse(_node: Node, references: Seq[Node], target: IStorage): (String, String, String, Rs.rs) = {
+  def parseParse(_node: Node, references: Seq[Node], target: IStorage)
+  : (String, String, String, Rs.rs) = {
     //the search for a reference is done in the "parseTarget" method
     val targetName = (_node \_tName).text
     
@@ -430,14 +445,18 @@ private object TransadeXmlAdmin {
     }else ("", "", "", Rs.BAD)
   }
 
+
   /**
    * This method is invoked to parse a [transade.transfer.source.target.parse.if] node.
    * @param node The [if] node to be parsed.
-   * @param values 1:if- & else if- statements, 2:else- statement, 3:current state of the variable "_if"
+   * @param values 1:if- & else if- statements,
+   *               2:else- statement,
+   *               3:current state of the variable "_if"
    * @param tupel key + %VALUE%
    * @return A Rs.rs object
    */
-  def parseIf(node: Node, values:(StringBuilder, StringBuilder, StringBuilder), tupel: String): Rs.rs = {
+  def parseIf(node: Node, values:(StringBuilder, StringBuilder, StringBuilder), tupel: String)
+  : Rs.rs = {
     val(cond, srText) = ((node \ "@condition").text, (node \_sName).text) //source name and condition as attributes
     val sourceName = if(srText.isEmpty) (node \ sName)(0).text else srText //source name as a child node
     val tupelLine = br + tabPh + tb1 + tupel.replace(valPh, parseSourceName(sourceName)) + br + tabPh
@@ -469,17 +488,17 @@ private object TransadeXmlAdmin {
   /**
    * This method parses the given source row into a text sequence similar
    * to the java/scala programming language.
-   * @param content The "source row" content to be parsed. [parse sourcerow=""] or [if sourcerow=""].
+   * @param content The sourcerow content to be parsed. [parse sourcerow=""] or [if sourcerow=""].
    * @return a string representing the parsed content.
    */
   def parseSourceName(content: String): String = Reader.read(
     //"^ *(-?\\d+(.\\d+)?|true|false|\".*\"|<.+>|'.+|%s) *$" =: ... + xml & symbols
-
     //the content matches one of the following data types: boolean, number, string, placeholder
     if(content.matches("^ *(-?\\d+(.\\d+)?|true|false|\".*\"|%s) *$".format(phRegex)))
       content.trim.replaceAll("(%s)".format(phRegex), "%s$1%s".format(anyDt, anyDt))
     else a+content+a //the content is something else, is therefore transformed to a text.
   )
+
 
   /**
    * This method parses the given cond into a text sequence similar
@@ -548,7 +567,13 @@ private object TransadeXmlAdmin {
 }
 
 
-protected[core] final class TransadeXmlAdmin(ref: Node, preview: Boolean, output: String => Unit) {
+/**
+ * The class administrator of the .xml file using the transade template.
+ * @param ref The reference node.
+ * @param preview see the method transade.core.loaders.XmlFileLoader.compute.
+ * @param output see the class CoreAdmin.
+ */
+protected[core] final class TransadeXmlAdmin(ref: Node, preview: Boolean, output: String => Unit){
   import TransadeXmlAdmin.{admin, pName, getInc, parseSource}
 
   private val references = getInc(ref) \\ "ref" //the [transade.references.ref] nodes
@@ -561,10 +586,11 @@ protected[core] final class TransadeXmlAdmin(ref: Node, preview: Boolean, output
    */
   def run(node: Node): String = {
     var (start, end) = ("", "")
-    val report = new StringBuilder
+    val report = new StringBuilder //the object containing the computation report of this node
 
     if(node.label.equals(transfer)){
-      val (_node, jarFileNames) = (getInc(node), Map[String, Int]()) //the [transfer] node itself
+      //the [transfer] node itself & the map containing all the .jar files required for the compilation
+      val (_node, jarFileNames) = (getInc(node), Map[String, Int]())
       val transferId = a+(_node \_id).text+a
       start = date
       report.append("%s<%s id=%s ".format(tab1, _node.label, transferId))//report: <transfer>
