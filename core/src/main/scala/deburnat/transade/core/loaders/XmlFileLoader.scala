@@ -16,7 +16,7 @@ import deburnat.transade.Mode._
  * Time: 6:18 AM
  * @author Patrick Meppe (tapmeppe@gmail.com)
  *
- * This class is used to load .xml files using the transade template.
+ * This class is used to load .xml files using the transade schema.
  * These files are called: (translade).xml files
  * @param admin The application admin responsible for the core.
  */

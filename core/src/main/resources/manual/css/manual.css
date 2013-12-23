@@ -1,0 +1,72 @@
+/*
+ * colors: http://cloford.com/resources/colours/500col.htm
+ * extend: http://css-tricks.com/the-extend-concept/
+ */
+
+/***** the elements *****/
+h1 {text-decoration:underline;}
+
+body {
+    background-color:white;
+    background-image:url("images/back40.gif");
+}
+
+
+/***** the element classes *****/
+a.node{
+    color:#36648B;
+    font-weight:bold;
+}
+
+img.api{
+    height:50%;
+    width:60%;
+}
+
+img.clickable{
+    cursor:pointer;
+    height:20px;
+    width:20px;
+}
+
+img.clickableMini{
+    cursor:pointer;
+    height:15px;
+    width:15px;
+}
+
+img.symbol{
+    height:15px;
+    width:15px;
+}
+
+
+/***** the classes *****/
+.bullet{
+    vertical-align:text-top;
+}
+
+.emphasis{
+    font-style:italic;
+    font-weight:bold;
+}
+
+.invisible{
+    display:none;
+}
+
+.open{
+    border:solid 1px;
+    border-radius:0em 1em 0em 0em;
+    background-color:#CDC5BF;
+}
+
+.title{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.titleMini{
+    font-size:20px;
+    font-weight:bold;
+}

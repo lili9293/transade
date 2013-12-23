@@ -10,6 +10,6 @@ import deburnat.transade.core.storages.AbsStorage
  * Time: 2:04 AM
  * @author Patrick Meppe (tapmeppe@gmail.com)
  */
-abstract protected[storages] final class XmlStorage extends AbsStorage{
+abstract protected[_storages] final class XmlStorage extends AbsStorage{
 
 }

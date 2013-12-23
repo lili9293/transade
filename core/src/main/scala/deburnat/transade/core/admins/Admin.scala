@@ -28,10 +28,10 @@ protected[transade] trait Admin {
     "\"", ",", ";", ",,", "#", "%TEXT%", "\n", "\n\n", "\t", "\t\t"
   )
   final val (
-    transfer, schemas, manuals, source, target, id, _id, format, _format,
+    transfer, schemas, manual, source, target, id, _id, format, _format,
     defs, _def, _key, _val, parse, tName, _tName, sName, _sName
   ) = (
-    "transfer", "schemas", "manuals", "source", "target", "id", "@id", "format", "@format",
+    "transfer", "schemas", "manual", "source", "target", "id", "@id", "format", "@format",
     "definitions", "def", "@key", "@value", "parse", "targetname", "@targetname", "sourcename", "@sourcename"
   )
   final val (tb2, tb3, tb4, tb5, tb6, tb7, tb8, tb9) = (
@@ -67,6 +67,7 @@ protected[transade] trait Admin {
    * @return A string object containing the node's (adapted) information.
    */
   def _platform(node: String): String = platform.read(node)
+
   def platform(node: String): String = resources + _platform(node).replace(_sep, sep)
 
  /**

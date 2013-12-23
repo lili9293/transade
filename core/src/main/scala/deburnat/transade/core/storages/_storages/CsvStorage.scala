@@ -12,7 +12,7 @@ import deburnat.transade.core.storages.AbsStorage
  * Time: 2:03 AM
  * @author Patrick Meppe (tapmeppe@gmail.com)
  */
-protected[storages] final class CsvStorage extends AbsStorage{
+protected[_storages] final class CsvStorage extends AbsStorage{
   //http://viralpatel.net/blogs/java-read-write-csv-file/
   //http://opencsv.sourceforge.net/
 
@@ -79,7 +79,7 @@ protected[storages] final class CsvStorage extends AbsStorage{
    *   Method used to get the current source storage.
    * addSupMethod =:
    *   Method used to add an additional method to the parsed class.
-   * getDynCounter =:
+   * getCuId =:
    *   Method used to get the position of the current storage relative to its source storage.
    *
    * --overriding attributes/methods
@@ -169,8 +169,8 @@ protected[storages] final class CsvStorage extends AbsStorage{
     case null => //reader
       val (del, quote) = (getDef("delimiter"), getDef("quote"))
       val others = if(del.length == 1)
-        if(quote.length == 1)", '%s', '%s'".format(del, quote)
-      else ", '%s'".format(del) else ""
+        if(quote.length == 1)", '%s', '%s'".format(del, quote) else ", '%s'".format(del)
+      else ""
       "Reader(new FileReader(%s)%s)".format(a+path+a, others)
 
     case _ =>

@@ -12,13 +12,14 @@ import deburnat.transade.core.storages.AbsStorage
  * Time: 6:19 PM
  * @author Patrick Meppe (tapmeppe@gmail.com)
  */
-protected[storages] final class SqlStorage extends AbsStorage{
+protected[_storages] final class SqlStorage extends AbsStorage{
 
   private val (_rs, _co, _qr, _st) = (
     "result", "connect", "query", "statement"
   )
   private lazy val (url, user, pw, table) = (
-    getDef("url").replaceAll("^jdbc:mysql://", ""), getDef("username"), getDef("password"), getDef("table")
+    getDef("url").replaceAll("^jdbc:mysql://", ""),
+    getDef("username"), getDef("password"), getDef("table")
  )
   private lazy val (rs, co, qr, st) = (
     getAttr(_rs), getAttr(_co), getAttr(_qr), getAttr(_st)
@@ -78,7 +79,7 @@ protected[storages] final class SqlStorage extends AbsStorage{
    *   Method used to get the current source storage.
    * addSupMethod =:
    *   Method used to add an additional method to the parsed class.
-   * getDynCounter =:
+   * getCuId =:
    *   Method used to get the position of the current storage relative to its source storage.
    *
    * --overriding attributes/methods
@@ -166,7 +167,7 @@ protected[storages] final class SqlStorage extends AbsStorage{
    * @return A non empty query.
    */
   protected def buildReadQuery: String = {
-    val (rows, cond) = (getDef("columns"), getDef("condition"))
+    val (rows, cond) = (getDef("columns"), getDef("condition").replaceAll("^ *(WHERE|where)", ""))
     "%sval %s = %sSELECT ".format(tb3, qr, a) +
     (if(rows.nonEmpty) rows else "*") +
     " FROM %s".format(table) +
@@ -177,6 +178,7 @@ protected[storages] final class SqlStorage extends AbsStorage{
     )
   }
 
+  //TODO think about auto increment
   /**
    * This method returns the query necessary to write the values obtained from the
    * source storage in the target storage. It is only invoked (ore than once) by the target storage.

@@ -1,0 +1,319 @@
+<html>
+    <head>
+        <title>TRANSAD&eacute;</title>
+        <!--CSS-->
+        <link rel="stylesheet" type="text/css" href="../../manual/css/manual.css">
+
+        <!--JS-->
+        <script src="../../manual/js/jquery-1.10.2.prod.js"></script>
+        <!--
+            <script src="../../manual/js/jquery-1.10.2.dev.js"></script>
+            uncomment this to take a look at the jquery code itself
+        -->
+        <script src="../../manual/js/manual.js"></script>
+    </head>
+    <body>
+        <h1>Welcome to the TRANSAD&eacute; manual</h1>
+        <table>
+            <tr><td>&ensp;</td><td style="min-width:100%"><fieldset><!--CHAPTER 1 START-->
+                <legend>
+                    <img id="chapterOneClick" class="clickable , title"
+                         src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterOne')">
+                    <a class="title">How to create an .xml file while using the TRANSAD&eacute; schema</a>
+                </legend>
+                <div id="chapterOneDiv" class="invisible"><!--CHAPTER 1 START-->
+                    This section provides schemata to help:
+                    <table>
+                        <tr><td class="bullet"></td><td>
+                            create .xml files based on the TRANSAD&eacute; schema (also known as (transade).xml files)
+                        </td></tr>
+                        <tr><td class="bullet"></td><td>
+                            and also read the reports create by the application.
+                        </td></tr>
+                    </table>
+
+                    <!--CHAPTER 1.1 START-->
+                    <br><label><input type="checkbox" id="transadeXml"></label>
+                    <a class="open" target="_blank" href="../../schemas/xml/transade.xml">The (transade).xml file</a>
+                    <div>
+                        This is the main file of the application. One can compare it to the default "index.html" file
+                        in a web application or the main class in a java application.<br>
+                        The root always has to be the <a class="node">transade</a>.
+                        Which in turn is made of two principal nodes: the <a class="node">references</a> - and
+                        the <a class="node">transfer</a>'s.
+                    </div><!--CHAPTER 1.1 END-->
+
+                    <!--CHAPTER 1.2 START-->
+                    <br><label><input type="checkbox" id="referencesXml"></label>
+                    <a class="open" target="_blank" href="../../schemas/xml/references.xml">The (references).xml file</a>
+                    <div>
+                        As its name stipulates the <a class="node">references</a> is used as
+                        references repository. It occurs <a class="emphasis">at most once</a> in a (transade).xml file.
+                        To avoid useless repetitions this node enable
+                        the usage of certain specific blocks more than once without having to write the corresponding
+                        statements more than once.<br>
+                        There are two ways to successfully write a <a class="node">references</a>.:
+                        <table>
+                            <tr><td class="bullet"></td><td>
+                                It can be directly written in the (transade).xml file
+                                (check the (transade).xml file - box to see how it is done).
+                            </td></tr>
+                            <tr><td class="bullet"></td><td>
+                                It is also possible the write an extra file uniquely made of
+                                the <a class="node">references</a> (hence the name (references).xml file)
+                                and to include it in the its respective (transade).xml file.
+                                Check the (references).xml file - box to see how it is done.<br>
+                                The advantages of the options are the better overview and the possibility of using one
+                                <a class="node">references</a> for more than one (transade).xml file.
+                            </td></tr>
+                        </table>
+                    </div><!--CHAPTER 1.2 END-->
+
+                    <!--CHAPTER 1.3 START-->
+                    <br><label><input type="checkbox" id="transferXml"></label>
+                    <a class="open" target="_blank" href="../../schemas/xml/transfer.xml">The (transfer).xml file </a>
+                    <div>
+                        The <a class="node">transfer</a> is the second child
+                        of the <a class="node">transade</a>. It should contain the logic that eventually will
+                        determine how to transfer the data. It can be be created just like <a class="node">references</a>'s.
+                        Yet unlike them the <a class="node">transfer</a> occurs <a class="emphasis">
+                        at least once</a>.<br>
+                        Each <a class="node">transfer</a> is made of one or more
+                        <a class="node">source</a>'s, which in turn contain one or more <a class="node">target</a>'s.
+                        The combination of one <a class="node">source</a> and its <a class="node">target</a>'s is defined as
+                        <a class="emphasis">one computation unit</a>. Each <a class="node">source</a> or <a class="node">target</a>
+                        is defined a specific <a class="emphasis">format</a> and its respective <a class="emphasis">definitions</a>.
+                        Click here
+                        <label><input type="checkbox" id="groupsXml"></label>
+                        <a class="open" target="_blank" href="../../schemas/xml/groups.xml">formats & definitions</a> for more
+                        information.<br>
+                        In order to enable flexibility and performance the following processes have been established.:
+                        <table>
+                            <tr><td class="bullet"></td><td>
+                                Inside of a specific <a class="node">transfer</a> the computation units are handled sequentially.
+                                Meaning the first <a class="node">source</a> will be the first to be parsed, compiled and executed.
+                                The second node will the second and so on.
+                            </td></tr>
+                            <tr><td class="bullet"></td><td>
+                                However all selected <a class="node">transfer</a>'s
+                                will be started and processed <a class="emphasis">concurrently</a>.
+                            </td></tr>
+                        </table>
+                    </div><!--CHAPTER 1.3 END-->
+
+                    <!--CHAPTER 1.4 START-->
+                    <br><label><input type="checkbox" id="reportXmlXml"></label>
+                    <a class="open" target="_blank" href="../../schemas/xml/reportXml.xml">The (report transade).xml file </a>
+                    <div>
+                        Once the computation of all the selected <a class="node">transfer</a>'s done, the application generates
+                        a report file named <a class="empahsis">report.pdf</a>. This file gives an overview of how good the parsing
+                        stage was and how successful the compiling and execution stages were.
+                    </div><!--CHAPTER 1.4 END-->
+
+                    <!--CHAPTER 1.5 START-->
+                    <br><label><input type="checkbox" id="reportScalaXml"></label>
+                    <a class="open" target="_blank" href="../../schemas/xml/reportScala.xml">The (report scala transade).xml file </a>
+                    <div>
+                        <a class="emphasis">NOT AVAILABLE YET</a>
+                    </div><!--CHAPTER 1.5 END-->
+
+                    <!--CHAPTER 1.6 START-->
+                    <br><a class="emphasis">The .xsd files </a>
+                    <div>
+                        This section is recommend for users with an average knowledge of the syntax used in .xsd file.
+                        All the .xml files stated above are also available as .xsd files.
+                        <br><br>
+                        <label><input type="checkbox" id="transadeXsd"></label>
+                        <a class="open" target="_blank" href="../../schemas/xsd/transade.xsd">(transade).xsd file </a>
+                        &emsp;&emsp;
+                        <label><input type="checkbox" id="referencesXsd"></label>
+                        <a class="open" target="_blank" href="../../schemas/xsd/references.xsd">(references).xsd file </a>
+                        &emsp;&emsp;
+                        <label><input type="checkbox" id="transferXsd"></label>
+                        <a class="open" target="_blank" href="../../schemas/xsd/transfer.xsd">(transfer).xsd file </a>
+                        <br><br>
+                        <label><input type="checkbox" id="reportXmlXsd"></label>
+                        <a class="open" target="_blank" href="../../schemas/xsd/reportXml.xsd">(report transade).xsd file </a>
+                        &emsp;&emsp;
+                        <label><input type="checkbox" id="reportScalaXsd"></label>
+                        <a class="open" target="_blank" href="../../schemas/xsd/reportScala.xsd">(report scala transade).xsd file </a>
+                        <br><br>
+                        <label><input type="checkbox" id="groupsXsd"></label>
+                        <a class="open" target="_blank" href="../../schemas/xsd/groups.xsd">
+                            (groups).xsd file (this file is used by all others .xsd files)
+                        </a>
+                    </div><!--CHAPTER 1.6 END-->
+                    <!--TODO button load all-->
+                </div>
+            </fieldset><br></td></tr><!--CHAPTER 1 END-->
+            <tr><td>&ensp;</td><td><fieldset><!--CHAPTER 2 START-->
+                <legend>
+                    <img id="chapterTwoClick" class="clickable , title"
+                         src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwo')">
+                    <a class="title">
+                        How to use the TRANSAD&eacute; graphic user interface
+                    </a>
+                </legend>
+                <div id="chapterTwoDiv" class="_invisible"><table>
+                    <tr><td>
+                        This section presents the most useful and basic features of the gui.<br><br>
+                    </td></tr>
+                    <tr><td><!--CHAPTER 2.1 START-->
+                        <img id="chapterTwoOneClick" class="clickableMini , titleMini"
+                             src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwoOne')">
+                        <a class="titleMini">The configuration</a>
+                        <div id="chapterTwoOneDiv" class="invisible">
+                            Right after running the application -for the first or without having ever configure it the
+                            following <a class="emphasis">warning</a> will be prompted.<br><br>
+                            <img src="../../manual/images/config.png" alt="../../manual/images/config.png">
+                            <br><br>
+                            The settings section is located at the <a class="emphasis">top right</a> of the GUI and is represented by the
+                            <img src="../../manual/images/settings.png" alt="../../manual/images/settings.png" class="symbol"> symbol.
+                            Once selected, the settings/configuration frame menu will pop up.<br><br>
+                            <img class="api" src="../../manual/images/settingsPopUp.png" alt="../../manual/images/settingsPopUp.png">
+                            <br><br>
+                            Once the working directory and the language set, the application will be good to go.
+                            This process can be repeated indefinitely.
+                            <br><br>
+                        </div>
+                    </td></tr><!--CHAPTER 2.1 END-->
+                    <tr><td><!--CHAPTER 2.2 START-->
+                        <img id="chapterTwoTwoClick" class="clickableMini , titleMini"
+                             src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwoTwo')">
+                        <a class="titleMini">The files upload</a>
+                        <div id="chapterTwoTwoDiv" class="invisible">
+                            The application provides two ways to upload (transade).xml files.
+                            <table>
+                                <tr><td class="bullet"></td><td>
+                                    The most common way is to use the <a class="emphasis">file chooser</a> on the <a class="emphasis">top left</a> side of the GUI.
+                                    <br><br>
+                                    <img class="api" src="../../manual/images/fileChooser.png" alt="../../manual/images/fileChooser.png">
+                                    <br><br>
+                                    It's important to note that only -xml files are accepted by the file chooser.
+                                </td></tr>
+                                <tr><td class="bullet"></td><td>
+                                    The second process is to use to choose one the previously saved (transade).xml file templates.
+                                    They are listed in the <a class="emphasis">drop down list</a> right next to the file chooser stated above.
+                                </td></tr>
+                                <tr><td colspan="2">
+                                    No further actions are required for the download. Once done the application presents
+                                    all the <a class="node">transfer</a>'s in form of a list.
+                                </td></tr>
+                            </table><br>
+                        </div>
+                    </td></tr><!--CHAPTER 2.2 END-->
+                    <tr><td><!--CHAPTER 2.3 START-->
+                        <img id="chapterTwoThreeClick" class="clickableMini , titleMini"
+                             src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwoThree')">
+                        <a class="titleMini">The nodes selection</a>
+                        <div id="chapterTwoThreeDiv" class="invisible">
+                            Once a (transade).xml file is successfully uploaded all the <a class="node">transfer</a>'s are
+                            presented in form of a <a class="emphasis">checkbox list of their identifier</a> in the current page.
+                            The identifier is the value attribute <a class="emphasis">id</a> (click here
+                            <a class="open" target="_blank" href="../../schemas/xml/transfer.xml">the (transade).xml file</a>
+                            for more information). To choose which
+                            <a class="node">transfer</a>'s to execute simply check its checkbox.<br><br>
+                            <img class="api" src="../../manual/images/pageCheckBox.png" alt="../../manual/images/pageCheckBox.png">
+                            <br><br>
+                            At times before choosing certain <a class="node">transfer</a>'s one might first need to take a look at logic
+                            residing in the given node. To avoid going back and fort between the application GUI and the .xml editor
+                            the GUI provides a handy feature allowing the user to have a selective look at the original file.
+                            By right clicking the <a class="node">transfer</a> identifier a tree representing the node will appear
+                            in the section located in the east canter of the GUI. This tree enables a view of the node.
+                            Note: a node doesn't have to be selected to be viewable.
+                            <br><br>
+                            <img class="api" src="../../manual/images/tree.png" alt="../../manual/images/tree.png">
+                            <br><br>
+                            There are 10 pages in total that can used simultaneous to handle 10 different files, each of them is equipped
+                            with a lamp system.
+                            <br><br>
+                            <img class="api" src="../../manual/images/pageLamp.png" alt="../../manual/images/pageLamp.png">
+                            <br><br>
+                            There are 3 lamps in total, each of them representing one possible page status.
+                            <table>
+                                <tr><td class="bullet"></td><td>
+                                    The <img class="symbol" src="../../manual/images/nodeblack.png" alt="../../manual/images/nodeblack.png">
+                                    (also known as the <a class="emphasis">default lamp</a>) means that the page has never been used before. As one can imagine it is the
+                                    default lamp/status.
+                                </td></tr>
+                                <tr><td class="bullet"></td><td>
+                                    The <img class="symbol" src="../../manual/images/nodegreen.png" alt="../../manual/images/nodegreen.png">
+                                    (also known as the <a class="emphasis">good to go lamp</a>) indicates that a file as been successfully downloaded on the page and everything
+                                    is good to go.
+                                </td></tr>
+                                <tr><td class="bullet"></td><td>
+                                    The <img class="symbol" src="../../manual/images/nodeblue.png" alt="../../manual/images/nodeblue.png">
+                                    (also known as the <a class="emphasis">end lamp</a>) signalizes that a file as been successfully downloaded;
+                                    some or all <a class="node">transfer</a>'s residing in within have been parsed, compiled and eventually executed.
+                                </td></tr>
+                            </table><br>
+                        </div>
+                    </td></tr><!--CHAPTER 2.3 END-->
+                    <tr><td><!--CHAPTER 2.4 START-->
+                        <img id="chapterTwoFourClick" class="clickableMini , titleMini"
+                             src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwoFour')">
+                        <a class="titleMini">The nodes execution</a>
+                        <div id="chapterTwoFourDiv" class="invisible">
+                            The node execution section resides at the upper south side of the GUI. The execution is pretty straight forward.
+                            Once all the <a class="node">transfer</a>'s selected, simply set the <a class="emphasis">3 running options</a> and click the
+                            <img class="symbol" src="../../manual/images/run.png" alt="../../manual/images/run.png"> symbol.
+                            <br><br>
+                            <img class="api" src="../../manual/images/execution.png" alt="../../manual/images/execution.png">
+                            <br><br>
+                            The options are from the left to the right.:
+                            <table>
+                                <tr><td class="bullet"></td><td>
+                                    The <a class="emphasis">computation mode</a>. 3 modes are available.
+                                    <table>
+                                        <tr><td class="bullet"></td><td>
+                                            <a class="emphasis">PREVIEW</a>: simply parse the <a class="node">transfer</a>'s and
+                                            create the adequate .scala classes.<br>
+                                            It's recommended to use this mode in the early stage of the development.
+                                        </td></tr>
+                                        <tr><td class="bullet"></td><td>
+                                            <a class="emphasis">BETA COMPILE</a>: parse the <a class="node">transfer</a>'s and
+                                            create, compile and execute the adequate .scala classes.<br>
+                                            It's recommended to use this mode once the result of the PREVIEW mode are satisfying,
+                                            before the development, to compare the results and the .scala classes.
+                                        </td></tr>
+                                        <tr><td class="bullet"></td><td>
+                                            <a class="emphasis">USER COMPILE</a>: parse the <a class="node">transfer</a>'s and
+                                            create, compile, execute and delete the adequate .scala classes.<br>
+                                            This is the mode to used during the development.
+                                        </td></tr>
+                                    </table>
+                                </td></tr>
+                                <tr><td class="bullet"></td><td>
+                                    The decision about whether or not the report file (report.pdf) should be opened
+                                    at the end of the computation.
+                                </td></tr>
+                                <tr><td class="bullet"></td><td>
+                                    (<a class="emphasis">optional</a>) And the possibility of saving the loaded files, the selected <a class="node">transfer</a>'s
+                                    and the setting of the options stated above as one template.
+                                </td></tr>
+                            </table><br>
+                        </div>
+                    </td></tr><!--CHAPTER 2.4 END-->
+                    <tr><td><!--CHAPTER 2.5 START-->
+                        <img id="chapterTwoFiveClick" class="clickableMini , titleMini"
+                             src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwoFive')">
+                        <a class="titleMini">Others</a>
+                        <div id="chapterTwoFiveDiv" class="_invisible">
+                            <!--TODO-->
+                        </div>
+                    </td></tr><!--CHAPTER 2.5 END-->
+                </table></div>
+            </fieldset><br></td></tr><!--CHAPTER 2 END-->
+            <tr><td>&ensp;</td><!--CHAPTER 3 START-->
+                <td>
+                    <a class="title">
+                        &#x95; How to contact the developers
+                    </a><br>
+            </td></tr><!--CHAPTER 3 END-->
+        </table>
+        <script>$(document).ready(function(){
+            adaptAElementInnerHTML()
+            addBulletToTd()
+        })</script>
+    </body>
+</html>

@@ -18,11 +18,11 @@ protected[core] trait IStorage {
   /********** parse related methods - start **********/
   /**
    * This method wraps the content of the [parse targetrow=""] attribute (the key).
-   * @param key The target row's content (attribute content).
+   * @param content The target row's content (attribute content).
    * @return A string made of the wrapped key or
    *         the key itself if the storage isn't a target storage.
    */
-  def wrapTargetRow(key: String): String
+  def wrapTargetRow(content: String): String
 
   /**
    * This method returns a query using the given key to save the given value in the loop map.

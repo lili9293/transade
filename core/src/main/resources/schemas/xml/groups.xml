@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TODO use xslt here-->
+<groups><!--This is an overview of the formats and definitions currently supported by the application-->
+    <format name="SQL">
+        <def>url</def><!--"jdbc:mysql://" is implicitly included-->
+        <def>username</def>
+        <def>password</def>
+        <def>table</def><!--database.table-->
+        <def>columns</def>
+        <def>condition</def><!--"WHERE" is implicitly included-->
+    </format>
+    <format name="CSV">
+        <def>quote</def>
+        <def>path</def><!--the file name path-->
+        <def>delimiter</def><!--the line delimiter-->
+        <def>colnamesrow</def><!--the row in which the column names are. the default is 1-->
+        <def>start</def><!--the row where the read will start. the default is the colnamesrow value-->
+        <def>end</def><!--the row where the read will end.-->
+    </format>
+    <format name="EXCEL">
+        <def>location</def><!--the location of the sheet-->
+        <def>path</def>
+        <def>colnamesrow</def>
+        <def>start</def>
+        <def>end</def>
+    </format>
+    <label id="MyScript"><![CDATA[
+        <script type="text/javascript">
+        alert("Hola Mundo");
+        </script>
+    ]]></label>
+</groups>

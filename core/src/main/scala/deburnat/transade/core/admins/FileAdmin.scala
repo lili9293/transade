@@ -32,7 +32,7 @@ protected[transade] object FileAdmin {
    */
   private lazy val docFlags =
     new File(platform("jars")).listFiles
-    .filter(file => file.getName.endsWith(jar)).map(file => file.getName) ++ Array(schemas, manuals)
+    .filter(file => file.getName.endsWith(jar)).map(file => file.getName) ++ Array(schemas)
 
   /**
    * This method is used to create a new file or save data in a new file.

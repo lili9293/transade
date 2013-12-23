@@ -12,7 +12,7 @@ import deburnat.transade.core.storages.AbsStorage
  * Time: 11:56 PM
  * @author Patrick Meppe (tapmeppe@gmail.com)
  */
-protected[storages] final class ExcelStorage extends AbsStorage {
+protected[_storages] final class ExcelStorage extends AbsStorage {
   //http://viralpatel.net/blogs/java-read-write-excel-file-apache-poi/
 
   private val (_f, _wb, _sh, _rowIt, _cellIt, _cell, map, _keys, _stream) = (
@@ -79,7 +79,7 @@ protected[storages] final class ExcelStorage extends AbsStorage {
    *   Method used to get the current source storage.
    * addSupMethod =:
    *   Method used to add an additional method to the parsed class.
-   * getDynCounter =:
+   * getCuId =:
    *   Method used to get the position of the current storage relative to its source storage.
    *
    * --overriding attributes/methods

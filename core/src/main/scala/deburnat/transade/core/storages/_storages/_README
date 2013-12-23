@@ -10,12 +10,77 @@ FORMAT              STORAGE CLASS
 csv                 CsvStorage
 excel               ExcelStorage
 sql                 SqlStorage
-xml                 XmlStorage
 
 
 
 -------------------
 HOW TO ADD A FORMAT
 -------------------
+I 
+Create an extender of the abstract class storages.AbsStorage in the package storages._storages.
+The class name is made of the format name and of the word "Storage". 
+The format should be written as following: the first letter in capital and the rest in minuscule.
+E.g.: format = "dummy" => class name = "DummyStorage"
+
+
+II
+Implement the abstract methods by following these instructions
+
+-- legend
+The usage of all presented attributes and methods in this block is mandatory unless it is stated otherwise.
+  ph = placeholder.
+  pr = place replacer.
+  source storage = a storage object created using a [source] node.
+  target storage = a storage object created using a [target] node.
+
+-- attributes & methods
+The methods & attributes to override are listed below according to the order in which they are invoked.
+  isQueriable -> jarFileNames -> buildImpQuery -> buildConQuery ->
+  (source storage) => buildReadQuery -> buildLoopQuery -> buildDisconQuery
+  (target storage) => buildWriteQuery -> buildDisconQuery
+
+-- class attributes/values
+All class attributes using the getDef- or getAttr method to be set, need the "lazy" prefix.
+This assures that they get set after the definitions map is & the register method is invoked.
+
+-- constructor
+setAttr =:
+  method used to set the attributes, that will be present in the (transade).scala file.
+  Its the first step on the way of avoiding collisions between two or more storage
+  within the same computing unit.
+setPRs =:
+  method used to define how the storage should replace the placeholders occurring during
+  the parsing of the [source] node.
+  There are 9 different placeholders, ergo up to 9 possible different replacers:
+    1=: tab pr,
+    2=: any/object left pr, 3=: any/object right pr,
+    4=: boolean left pr, 5=: boolean right pr,
+    6=: number left pr, 7=: number right pr,
+    8=: string left pr, 9=: string right pr
+
+-- support attributes/methods (optional)
+d =: regular expression of a positive integer.
+ro =: round counter
+i =: inner counter
+j =: additional counter (additional to i or used in additional methods)
+break =: attribute that can be handy while writing the exit-query of the big loop. "break"
+fe =: attribute that can be handy in case a command should only be proceeded
+      during the first entry in the big loop. "firstEntry"
+source =: current source storage object.
+getAttr =: method used to retrieve an attribute set with the setAttr method.
+getDef =: method used to retrieve values from the "definitions" map.
+addSupMethod =: method used to add an additional method to the class to be parsed.
+getIds =: method is used by a storage extender object to get its identifiers.
+
+-- additional information
+The checkup whether an empty/invalid query should be return or not is done implicitly.
+Equally line breaks are implicitly included at the beginning & end of each returned query.
+order of invocation
+
+
+III
+Once the step II done, the application will be able to recognize and handle the new format.
 The format reader (the storages.Storage.getStorage method) is case insensitive.
-TODO
+However for a better documentation go to core/src/main/resources/schemas/
+-xsd/groups.xsd & -xml/groups.xml and add the new format and its definitions
+to their respective lists.

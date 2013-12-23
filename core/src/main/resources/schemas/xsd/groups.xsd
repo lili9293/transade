@@ -23,7 +23,7 @@
         <attributeGroup ref="xmlns:idGroup"/>
         <attribute name="format" type="string" use="required">
 						<simpleType>
-								<restriction base="string">
+								<restriction base="string"><!--supported formats-->
 										<enumeration value="sql"/>
 										<enumeration value="csv"/>
 										<enumeration value="excel"/>                                
@@ -41,17 +41,23 @@
                 <complexType>
                     <attribute name="key" type="string" use="required">
                         <simpleType>
-                            <restriction base="string">
-                                <enumeration value="username"/><!--SQL storage-->
-                                <enumeration value="password"/>
-                                <enumeration value="table"/>
-                                <enumeration value="path"/><!--CSV storage-->
-																<enumeration value="location"/><!--EXCEL storage-->
-                                <enumeration value="delimiter"/><!--CSV & EXCEL storage-->
-                                <enumeration value="quote"/>
-                                <enumeration value="colnamesrow"/>
-                                <enumeration value="start"/>
-                                <enumeration value="end"/>                                
+                            <restriction base="string"><!--supported definitions-->
+                                <enumeration value="url"/><!--SQL-->
+                                <enumeration value="username"/><!--SQL-->
+                                <enumeration value="password"/><!--SQL-->
+                                <enumeration value="table"/><!--SQL-->
+                                <enumeration value="columns"/><!--SQL-->
+                                <enumeration value="condition"/><!--SQL-->
+
+                                <enumeration value="quote"/><!--CSV-->
+                                <enumeration value="location"/><!--EXCEL-->
+                                <enumeration value="path"/><!--CSV & EXCEL-->
+                                <enumeration value="delimiter"/><!--CSV & EXCEL-->
+                                <enumeration value="colnamesrow"/><!--CSV & EXCEL-->
+                                <enumeration value="start"/><!--CSV & EXCEL-->
+                                <enumeration value="end"/><!--CSV & EXCEL-->
+
+                                <!-- next block -->
                             </restriction>
                         </simpleType>
                     </attribute>

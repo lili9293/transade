@@ -7,6 +7,8 @@ import java.util.jar.{JarEntry, JarFile, JarOutputStream}
 
 import deburnat.transade.core.admins.CoreAdmin
 import CoreAdmin._
+import java.util.NoSuchElementException
+import scala.NoSuchElementException
 
 /**
  * Project name: transade
@@ -29,7 +31,7 @@ private object AbsStorage{
    * counter =: the number of time each specific simple name occurs (starting from 0)
    */
   val repository = Map[Int, Map[String, Int]]()
-  var counter = 0
+  var cuCounter = 0 //the counter of computation units
 
   val (
     src, queryCounter, defs, leftW, rightW,
@@ -43,7 +45,7 @@ private object AbsStorage{
     numDt+leftPh, rightPh+numDt,
     strDt+leftPh, rightPh+strDt
   )
-  val _br = "(^%s+|%s+$)".format(br, br)
+  val _br = "(^%s+|%s+$)".format(br, br) //all the breaks at the beginning or the end
 }
 
 /**
@@ -68,27 +70,41 @@ protected[storages] abstract class AbsStorage extends IStorage{
       src -> null, leftW -> (tempMap + "("+a), rightW -> (a+")"), smq -> new StringBuilder, queryCounter -> -1
     )
   )
-  private var dynCounter = -1
+
+  /* Used by the register method.
+   * cuId =: computation unit identifier
+   * cuStId =: identifier within the computation unit
+   * cuStCounter =: storage counter among a computation unit
+   */
+  private var (cuId, cuStId, cuStCounter) = (-1, -1, 0)
+
   /* ro, i & j are counters.
-   * -ro =: round counter
-   * -i =: inner counter
-   * -j =: additional counter (additional to i or used in additional methods)
+   * - ro =: round counter
+   * - i =: inner counter
+   * - j =: additional counter (additional to i or used in additional methods)
    */
   protected final val (d, ro, _i, j, break, _fe) = ("^\\d+$", "round", "i", "j", "break", "firstEntry")
 
 
   /********** attributes methods - start **********/
   /**
-   *
+   * This method is used to set extender attributes.
+   * It should ideally be invoked during the object initialization.
    * @param kvs kv =: key - value
    */
-  protected final def setAttr(kvs: String*){
-    kvs.foreach(kv => if(kv.nonEmpty) extAttrs(kv) = kv)
-  }
+  protected final def setAttr(kvs: String*) = kvs.foreach{kv => if(kv.nonEmpty) extAttrs(kv) = kv}
 
-  protected final def getAttr(key: String) = try{
-    extAttrs(key)
-  }catch{case e: NoSuchElementException => "'" + bug.read("set", key).replaceAll("\\W+", "_")}
+  /**
+   * This method is used to get a value by using its key.
+   * Ideally between the setter method (setAttr) and this one (getter method), the register is invoked.
+   * Its secondary task is to rearrange the extAtrrs object to avoid a terminus collision with the other
+   * storage residing in the same computation unit.
+   * @param key The key.
+   * @return The adapted value, otherwise a symbol signalizing an error.
+   */
+  protected final def getAttr(key: String) = try{extAttrs(key)}catch{
+    case e: NoSuchElementException => "'" + bug.read("set", key).replaceAll("\\W+", "_")
+  }
   /********** attributes methods - end **********/
 
 
@@ -96,12 +112,17 @@ protected[storages] abstract class AbsStorage extends IStorage{
   /**
    * This method is invoked by all extenders during the creation of an object to set the
    * basic attributes.
-   * @param prs 1=: tabPr, 2=: aLeftPr, 3=: aRightPr, 4=: bLeftPr, 5=: bRightPr, 6=: nLeftPr, 7=: nRightPr, 8=: sLeftPr, 9=: sRightPr
+   * @param prs 1=: tabPr,
+   *            2=: aLeftPr, 3=: aRightPr,
+   *            4=: bLeftPr, 5=: bRightPr,
+   *            6=: nLeftPr, 7=: nRightPr,
+   *            8=: sLeftPr, 9=: sRightPr
    */
   protected final def setPRs(prs: (String, String, String, String, String, String, String, String, String)){
+    //this represents the tab sequence that the source storage will use to properly position
+    //the queries resulting from the getWriteQuery method invoked by the target storages.
     intAttrs(tabPR) = prs._1
-    //this represents the tab sequence that source storage will use to properly position
-    //the queries resulting from the "getWriteQuery" invoked by the target storages.
+
     intAttrs(aLeftPr) = prs._2
     intAttrs(aRightPr) = prs._3
 
@@ -116,18 +137,17 @@ protected[storages] abstract class AbsStorage extends IStorage{
   }
 
   /**
-   * The "setDefs"-Method is implemented a lil lower
-   * @return
+   * This method is used to get a defined value. The setDefs method is implemented a lil lower.
+   * @return a string containing the value or an empty string if the key is unknown.
    */
   protected final def getDef(key: String): String = try{
     intAttrs(defs).asInstanceOf[Map[String, String]](key)
   }catch{case e: NoSuchElementException => ""}
 
-
-  protected final lazy val source = intAttrs(src).asInstanceOf[IStorage]
-  private def getCon = intAttrs(queryCounter).asInstanceOf[Int] //there's no setter
-
-
+  /**
+   * This method is invoked to add supplementary methods.
+   * @param SMQ The supplementary method's query.
+   */
   protected final def addSupMethod(SMQ: String){
     val meth = "%s%s".format(
       brr,
@@ -137,78 +157,87 @@ protected[storages] abstract class AbsStorage extends IStorage{
       intAttrs(smq).asInstanceOf[StringBuilder].append(meth)
   }
 
-  protected final def getDynCounter = dynCounter
+  //source has to use the "lazy" prefix to give a chance to intAttrs(src) to be set first.
+  //see the 2nd register method.
+  protected final lazy val source = intAttrs(src).asInstanceOf[IStorage]
+
+  /**
+   * This method is used by a storage extender object to get its identifiers.
+   * @return The computation unit id and the computation unit storage id.
+   */
+  protected final def getIds = (cuId, cuStId) //no setter
+
+  private def setCon(i: Int){intAttrs(queryCounter) = i}
+  private def getCon = intAttrs(queryCounter).asInstanceOf[Int]
   //######################################## other methods - end ########################################
 
 
   //######################################## interfaces implemented methods - start ########################################
-  /**
-   *
-   * @param content target row content
-   * @return a String object.
-   */
+
   final def wrapTargetRow(content: String): String =
     if(source.isInstanceOf[IStorage]) intAttrs(leftW) + content + intAttrs(rightW)
   else content
 
   /**
-   * The tab- & line break- sequence are inserted in the TransadeXmlAdmin.parseParse & .parseIf methods.
+   * The tab- & line break- sequence are inserted in the
+   * core.admin.TransadeXmlAdmin.parseParse & .parseIf methods.
    * It is impossible at this level to know whether or not the tupel is residing in a "if" node.
-   * @param key self explanatory
-   * @param value self explanatory
-   * @return
    */
   final def setTupel(key: String, value: String): String =
     if(source.isInstanceOf[IStorage]) "%s(%s) = %s".format(tempMap, a+key+a, value) else ""
 
+  final def setDefs(definitions: Map[String, String]) = {
+    intAttrs(defs) = definitions
+    this
+  }
 
   final def register = {
     source match{
       case null => //source storage => occurs only once during each computation unit
-        repository(counter) = Map[String, Int]()
-        dynCounter = counter
-        counter += 1
+        repository(cuCounter) = Map[String, Int]()
+        cuId = cuCounter  //= 0
+        cuStId = cuStCounter //= 0
+        cuCounter += 1
+        cuStCounter += 1
 
       case _ => //target storage
-        val (key1, key2) = (
-          source.asInstanceOf[AbsStorage].getDynCounter, this.getClass.getSimpleName
-        )
-        val i = if(repository(key1).contains(key2)) repository(key1)(key2) else 0
+        cuId = source.asInstanceOf[AbsStorage].cuId //to avoid retrieving it later again
+        val className = this.getClass.getSimpleName //adapted format + "Storage"
+
+        cuStId = source.asInstanceOf[AbsStorage].cuStCounter //id within the computation unit
+        source.asInstanceOf[AbsStorage].cuStCounter += 1 //only the source counter is updated
+
+        //not to worry the NoSuchElementException can never be thrown
+        val i = if(repository(cuId).contains(className)) repository(cuId)(className) else 0
 
         //Update all attributes of the object in order to avoid collision with admins
         intAttrs(id) = i //the target identifier within the computing round
         extAttrs.foreach(attr => extAttrs(attr._1) = attr._2 + i)
 
         //register all changes
-        repository(key1)(key2) = i + 1
+        repository(cuId)(className) = i + 1
     }
     
     this
   }
 
-
   final def register(storage: IStorage) = {
     intAttrs(src) = storage //-> source
     register
-  }
-
-
-  final def setDefs(definitions: Map[String, String]) = {
-    intAttrs(defs) = definitions
-    this
   }
   /********** interfaces implemented methods - end **********/
 
 
   /********** interfaces implemented methods ii - start **********/
   /**
-   * This method runs before the XML file get parsed.
-   * It's purpose is to take care of tasks that should be done before the XML file(s) is(are) parsed.
+   * This method runs before the (transade).xml file get parsed.
+   * It's purpose is to take care of tasks that should be done before
+   * the (transade).xml file(s) is(are) parsed.
    * So far one has the following task:
    * - move the necessary jar-file
    * @see http://javahowto.blogspot.de/2011/07/how-to-programmatically-copy-jar-files.html
-   * @return A true value if and only all the necessary tasks have been successfully executed,
-   *         otherwise a false value.
+   * @return true if and only all the necessary tasks have been successfully executed,
+   *         otherwise false.
    */
   private def beforeParse: Boolean = if(isQueriable){
     jarFileNames.foreach(_fileName => try{
@@ -246,10 +275,10 @@ protected[storages] abstract class AbsStorage extends IStorage{
 
 
   final def getImpQuery = if(beforeParse){
-    intAttrs(queryCounter) = source match{
+    setCon(source match{
       case null => 0
-      case _ => 1
-    }
+      case _ => 1 //the target storage objects will skip the getTryQuery method.
+    })
 
     val imp = CoreAdmin.imp + " "
     (source match{
@@ -262,19 +291,18 @@ protected[storages] abstract class AbsStorage extends IStorage{
   }else ""
 
 
+  //the line break before this statement is made in the core.admin.TransadeXmlAdmin.buildClass method.
   final def getTryQuery: String =(
-    if(source == null && intAttrs(queryCounter).asInstanceOf[Int] == 0){
-      intAttrs(queryCounter) = 1
+    if(source == null && getCon == 0){
+      setCon(1)
       "%stry{%s".format(tb2, br+tb3+echo("con")+br)
     }else tb2 + defCon
   ) + br
-  //the line break before this statement is made in the TransadeXmlAdmin.buildClass methode.
 
 
   final def getConQuery = (
     if(getCon == 1){
-      intAttrs(queryCounter) = 2
-
+      setCon(2)
       "%s %s%s".format(
         tb3 + "//" + this.getClass.getSimpleName.replaceAll("\\d+", "").replace(st, " "+_st),
         source match{
@@ -289,7 +317,7 @@ protected[storages] abstract class AbsStorage extends IStorage{
 
   final def getReadQuery = (
     if(getCon == 2 && source == null){
-      intAttrs(queryCounter) = 3
+      setCon(3)
       "%s//read query%s%s".format(
         tb3, br,
         buildReadQuery.replaceAll(_br, "") + br
@@ -301,8 +329,9 @@ protected[storages] abstract class AbsStorage extends IStorage{
   final def getWriteQuery(cols: String, values: String) = {
     val tabs = source.asInstanceOf[AbsStorage].intAttrs(tabPR).asInstanceOf[String]
     (if(getCon == 2 && source.isInstanceOf[IStorage]){
-      intAttrs(queryCounter) = 4
-      //since the target is allowed to invoke the "getLoopQuery" method queryCounter is set to 4 instead of 3
+      //since the target is allowed to invoke the getLoopQuery method,
+      //queryCounter is set to 4 instead of 3
+      setCon(4)
       buildWriteQuery(tabs, cols, values).replaceAll(_br, "") + br
     }else tabs + defCon
     ) + br
@@ -311,7 +340,7 @@ protected[storages] abstract class AbsStorage extends IStorage{
 
   final def getLoopQuery(innerLoop: String) = if(getCon == 3 && source == null){
     //the inner loop queries are from the target node.
-    val iLoop = innerLoop.replaceAll(_br, "") //eliminate all te line breaks at both ends
+    val iLoop = innerLoop.replaceAll(_br, "") //eliminate all the line breaks at both ends
       // insert the replacers
       .replace(tabPh, intAttrs(tabPR).asInstanceOf[String])
       .replace(aLeftPh, intAttrs(aLeftPr).asInstanceOf[String])
@@ -323,9 +352,8 @@ protected[storages] abstract class AbsStorage extends IStorage{
       .replace(sLeftPh, intAttrs(sLeftPr).asInstanceOf[String])
       .replace(sRightPh, intAttrs(sRightPr).asInstanceOf[String])
 
-    intAttrs(queryCounter) = 4
-    //return
-    "%s%sval %s = Map[String, Any]()%s%s%s%s%s%s".format(
+    setCon(4)
+    "%s%sval %s = Map[String, Any]()%s%s%s%s%s%s".format( //return
       tb3 + "//ini" +br,
       tb3, tempMap, br,
       tb3 + echo("loopstart") +brr,
@@ -339,10 +367,10 @@ protected[storages] abstract class AbsStorage extends IStorage{
 
   final def getDisconQuery = (
     if(getCon == 4){
-      intAttrs(queryCounter) = source match{
+      setCon(source match{
         case null => 5
-        case st: IStorage => 6
-      }
+        case _ => 6
+      })
 
       buildDisconQuery.replaceAll(_br, "")
     }else tb3 + defCon
@@ -350,7 +378,7 @@ protected[storages] abstract class AbsStorage extends IStorage{
 
 
   final def getCatchQuery: String = if(source == null && getCon == 5){
-    intAttrs(queryCounter) = 6
+    setCon(6)
     val query = "%s%s%s".format(
       tb3+echo("bug")+br,
       tb3+"System.err.println(e.getClass.getSimpleName)"+br,
@@ -381,86 +409,25 @@ protected[storages] abstract class AbsStorage extends IStorage{
 
   /********** abstract attributes & methods - start **********/
   /**
-   * #####Instructions - start#####
-   * --legend
-   * The usage of all presented attributes and methods in this comment block is mandatory useless
-   * it is stated otherwise.
-   * ph = placeholder.
-   * pr = place replacer.
-   * source storage = a storage created using a "source" node.
-   * target storage = a storage created using a "target" node.
-   *
-   * --default attributes/values
-   * If any default attribute (outside of an overriding method or attribute) needs to be set by using
-   * the "getDef" method, the "lazy" prefix should be added.
-   * This assures that the attribute is set after the "definitions" map setting.
-   *
-   * --constructor
-   * setAttr =:
-   *   This method is used to set the attributes the will be present in the parse .scala class/file.
-   *   Its purpose is to avoid collisions between two or more storage within the same set.
-   * setPRs =:
-   *   This method is used to define how the storage should replace the placeholders occuring during
-   *   the parsing of the XML source node.
-   *   The are 9 different placeholders, ergo up to 9 possible different replacers.
-   *
-   * --support attributes/methods (optional)
-   * d =: The regular expression of a positive integer.
-   * ro, i & j are counters.
-   *   ro =: round counter
-   *   i =: inner counter
-   *   j =: additional counter (additional to i or used in additional methods)
-   * break =: "break"
-   *   An attribute that can be handy while writing the exit-query of the big loop.
-   * fe =: "firstEntry"
-   *   An attribute that can be handy in case a command should only be proceeded
-   *   during the first entry in the big loop.
-   * getAttr =:
-   *   Method used to retrieve an attribute set with the "setAttr" method.
-   * getDef =:
-   *   Method used to retrieve values from the "definitions" map.
-   * getSource =:
-   *   Method used to get the current source storage.
-   * addSupMethod =:
-   *   Method used to add an additional method to the parsed class.
-   * getDynCounter =:
-   *   Method used to get the position of the current storage relative to its source storage.
-   *
-   * --overriding attributes/methods
-   * isQueriable =:
-   *   The "isQueriable" attribute needs the "lazy" prefix for
-   *   the same reason as the other default attributes.
-   * checkup =:
-   *   The checkup whether an empty/invalid query should be return or not is done implicitly.
-   *   Therefore there's no need the include the "isQueriable" attr. in each overriding method.
-   * line break =:
-   *   There's equally no need to include line breaks at the beginning & end of each returned query.
-   *   This is done implicitly.
-   * order of invocation =:
-   *   The methods below are listed according to the order in which they are invoked.
-   *   source storage: beforeParse -> buildImpQuery -> buildConQuery -> buildReadQuery -> buildLoopQuery -> buildDisconQuery
-   *   target storage: beforeParse -> buildImpQuery -> buildConQuery -> buildWriteQuery -> buildDisconQuery
-   * #####Instructions - end#####
-   *
-   *
-   * #####Definitions - start#####
-   * --both
+   * #####Definitions - start (what are the definitions used in this storage?)#####
+   * -- both
    * ...
    *
-   * --source storage
+   * -- source storage
    * ...
    *
-   * --target storage
+   * -- target storage
    * ...
    * #####Definitions - end#####
    *
    *
    * #####isQueriable - start#####
-   * This attribute determines whether the returned queries will be empty or not.
+   * This attribute needs the "lazy" prefix for the same reason as the other default attributes.
+   * It determines whether the returned queries will be empty or not.
    * The decision should be made according to the state of the mandatory definitions.
    * A definition is mandatory, if its value is indispensable for the proper compilation of the
    * class to be created by parsing a source node.
-   * This attribute is used more than once.
+   * @note The invocation of this attribute is done implicitly.
    * #####isQueriable - end#####
    */
   protected val isQueriable: Boolean

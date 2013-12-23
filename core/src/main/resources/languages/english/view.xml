@@ -22,12 +22,10 @@
     <confirmtemplatenew>This is a new template.</confirmtemplatenew>
     <confirmtitle>Your action in summary.</confirmtitle>
     <confirmyes>Yes</confirmyes>
-    <download>Download schemas</download>
+    <download>download the schemas</download>
     <files>files</files>
     <info>Information</info>
-    <manuals>Manuals</manuals>
-    <manualsgui>GUI manual</manualsgui>
-    <manualstransade>TRANSADé manual</manualstransade>
+    <manual>show the GUI manual</manual>
     <modebetacompile>beta compile mode</modebetacompile>
     <modepreview>preview mode</modepreview>
     <modeusercompile>user compile mode</modeusercompile>
@@ -48,7 +46,7 @@
     <schemas>Schemas</schemas>
     <templatetext>Save the current procedure as ...</templatetext>
     <textfilechooser>Choose a file to load.</textfilechooser>
-    <title>Deburnat</title>
+    <title>TRANSADé</title>
     <tooltipcheckboxclick>Left click to check. Right click to visualize the node.</tooltipcheckboxclick>
     <tooltipdelete>Click here to remove the current item from the template list.</tooltipdelete>
     <tooltipfilechooser>Left click to use the file chooser. Right click to type.</tooltipfilechooser>

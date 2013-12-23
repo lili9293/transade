@@ -14,10 +14,9 @@ import deburnat.transade.core.admins.CoreAdmin._
  *
  * The class is used to read texts in a structured way.
  * @param lineLen The maximal length of each line.
- * @param splitChar The character used to split rows.
  */
-class Reader(lineLen: Int, splitChar: String){
-  def this(lineLen: Int) = this(lineLen, hash) //the hash char is the default split char
+class Reader(lineLen: Int){
+  //def this(lineLen: Int) = this(lineLen, hash) //the hash char is the default split char
 
   /**
    * This method returns the given text in a structured way.
@@ -30,7 +29,7 @@ class Reader(lineLen: Int, splitChar: String){
     val (seqs, output, rowLen) = (
       //first reduce all the gaps to gaps of 1 character length
       //then split the text using the split character
-      text.replace(br, "").replaceAll(" {2,}", " ").split(splitChar),
+      text.replace(br, "").replaceAll(" {2,}", " ").split(hash),
       new StringBuilder, lineLen - tabs.length
     )
 

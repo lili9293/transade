@@ -40,10 +40,10 @@ protected[transade] object CoreAdmin extends Admin{
   /********** ATTRIBUTES - START **********/
   private var langRds: LangReaders = null
   private val (
-    os, win, lin, mDeb, mGui, cliProc, scalaBin, langDir, schemaDir,
-    dirPath, docPath, binPath, htmlLangPath
+    os, win, lin, cliProc, scalaBin, langDir, schemaDir,
+    dirPath, docPath, binPath, manualPath
   ) = (
-    system("os.name").toLowerCase, "windows", "linux", "manualDeburnat", "manualGui",
+    system("os.name").toLowerCase, "windows", "linux",
     platform("processor"), platform("scalabin"), platform("languages"), platform(schemas),
     new StringBuilder, new StringBuilder, new StringBuilder, new StringBuilder
   )
@@ -99,10 +99,10 @@ protected[transade] object CoreAdmin extends Admin{
         set = true
         lang
       }else "english"
-    ) + sep + "%s"
-    val xmlLangPath = langPath + _xml
-    htmlLangPath.clear
-    htmlLangPath ++= langPath + _html
+    ) + sep
+    val xmlLangPath = langPath + "%s" + _xml
+    manualPath.clear
+    manualPath ++= langPath + manual + _html
 
     langRds = LangReaders(
       new XmlReader(xmlLangPath.format("bug")),
@@ -241,12 +241,10 @@ protected[transade] object CoreAdmin extends Admin{
 protected[transade] final class CoreAdmin(dirPath: String, language: String, val output: String => Unit){
   import CoreAdmin._
 
-  val (goodToGo, view, languages) = ( //the language has to come first
+  val (goodToGo, view, languages, manualFile) = ( //the language has to come first
     setLanguage(language) && setDirPath(dirPath), CoreAdmin.view,
-    new File(langDir).listFiles.map(f => f.getName)
+    new File(langDir).listFiles.map(f => f.getName), new File(manualPath.mkString)
   )
-  private val htmlLangPath = CoreAdmin.htmlLangPath.mkString
-  val htmls = Array(new File(htmlLangPath.format(mDeb)), new File(htmlLangPath.format(mGui)))
 
   /**
    * This method is used to download the download (actually copy) the schema directory.

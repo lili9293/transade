@@ -66,6 +66,7 @@ object MainFrame extends SimpleSwingApplication{
 
 
     //SETTINGS OF THE MAIN FRAME
+    println(view)
     title = view.read("title")
     location = new Point(frameX, frameY)
     setContent(new Dimension(frameW, frameH))
