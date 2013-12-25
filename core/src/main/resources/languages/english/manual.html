@@ -15,10 +15,10 @@
     <body>
         <h1>Welcome to the TRANSAD&eacute; manual</h1>
         <table>
-            <tr><td>&ensp;</td><td style="min-width:100%"><fieldset><!--CHAPTER 1 START-->
+            <tr><td>&ensp;</td><td class="max"><fieldset><!--CHAPTER 1 START-->
                 <legend>
                     <img id="chapterOneClick" class="clickable , title"
-                         src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterOne')">
+                         src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterOne')">
                     <a class="title">How to create an .xml file while using the TRANSAD&eacute; schema</a>
                 </legend>
                 <div id="chapterOneDiv" class="invisible"><!--CHAPTER 1 START-->
@@ -33,7 +33,7 @@
                     </table>
 
                     <!--CHAPTER 1.1 START-->
-                    <br><label><input type="checkbox" id="transadeXml"></label>
+                    <br><label><input type="checkbox" name="file" id="transadeXml" value="../../schemas/xml/transade.xml"></label>
                     <a class="open" target="_blank" href="../../schemas/xml/transade.xml">The (transade).xml file</a>
                     <div>
                         This is the main file of the application. One can compare it to the default "index.html" file
@@ -44,7 +44,7 @@
                     </div><!--CHAPTER 1.1 END-->
 
                     <!--CHAPTER 1.2 START-->
-                    <br><label><input type="checkbox" id="referencesXml"></label>
+                    <br><label><input type="checkbox" name="file" id="referencesXml" value="../../schemas/xml/references.xml"></label>
                     <a class="open" target="_blank" href="../../schemas/xml/references.xml">The (references).xml file</a>
                     <div>
                         As its name stipulates the <a class="node">references</a> is used as
@@ -70,7 +70,7 @@
                     </div><!--CHAPTER 1.2 END-->
 
                     <!--CHAPTER 1.3 START-->
-                    <br><label><input type="checkbox" id="transferXml"></label>
+                    <br><label><input type="checkbox" name="file" id="transferXml" value="../../schemas/xml/transfer.xml"></label>
                     <a class="open" target="_blank" href="../../schemas/xml/transfer.xml">The (transfer).xml file </a>
                     <div>
                         The <a class="node">transfer</a> is the second child
@@ -84,7 +84,7 @@
                         <a class="emphasis">one computation unit</a>. Each <a class="node">source</a> or <a class="node">target</a>
                         is defined a specific <a class="emphasis">format</a> and its respective <a class="emphasis">definitions</a>.
                         Click here
-                        <label><input type="checkbox" id="groupsXml"></label>
+                        <label><input type="checkbox" name="file" id="groupsXml" value="../../schemas/xml/groups.xml"></label>
                         <a class="open" target="_blank" href="../../schemas/xml/groups.xml">formats & definitions</a> for more
                         information.<br>
                         In order to enable flexibility and performance the following processes have been established.:
@@ -102,7 +102,7 @@
                     </div><!--CHAPTER 1.3 END-->
 
                     <!--CHAPTER 1.4 START-->
-                    <br><label><input type="checkbox" id="reportXmlXml"></label>
+                    <br><label><input type="checkbox" name="file" id="reportXmlXml" value="../../schemas/xml/reportXml.xml"></label>
                     <a class="open" target="_blank" href="../../schemas/xml/reportXml.xml">The (report transade).xml file </a>
                     <div>
                         Once the computation of all the selected <a class="node">transfer</a>'s done, the application generates
@@ -111,7 +111,7 @@
                     </div><!--CHAPTER 1.4 END-->
 
                     <!--CHAPTER 1.5 START-->
-                    <br><label><input type="checkbox" id="reportScalaXml"></label>
+                    <br><label><input type="checkbox" name="file" id="reportScalaXml" value="../../schemas/xml/reportScala.xml"></label>
                     <a class="open" target="_blank" href="../../schemas/xml/reportScala.xml">The (report scala transade).xml file </a>
                     <div>
                         <a class="emphasis">NOT AVAILABLE YET</a>
@@ -123,44 +123,56 @@
                         This section is recommend for users with an average knowledge of the syntax used in .xsd file.
                         All the .xml files stated above are also available as .xsd files.
                         <br><br>
-                        <label><input type="checkbox" id="transadeXsd"></label>
+                        <label><input type="checkbox" name="file" id="transadeXsd" value="../../schemas/xsd/transade.xsd"></label>
                         <a class="open" target="_blank" href="../../schemas/xsd/transade.xsd">(transade).xsd file </a>
                         &emsp;&emsp;
-                        <label><input type="checkbox" id="referencesXsd"></label>
+                        <label><input type="checkbox" name="file" id="referencesXsd" value="../../schemas/xsd/references.xsd"></label>
                         <a class="open" target="_blank" href="../../schemas/xsd/references.xsd">(references).xsd file </a>
                         &emsp;&emsp;
-                        <label><input type="checkbox" id="transferXsd"></label>
+                        <label><input type="checkbox" name="file" id="transferXsd" value="../../schemas/xsd/transfer.xsd"></label>
                         <a class="open" target="_blank" href="../../schemas/xsd/transfer.xsd">(transfer).xsd file </a>
                         <br><br>
-                        <label><input type="checkbox" id="reportXmlXsd"></label>
+                        <label><input type="checkbox" name="file" id="reportXmlXsd" value="../../schemas/xsd/reportXml.xsd"></label>
                         <a class="open" target="_blank" href="../../schemas/xsd/reportXml.xsd">(report transade).xsd file </a>
                         &emsp;&emsp;
-                        <label><input type="checkbox" id="reportScalaXsd"></label>
+                        <label><input type="checkbox" name="file" id="reportScalaXsd" value="../../schemas/xsd/reportScala.xsd"></label>
                         <a class="open" target="_blank" href="../../schemas/xsd/reportScala.xsd">(report scala transade).xsd file </a>
                         <br><br>
-                        <label><input type="checkbox" id="groupsXsd"></label>
+                        <label><input type="checkbox" name="file" id="groupsXsd" value="../../schemas/xsd/groups.xsd"></label>
                         <a class="open" target="_blank" href="../../schemas/xsd/groups.xsd">
                             (groups).xsd file (this file is used by all others .xsd files)
                         </a>
                     </div><!--CHAPTER 1.6 END-->
-                    <!--TODO button load all-->
+                    <br>
+                    <script>
+                        var fileIds = [ //the file checkbox ids
+                            "transadeXml", "referencesXml", "transferXml", "groupsXml", "reportXmlXml", "reportScalaXml",
+                            "transadeXsd", "referencesXsd", "transferXsd", "reportXmlXsd", "reportScalaXsd", "groupsXsd"
+                        ]
+                    </script>
+                    <table class="max" style="margin-right:50px;"><tr><td class="max" style="text-align:right;">
+                        <input type="button" value="open all the selected files" class="titleMini" style="margin-right:30px;"
+                               onclick="openSelectedFiles(fileIds)">
+                    </td></tr></table>
+
                 </div>
             </fieldset><br></td></tr><!--CHAPTER 1 END-->
             <tr><td>&ensp;</td><td><fieldset><!--CHAPTER 2 START-->
                 <legend>
                     <img id="chapterTwoClick" class="clickable , title"
-                         src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwo')">
+                         src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwo')">
                     <a class="title">
                         How to use the TRANSAD&eacute; graphic user interface
                     </a>
                 </legend>
-                <div id="chapterTwoDiv" class="_invisible"><table>
+                <div id="chapterTwoDiv" class="invisible"><table>
                     <tr><td>
-                        This section presents the most useful and basic features of the gui.<br><br>
+                        This chapter presents the most useful and basic features of the gui.
+                        Just like on the GUI the progress (top to bottom) in this chapter event based.<br><br>
                     </td></tr>
                     <tr><td><!--CHAPTER 2.1 START-->
                         <img id="chapterTwoOneClick" class="clickableMini , titleMini"
-                             src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwoOne')">
+                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoOne')">
                         <a class="titleMini">The configuration</a>
                         <div id="chapterTwoOneDiv" class="invisible">
                             Right after running the application -for the first or without having ever configure it the
@@ -179,7 +191,7 @@
                     </td></tr><!--CHAPTER 2.1 END-->
                     <tr><td><!--CHAPTER 2.2 START-->
                         <img id="chapterTwoTwoClick" class="clickableMini , titleMini"
-                             src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwoTwo')">
+                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoTwo')">
                         <a class="titleMini">The files upload</a>
                         <div id="chapterTwoTwoDiv" class="invisible">
                             The application provides two ways to upload (transade).xml files.
@@ -204,7 +216,7 @@
                     </td></tr><!--CHAPTER 2.2 END-->
                     <tr><td><!--CHAPTER 2.3 START-->
                         <img id="chapterTwoThreeClick" class="clickableMini , titleMini"
-                             src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwoThree')">
+                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoThree')">
                         <a class="titleMini">The nodes selection</a>
                         <div id="chapterTwoThreeDiv" class="invisible">
                             Once a (transade).xml file is successfully uploaded all the <a class="node">transfer</a>'s are
@@ -251,7 +263,7 @@
                     </td></tr><!--CHAPTER 2.3 END-->
                     <tr><td><!--CHAPTER 2.4 START-->
                         <img id="chapterTwoFourClick" class="clickableMini , titleMini"
-                             src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwoFour')">
+                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoFour')">
                         <a class="titleMini">The nodes execution</a>
                         <div id="chapterTwoFourDiv" class="invisible">
                             The node execution section resides at the upper south side of the GUI. The execution is pretty straight forward.
@@ -296,24 +308,31 @@
                     </td></tr><!--CHAPTER 2.4 END-->
                     <tr><td><!--CHAPTER 2.5 START-->
                         <img id="chapterTwoFiveClick" class="clickableMini , titleMini"
-                             src="../../manual/images/open.png" alt=" + " onclick="showChapter('chapterTwoFive')">
+                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoFive')">
                         <a class="titleMini">Others</a>
-                        <div id="chapterTwoFiveDiv" class="_invisible">
+                        <div id="chapterTwoFiveDiv" class="invisible">
                             <!--TODO-->
                         </div>
                     </td></tr><!--CHAPTER 2.5 END-->
                 </table></div>
             </fieldset><br></td></tr><!--CHAPTER 2 END-->
-            <tr><td>&ensp;</td><!--CHAPTER 3 START-->
-                <td>
+            <tr><td>&ensp;</td><td><fieldset><!--CHAPTER 3 START-->
+                <legend>
+                    <img id="chapterThreeClick" class="clickable , title"
+                         src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterThree')">
                     <a class="title">
-                        &#x95; How to contact the developers
-                    </a><br>
-            </td></tr><!--CHAPTER 3 END-->
+                        How to contact the developers
+                    </a>
+                </legend>
+                <div id="chapterThreeDiv" class="invisible"><table>
+                    <tr><td colspan="2">Patrick Meppe</td></tr>
+                    <tr><td class="bullet"></td><td>administrator/developer</td></tr>
+                    <tr><td class="bullet"></td><td>e-mail: tapmeppe@gmail.com</td></tr>
+
+                    <!--todo next-->
+                </table></div>
+            </fieldset><br></td></tr><!--CHAPTER 3 END-->
         </table>
-        <script>$(document).ready(function(){
-            adaptAElementInnerHTML()
-            addBulletToTd()
-        })</script>
+        <script>$(document).ready(function(){transformClassElements()})</script>
     </body>
 </html>

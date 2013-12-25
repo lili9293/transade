@@ -1,11 +1,12 @@
 <report>
+<!--The reporScala file is created by the application after compiling and executing a scala class based
+on the computation of one source node, whose process has been stopped after the creating of the adequate scala class.-->
     <process scala="" start="" end="">
-        <output><!--output:maxOccurs="1"-->
-            All the outputs
-        </output>
-        <error><!--error:maxOccurs="1"-->
-            All the errors
-        </error>
+<!--scala: the scala class name. The start & end values that of the time at which the computation
+respectively begun and ended. The format used is the following "yyyy.MM.dd - HH:mm:ss".-->
+        <output/>
+<!--The unique output node occurs once and summarizes all the output produced during the execution of the scala class.-->
+        <error/>
+<!--The unique error node occurs once and summarizes all the error produced during the execution of the scala class.-->
     </process>
-    <!--process:maxOccurs="unbounded"-->
 </report>

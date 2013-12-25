@@ -1,64 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <transade>
-	<references include="">
-        <ref id="ref1" label="source"><!--id:use="required", label:use="required"-->
-            <definitions/>
-            <target/>
+	<references>
+<!--This is node is optional, can therefore be omitted if not required.
+However if required, it can only occur once. It is used to create one or more node references,
+that are intended to be used more than once. Each ref node represents
+the reference to one specific node.-->
+        <ref id="ref1" label="source">
+            <!--id: use=mandatory, description=the unique identifier of the given ref node-->
+            <!--label: use=mandatory, description=the label of the type of node allowed to use this ref node as reference-->
+            <definitions/><!--see transfer node-->
+            <target/><!--see transfer node-->
         </ref>
         <!-- OR -->
         <ref id="ref2" label="target">
+<!--In general only 4 nodes are allowed to use the a ref node as reference:
+source, target, definitions or parse
+-->
             <definitions/>
             <parse/>
         </ref>
         <!-- OR -->
         <ref id="ref3" label="definitions">
-            <def/>
+            <def/><!--see transfer node-->
         </ref>
         <!-- OR -->
         <ref id="ref4" label="parse">
-            <sourcename/>
+            <sourcename/><!--see transfer node-->
         </ref>
         <!-- OR -->
         <ref id="ref5" label="parse">
-            <if/>
+            <if/><!--see transfer node-->
         </ref>
-        <!--ref:maxOccurs="unbounded"-->
+        <!--The ref node can occur as much as possible.-->
 	</references>
-	<transfer id="" include=""><!--id:use="required"-->
+	<transfer id="">
+<!--This node is mandatory. It is used to create a set of computation units.
+id: use=mandatory (report), description=the unique identifier of the given transfer node-->
 		<metadata projectname="" admin="">
+<!--This node is reserved for an internal/user documentation, is therefore optional.
+It won't be processed by the application.
+projectname: use=optional, description=self explanatory
+admin: use=optional, description=self explanatory
+If however there's a need to have a part of the documentation
+present in the report use the description node nested within this one.-->
 		    ...
-            <description>
-                This block will appear in the report.
-            </description>
+            <description>This block will appear in the report.</description>
             ...
 		</metadata>
-		<source id="" format="" ref="" authors=""><!--id:use="required", format:use="required"-->
+		<source id="" format="" ref="" authors="">
+<!--The source node represents the source repository of this computation unit.
+In other words the data base where the data will be coming from.
+id: use=mandatory (report and scala class), description=the unique identifier of the given source node
+format: use=mandatory, description=its value helps to determine the repository type
+authors: use=optional, description=for documentation purposes
+ref: use=optional, description=this attribute is used if there is a need to link this node
+  to one of the ref nodes. Its value should be equal to one of the id of ref node whose label=source.-->
 			<definitions ref="">
-				<def key="" value=""/><!--key:use="required", value:use="required"-->
-                <!--def:maxOccurs="unbounded"-->
+<!--This definition node is actually an optional node, however the fact that it's almost impossible to execute
+a transfer without pre defined values, makes it usage inevitable. This node is used to set static values
+requirement for the transfer execution. Values such as the file path or the username.
+ref: use=optional, description=its value should be equal to one of the id of ref node whose label=definition.
+  see the source.ref.description for more information.-->
+				<def key="" value=""/>
+<!--Each def node represents one parameter and its static value. e.g.: username = root.
+The number and type def nodes required during a specific transfer depends solely on the format use.
+Check the group.xml files for more information.
+key: use=mandatory, description=the parameter name
+value: use=mandatory, description=the parameter value-->
 			</definitions>
-			<target id="" format="" ref=""><!--id:use="required", format:use="required"-->
-				<definitions/><!--this=source:definitions-->
-                <parse targetname="firstname" sourcename=""/><!--targetname:use="required"-->
-                <!-- OR -->
+			<target id="" format="" ref=""><!--id:use="mandatory", format:use="mandatory"-->
+<!--The source node represents one of the target repositories of this computation unit.
+In other words one of the data base which are part or all data from the source repository will be saved in.
+As one can imagine, there can be more than one target for one source. That's the reason why each
+source node must have at least one target node.
+id: use=optional (report), description=the unique identifier of the given target node
+format: use=mandatory, description=see the source.format.description for more information
+ref: use=optional, description=its value should be equal to one of the id of ref node whose label=target.
+  see the source.ref.description for more information.-->
+				<definitions/><!--see source.definition.description-->
+
+<!--The parse node is the core of the (transade).xml file. This node is the one used make an concrete link between
+a source - and a target column. The number of parse node residing in a target should be proportional
+to the number of source columns, that need to be linked. There must be at least one parse node in each target node.
+targetname: use=mandatory, description=the row name in the target repository
+ref: use=optional, description=its value should be equal to one of the id of ref node whose label=parse.
+  see the source.ref.description for more information.
+
+There are 3 ways to write create a parse node.
+The first and the simplest way is to link target- and source- row names as attributes.
+Note: in this case although the ref node is allowed using it won't make any sense.
+OR
+-->
+                <parse targetname="firstname" sourcename=""/>
+<!--The second way is to link target row name as attribute and the unique source row name as a child node.
+This way is recommended for relatively long source names.
+OR-->
                 <parse targetname="" ref="">
-					<sourcename/><!--sourcename:maxOccurs="1"-->
+					<sourcename>...</sourcename>
 				</parse>
-                <!-- OR -->
+<!--The last and most complex way is to link both end based on certain conditions. Hence the if node-->
                 <parse targetname="" ref="">
+<!--The if node is used to create a condition block.
+- One if node with an empty condition attribute represents one else-block. Hence there should only be one if node
+  with an empty or missing condition attribute.
+- One if node with a non empty condition attribute represents one if- or else if-block. Hence the number of if nodes
+  is from one to infinity.
+The 2 ways to create an if node are similar to the two first ways of creating the parse node.
+The condition attribute solely reads values of the source repository. The syntax uses is highly similar to the one
+used in the if condition statement of all the modern programming languages. i.e.:
+- equals MEANS == ; unequals MEANS !=
+- greater than MEANS > ; greater than or equal to MEANS >=
+- less than mean < ; less than or equal to MEANS <=
+- and MEANS && ; or MEANS || ; grouping is done with parenthesis "()"
+To address a specific column from the source data base use the column name surrounded by round brackets
+with a dollar sign as prefix.
+e.g.: Let us say the column name is "column1", the attribute addressing it is ${column1}
+-->
                     <if condition="" sourcename=""/>
                     <!-- OR -->
                     <if condition="">
                         <sourcename/><!--this=parse:sourcename-->
                     </if>
-                    <!--if:maxOccurs="unbounded"-->
 				</parse>
-                <!--parse:maxOccurs="unbounded"-->
 			</target>
-            <!--target:maxOccurs="unbounded"-->
 		</source>
-        <!--source:maxOccurs="unbounded"-->
 	</transfer>
-    <!--transfer:maxOccurs="unbounded"-->
 </transade>

@@ -10,7 +10,7 @@
     <discon>Disconnecting the attributes.</discon>
     <donot>do nothing</donot>
     <gen>generator</gen>
-    <gensource>Based on the [source] node id: %TEXT%</gensource>
+    <gensource>Based on the &lt;source/&gt; node id: %TEXT%</gensource>
     <info>This class is the result of a specific conversion of xml in scala.</info>
     <loopend>The loop iterator has ended.</loopend>
     <loopstart>Starting the loop iterator.</loopstart>

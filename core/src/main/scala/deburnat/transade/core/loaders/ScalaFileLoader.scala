@@ -22,7 +22,7 @@ import deburnat.transade.core.conc.Concurrency
  * These files are called: (translade).scala files
  * @param admin The application admin responsible for the core.
  */
-protected[transade] final class ScalaFileLoader(admin: CoreAdmin) {
+protected[transade] final class ScalaFileLoader(admin: CoreAdmin){
 
   /**
    * This method is used to process (translade).scala files.

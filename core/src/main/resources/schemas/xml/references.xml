@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file is be included in the main "deburnat" file -->
+
 <references>
-    <ref id="ref1" label="source"><!--id:use="required", label:use="required"-->
+    <ref id="ref1" label="source">
         <definitions/>
         <target/>
     </ref>
@@ -22,5 +22,13 @@
     <ref id="ref5" label="parse">
         <if/>
     </ref>
-    <!--ref:maxOccurs="unbounded"-->
 </references>
+
+<!--See the (transade).xml file for more information about the nodes created above.
+This file has to be included in its corresponding (transade).xml in order to be parsed.
+Including it is done by writing the following statement the adequate (transade).xml file:
+<references include="references.xml file path name*"/>.
+*The correct (and preferably absolute) path must be inserted, this goes without saying.
+-->
+
+

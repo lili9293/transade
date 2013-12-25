@@ -40,6 +40,11 @@ img.symbol{
     width:15px;
 }
 
+span.node{
+    color:black;
+    font-weight:normal;
+}
+
 
 /***** the classes *****/
 .bullet{
@@ -59,6 +64,10 @@ img.symbol{
     border:solid 1px;
     border-radius:0em 1em 0em 0em;
     background-color:#CDC5BF;
+}
+
+.max{
+    width:100%;
 }
 
 .title{

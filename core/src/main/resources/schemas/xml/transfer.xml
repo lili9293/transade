@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file is be included in the main "deburnat" file -->
-<transfer id=""><!--id:use="required"-->
+
+<transfer>
     <metadata projectname="" admin="">
         ...
         <description>
@@ -8,30 +8,32 @@
         </description>
         ...
     </metadata>
-    <source id="" format="" ref="" authors=""><!--id:use="required", format:use="required"-->
+    <source id="" format="" ref="" authors="">
         <definitions ref="">
-            <def key="" value=""/><!--key:use="required", value:use="required"-->
-            <!--def:maxOccurs="unbounded"-->
+            <def key="" value=""/>
         </definitions>
-        <target id="" format="" ref=""><!--id:use="required", format:use="required"-->
-            <definitions/><!--this=source:definitions-->
-            <parse targetname="firstname" sourcename=""/><!--targetname:use="required"-->
+        <target id="" format="" ref="">
+            <definitions/>
+            <parse targetname="" sourcename=""/>
             <!-- OR -->
             <parse targetname="" ref="">
-                <sourcename/><!--sourcename:maxOccurs="1"-->
+                <sourcename/>
             </parse>
             <!-- OR -->
             <parse targetname="" ref="">
                 <if condition="" sourcename=""/>
                 <!-- OR -->
                 <if condition="">
-                    <sourcename/><!--this=parse:sourcename-->
+                    <sourcename/>
                 </if>
-                <!--if:maxOccurs="unbounded"-->
             </parse>
-            <!--parse:maxOccurs="unbounded"-->
         </target>
-        <!--target:maxOccurs="unbounded"-->
     </source>
-    <!--source:maxOccurs="unbounded"-->
 </transfer>
+
+<!--See the (transade).xml file for more information about the nodes created above.
+This file has to be included in its corresponding (transade).xml in order to be parsed.
+Including it is done by writing the following statement the adequate (transade).xml file:
+<transfer id="" include="references.xml file path name*"/>.
+*The correct (and preferably absolute) path must be inserted, this goes without saying.
+-->

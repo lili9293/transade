@@ -124,7 +124,8 @@
                         <group ref="xmlns:definitionsGroup"/>
                         <group ref="xmlns:parseGroup"/>
                     </sequence>
-                    <attributeGroup ref="xmlns:storageGroup"/>
+                    <!--<attributeGroup ref="xmlns:storageGroup"/>-->
+                    <attribute name="id" type="string" use="optional"/>
                 </complexType>
             </element>
         </sequence>

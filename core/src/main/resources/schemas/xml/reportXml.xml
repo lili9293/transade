@@ -1,37 +1,42 @@
-<report><!-- done -->
+<?xml version="1.0" encoding="UTF-8"?>
+
+<report>
+<!--The report file is created by the application. The user task is to simply interpret it.-->
     <transfer id="" projectname="" admin="" start="" end="">
-        <description>
-            text
-        </description>
+<!--This node represents the previously created transade.transfer node with the identical id value.
+The projectname & admin values are inherited. The start & end values represent the time at which the computation
+respectively begun and ended. The format used is the following "yyyy.MM.dd - HH:mm:ss".-->
+        <description/>
+<!--The description represents the adequate previously created transade.transfer.metadata.description node.-->
         <source id="" format="">
-            <definitions>
-                params
-            </definitions>
+<!--This node represents the previously created transade.transfer.source node with the identical id value.
+The format value is inherited.-->
+            <definitions/>
+<!--The definitions node represents the summary of the adequate previously created
+transade.transfer.source.definitions node.-->
             <target id="" format="">
-                <definitions>
-                    params
-                </definitions>
-                <parse status="good|poorly|bad">
-                    nodes parsed
-                </parse>
-                <!--parse:maxOccurs="3"-->
+<!--This node represents a previously created transade.transfer.source.target node.
+Ideally the one with the identical id value. The format value is inherited.-->
+                <definitions/>
+<!--The definitions node represents the summary of the adequate previously created
+transade.transfer.source.target.definitions node.-->
+                <parse status="good|poorly|bad"/>
+<!--The parse node summarises the adequate previously created transade.transfer.source.target.parse nodes
+by listing all the parsed source column names. There can not be more than -3 nodes in total and -one node with the same status.
+The status indicates how good or bad the parsing of the node was. The values available are:
+- bad =: all badly parsed parse node are automatically exclude from the computation,
+- poorly =: all poorly parsed parse node are improved as far as possible by the application before the computation,
+- good =: everything is good to go.
+-->
             </target>
-            <!--target:maxOccurs="unbounded"-->
             <process scala="">
-                preview text
+<!--This node however is new. It is unique and presents the results of the compilation and execution of the class created based on the
+source node presented above. scala: the scala class name with the source node id as trunk-->
+                <output/>
+<!--The unique output node occurs once and summarizes all the output produced during the execution of the scala class.-->
+                <error/>
+<!--The unique error node occurs once and summarizes all the error produced during the execution of the scala class.-->
             </process>
-            <!-- OR -->
-            <process scala="">
-                <output><!--output:maxOccurs="1"-->
-                    All the outputs
-                </output>
-                <error><!--error:maxOccurs="1"-->
-                    All the errors
-                </error>
-            </process>
-            <!--process:maxOccurs="unbounded"-->
         </source>
-        <!--source:maxOccurs="unbounded"-->
     </transfer>
-    <!--transfer:maxOccurs="unbounded"-->
 </report>

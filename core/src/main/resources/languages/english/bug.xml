@@ -22,10 +22,12 @@
         One or more of the following attributes are missing:
         id, storagename, format; or this node has no children
     </source>
+    <sourcenot>No &lt;source/&gt; node found.</sourcenot>
     <target>
         One or more of the following attributes are missing:
         storagename, format; or this node has no children
     </target>
+    <transfer>The id is missing.</transfer>
     <wrongnode>This node has been used instead of the %TEXT% node.</wrongnode>
     <wrongstorage>%TEXT% storages aren't allowed to invoke this method.</wrongstorage>
 </bug>

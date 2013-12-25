@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO use xslt here-->
+
 <groups><!--This is an overview of the formats and definitions currently supported by the application-->
     <format name="SQL">
         <def>url</def><!--"jdbc:mysql://" is implicitly included-->
@@ -24,9 +24,6 @@
         <def>start</def>
         <def>end</def>
     </format>
-    <label id="MyScript"><![CDATA[
-        <script type="text/javascript">
-        alert("Hola Mundo");
-        </script>
-    ]]></label>
+
+    <!--TODO NOSQL, MANGO-->
 </groups>

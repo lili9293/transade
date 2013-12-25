@@ -228,15 +228,14 @@ private object TransadeXmlAdmin {
   def parseSource(
     _node: Node, references: Seq[Node], jarFileNames: Map[String, Int], report: StringBuilder
   ): (String, String, String, String, String) = {
-    val (error, id, format) =
-      (("","","","", ""), (_node \_id).text, (_node \_format).text)
+    val (error, sourceId, format) = (("","","","", ""), (_node \_id).text, (_node \_format).text)
     report.append("%s<%s %s=%s %s=%s>".format( //report: <source>
-      br+tab2, _node.label, CoreAdmin.id, a+id+a, CoreAdmin.format, a+format+a
+      br+tab2, _node.label, CoreAdmin.id, a+sourceId+a, CoreAdmin.format, a+format+a
     ))
     val node = getRef(references, _node)
     val targets = node \\ target
 
-    if(id.nonEmpty && format.nonEmpty && targets.length > 0){
+    if(sourceId.nonEmpty && format.nonEmpty && targets.length > 0){
       /* Definitions:
        * - the "getRef" method is invoked in the "parseDefs" method
        * - the report is done in the "storages" package in the adequate "Storage" class
@@ -290,7 +289,7 @@ private object TransadeXmlAdmin {
         //report
         //The closure is done in the "run"- method
 
-        (id, body, (node \ "@authors").text, imp.mkString, supMeth.mkString) //return
+        (sourceId, body, (node \ "@authors").text, imp.mkString, supMeth.mkString) //return
       }catch{case e: NullPointerException =>
         report.append(br + bug.read(CoreAdmin.format, 6, format))
         error
@@ -322,7 +321,7 @@ private object TransadeXmlAdmin {
     val (error, format, label) = (("","","","",new StringBuilder), (_node \_format).text, _node.label)
     report.append("%s<%s %s=%s %s=%s>".format( //report: <target>
       br+tab3, label, id, a+(_node \_id).text+a, CoreAdmin.format, a+format+a
-    ))
+    )) //the id here is optional, unlike that of the [source]- and that of the [transfer] nodes it resides in
     val node = getRef(references, _node)
     val parses = node \\ parse
 
@@ -590,54 +589,58 @@ protected[core] final class TransadeXmlAdmin(ref: Node, preview: Boolean, output
 
     if(node.label.equals(transfer)){
       //the [transfer] node itself & the map containing all the .jar files required for the compilation
-      val (_node, jarFileNames) = (getInc(node), Map[String, Int]())
-      val transferId = a+(_node \_id).text+a
-      start = date
-      report.append("%s<%s id=%s ".format(tab1, _node.label, transferId))//report: <transfer>
-      output(view.read("outputstart", transferId))
+      val transferId = a+(node \_id).text+a
+      if(transferId.nonEmpty){
+        val (_node, jarFileNames) = (getInc(node), Map[String, Int]())
 
-      //metadata
-      val _meta = "metadata"
-      val seq = _node \\ _meta
+        start = date
+        report.append("%s<%s id=%s ".format(tab1, _node.label, transferId))//report: <transfer>
+        output(view.read("outputstart", transferId))
 
-      if(seq.nonEmpty){
-        val meta = seq(0)
-        report.append("%s=%s %s=%s %s%s>%s%s".format( //report: <transfer>
-          pName, a+(meta \ ("@" + pName)).text+a, admin, a+(meta \ ("@"+admin)).text+a, br,
-          tab2 + timePh, br,
-          tab2
+        //metadata
+        val _meta = "metadata"
+        val seq = _node \\ _meta
+
+        if(seq.nonEmpty){
+          val meta = seq(0)
+          report.append("%s=%s %s=%s %s%s>%s%s".format( //report: <transfer>
+            pName, a+(meta \ ("@" + pName)).text+a, admin, a+(meta \ ("@"+admin)).text+a, br,
+            tab2 + timePh, br,
+            tab2
+          ))
+          val desText = (meta \ des).text
+          if(desText.nonEmpty)report.append("<%s>%s</%s>".format( //report: <description>...</description>
+            des, br+Reader.read(desText, 6)+br+tab2, des
+          ))else report.append("<%s/>".format(des)) //report: <description/>
+        }else report.append("%s=%s %s=%s %s%s>%s%s<%s>%s%s%s</%s>".format(
+        //report: <transfer><description>...</description>
+          pName, a+a, admin, a+a, br,
+          tab2+timePh, br,
+          tab2, des, br,
+          bug.read(_meta, 6)+br,
+          tab2, des
         ))
-        val desText = (meta \ des).text
-        if(desText.nonEmpty)report.append("<%s>%s</%s>".format( //report: <description>...</description>
-          des, br+Reader.read(desText, 6)+br+tab2, des
-        ))else report.append("<%s/>".format(des)) //report: <description/>
-      }else report.append("%s=%s %s=%s %s%s>%s%s<%s>%s%s%s</%s>".format(
-      //report: <transfer><description>...</description>
-        pName, a+a, admin, a+a, br,
-        tab2+timePh, br,
-        tab2, des, br,
-        bug.read(_meta, 6)+br,
-        tab2, des
-      ))
 
-      //parse the [source] nodes && compile (&& execute) their results
-      (_node \\ source).foreach{child =>
-        TransadeXmlAdmin.process(
-          parseSource(child, references, jarFileNames, report),
-          preview, jarFileNames, report
-        )
-        /* Note: Unlike in the other parse- methods the "source"-report node has to be closed outside
-         * of the "parseSource" method.
-         * This due to the fact that the "compile"-report node has to be created in withing
-         * it's respective "source"-report node.
-         */
-        report.append("%s</%s>".format(br+tab2, child.label)) //report: </source>
-      }
+        val nodes = _node \\ source
+        if(nodes.nonEmpty) nodes.foreach{child => //parse the [source] nodes && compile (&& execute) their results
+          TransadeXmlAdmin.process(
+            parseSource(child, references, jarFileNames, report), //report: <source>
+            preview, jarFileNames, report
+          )
+          /* Note: Unlike in the other parse- methods the "source"-report node has to be closed outside
+           * of the "parseSource" method.
+           * This due to the fact that the "compile"-report node has to be created in withing
+           * it's respective "source"-report node.
+           */
+          report.append("%s</%s>".format(br+tab2, child.label)) //report: </source>
+        }else report ++= br+bug.read(source+"not", 4)
 
-      output(view.read("outputend", transferId))
-      report.append("%s</%s>".format(br+tab1, node.label)) //report: </transfer>
-      end = date
-
+        output(view.read("outputend", transferId)) //end status of the transfer computation
+        report.append("%s</%s>".format(br+tab1, node.label)) //report: </transfer>
+        end = date
+      }else report ++= "%s<%s>%s%s</%s>".format( //report: <transfer>...</transfer>
+        tab1, node.label, br+bug.read(transfer, 4)+br, tab1, node.label
+      )
     }else report.append("%s<%s>%s%s</%s>".format( //report: <transfer>...</transfer>
       tab1, node.label, br+bug.read("wrongnode", 4, transfer)+br, tab1, node.label
     ))
