@@ -119,7 +119,7 @@ protected[_storages] final class ExcelStorage extends AbsStorage {
    * This attribute is used more than once.
    * #####isQueriable - end#####
    */
-  protected lazy val isQueriable = path.endsWith(".xls")
+  protected lazy val isQueriable = path.endsWith(".xls") && loc.nonEmpty
 
   /**
    * This attribute represents the set of .jar file, that are to be move to the parsed class directory,
@@ -248,8 +248,11 @@ protected[_storages] final class ExcelStorage extends AbsStorage {
    * @return A non empty query.
    */
   protected def buildLoopQuery(loopBodyPh: String): String = {
-    val namesRow = if(getDef("colnamesrow").matches(d)) getDef("colnamesrow") else "1"
-    val (start, end) = (if(getDef("start").matches(d)) getDef("start") else namesRow, getDef("end"))
+    var temp = getDef("colnamesrow")
+    val namesRow = if(temp.matches(d)) temp else "1"
+
+    temp = getDef("start")
+    val (start, end) = (if(temp.matches(d)) temp else namesRow, getDef("end"))
 
     val ini = "%svar %s%s".format(
       tb3, if(end.matches(d)) "(%s, %s) = (0, false)".format(ro, break) else "%s = 0".format(ro), br

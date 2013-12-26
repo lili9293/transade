@@ -1,0 +1,20 @@
+-------------------------
+WHAT ARE THE REQUIREMENTS
+-------------------------
+
+This file provides instructions about the what and how to install the preliminary tools
+to be able to run the developer version of the TRANSADé application. We will assume that the
+computer you are using is new. Simply skip a step if its execution isn't required.
+
+
+STEP I
+------
+First you will have to make sure that the jdk is installed on your computer.
+I'm currently using jdk7.** . Use the following link:
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+
+STEP II
+-------
+
+
+

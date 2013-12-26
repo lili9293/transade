@@ -40,8 +40,8 @@
             <element name="def" maxOccurs="unbounded">
                 <complexType>
                     <attribute name="key" type="string" use="required">
-                        <simpleType>
-                            <restriction base="string"><!--supported definitions-->
+                        <simpleType><!--supported definitions-->
+                            <restriction base="string">
                                 <enumeration value="url"/><!--SQL-->
                                 <enumeration value="username"/><!--SQL-->
                                 <enumeration value="password"/><!--SQL-->
@@ -50,9 +50,9 @@
                                 <enumeration value="condition"/><!--SQL-->
 
                                 <enumeration value="quote"/><!--CSV-->
+                                <enumeration value="delimiter"/><!--CSV-->
                                 <enumeration value="location"/><!--EXCEL-->
                                 <enumeration value="path"/><!--CSV & EXCEL-->
-                                <enumeration value="delimiter"/><!--CSV & EXCEL-->
                                 <enumeration value="colnamesrow"/><!--CSV & EXCEL-->
                                 <enumeration value="start"/><!--CSV & EXCEL-->
                                 <enumeration value="end"/><!--CSV & EXCEL-->
