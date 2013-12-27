@@ -1,20 +1,59 @@
--------------------------
-WHAT ARE THE REQUIREMENTS
--------------------------
+-----------------------------------
+WHAT ARE THE DEVELOPER REQUIREMENTS
+-----------------------------------
 
-This file provides instructions about the what and how to install the preliminary tools
-to be able to run the developer version of the TRANSADé application. We will assume that the
-computer you are using is new. Simply skip a step if its execution isn't required.
+This file provides instructions about the what and how to install the preliminary tools to be able to run the developer
+version of the TRANSADé application. We will assume that the computer you are using is new.
+Simply skip a step if its execution isn't required.
 
 
-STEP I
-------
+STEP I: jdk
+-----------
 First you will have to make sure that the jdk is installed on your computer.
 I'm currently using jdk7.** . Use the following link:
 http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
 
-STEP II
--------
+STEP II: scala editor & compiler
+--------------------------------
+After making sure that your jdk has been correctly installed, you will have to install an editor to read the scala files
+compile and execute the scala classes. There are a few editors recommended online. 3 of the most common editors are
+IntelliJ, eclipse or netbeans. With time i have however come to realise that the installation time and effort required
+for the IntelliJ editor is less than the half of that required by the other editors. Thus we will focus on intelliJ.
+
+Use the following link to download IntelliJ: http://www.jetbrains.com/idea/download/
+I'm currently using IntelliJ IDEA 13.** (community version)
+Once downloaded and installed, run the editor after than follow these instructions:
+- press "strg" + "alt" + "s" on your keyboard OR go to the menu bar and click on "file" and click "settings"
+- go to "plugins"
+- click "browse repositories"
+- enter the word "scala" in the upper right text field
+- there should be a single entry as result (something with a version similar to 0.26.335)
+- right click on it and choose "download and install". Once installed if your subsequent choices are appropriate
+  the editor will restart and be ready to work.
+
+STEP III: Install GIT
+---------------------
+Download the latest version from this server: http://code.google.com/p/msysgit/downloads/list
+It should be something like: Git-1.8.4-preview20130916.exe
+Use the following tutorial to install it: http://uncod.in/blog/installing-msysgit-on-windows7/
+It works for windows7 and windows8. To check if everything has been installed successfully:
+press the windows start key and enter "puttygen". If you get a positive result than everything is ready to go.
+
+STEP IV: Install TORTOISE GIT
+-----------------------------
+Download the latest stable version from this server: http://download.tortoisegit.org/tgit/
+At this level it's important to know which bit level your computer has: 32bit or 64bit.
+Use the following tutorial to install it: http://uncod.in/blog/installing-tortoisegit-on-windows7/
+It works for windows7 and windows8.
+
+STEP V: GITHUB
+--------------
+Once done
+- go to https://github.com/
+- create an account
+- and send me your username (my email address is tapmeppe@gmail.com) or even easier look for the project and fork it.
+  The project name is: transade.
+
 
 
 

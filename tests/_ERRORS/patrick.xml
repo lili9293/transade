@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This is merely an example-->
+<errors>
+    <error creationdate="27.12.2014" lastmoddate="27.12.2014" status="green" testpath="">
+        Right after launching the application i get the following error:
+        value reduceLeft is not a member of Null
+        null.reduceLeft{_ + _}
+        ...
+    </error>
+</errors>
