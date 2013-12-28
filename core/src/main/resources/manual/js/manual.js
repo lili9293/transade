@@ -66,6 +66,7 @@ function transformClassElements(){
     refs.each(function(i){
         ref = refs[i]
         ref.innerHTML = "&nbsp;" + ref.innerHTML.trim() + "&nbsp;&nbsp;" //js
+        //ref.setAttribute("title", "")
     })
 
     //transform all "td" elements with a class=bullet to a bullet

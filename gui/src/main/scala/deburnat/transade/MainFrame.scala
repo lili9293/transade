@@ -71,7 +71,7 @@ object MainFrame extends SimpleSwingApplication{
     location = new Point(frameX, frameY)
     setContent(new Dimension(frameW, frameH))
     minimumSize = new Dimension(defW, defH)
-    iconImage = toolkit.getImage(imgPath.format("add")) //TODO choose a logo
+    iconImage = toolkit.getImage(imgPath.format("logo"))
   }
 
   //warn if the configuration parameters aren't set properly
