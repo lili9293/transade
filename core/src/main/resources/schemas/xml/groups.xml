@@ -52,6 +52,4 @@ The default is the colnamesrow value-->
 <!--end: use=optional; description=the row after which the application will stop reading.
 The default value is the end of the file.-->
     </format>
-
-    <!--TODO NOSQL, MANGO and hopefully much more-->
 </groups>

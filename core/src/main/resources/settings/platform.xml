@@ -17,7 +17,7 @@ However there is a template that should be followed in order to achieve it's com
 
     <jars>jars~</jars><!-- .jar files -->
     <languages>languages~</languages><!-- language files -->
-    <processor>templates~cli~processor.</processor><!-- command line interpreter directory -->
+    <processor>scripts~cli~processor.</processor><!-- command line interpreter directory -->
     <scalabin>scala~bin~</scalabin>
     <schemas>schemas~</schemas>
 </platform>

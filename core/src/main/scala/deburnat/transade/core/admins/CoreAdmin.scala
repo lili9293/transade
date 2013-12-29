@@ -40,10 +40,9 @@ protected[transade] object CoreAdmin extends Admin{
   /********** ATTRIBUTES - START **********/
   private var langRds: LangReaders = null
   private val (
-    os, win, lin, cliProc, scalaBin, langDir, schemaDir,
-    dirPath, docPath, binPath, manualPath
+    os, cliProc, scalaBin, langDir, schemaDir, dirPath, docPath, binPath, manualPath
   ) = (
-    system("os.name").toLowerCase, "windows", "linux",
+    system("os.name").toLowerCase,
     platform("processor"), platform("scalabin"), platform("languages"), platform(schemas),
     new StringBuilder, new StringBuilder, new StringBuilder, new StringBuilder
   )
@@ -54,11 +53,11 @@ protected[transade] object CoreAdmin extends Admin{
   )
 
   //cli =: command line interpreter aka shell
-  protected[admins] val (osIsKnown, cliStart, cliSuffix, cliKillAcro) = if(os.startsWith(win)) (
-    true, "cmd.exe /c start ", "bat", "taskkill /im AcroRd%s.exe"
-  )else if(os.startsWith(lin)) (
-    true, "", "sh", "kill -9 AcroRd%s.exe"//TODO finish the code
-  )else (false, "", "", "")
+  protected[admins] val (osIsKnown, cliSuffix, cliKillAcro) = if(os.startsWith("windows")) (
+    true, "bat", "taskkill /im AcroRd%s.exe" //cliStart =: "cmd.exe /c start " old code TODO remove
+  )else if(os.startsWith("linux") || os.startsWith("unix")) (
+    true, "sh", "kill -9 AcroRd%s.exe"
+  )else (false, "", "")
   protected[admins] val reportFileName = _platform("reportfilename") //used in PdfCreator & FileAdmin
 
   val (root, timePh, sc, _sc, imp, _imp, imps, _imps, proc, con, des, df, tabPh, st, _st) = (
@@ -167,14 +166,12 @@ protected[transade] object CoreAdmin extends Admin{
   protected[admins] def process(docPath: String, jars: String, className: String)
   : (Boolean, ListBuffer[String], ListBuffer[String]) = {
     val (out, err) = (new ListBuffer[String](), new ListBuffer[String]())
-    //http://stackoverflow.com/questions/5774970/run-jar-file-in-command-prompt
-    //http://docs.oracle.com/javase/tutorial/getStarted/problems/
-    //http://mindprod.com/jgloss/exec.html
     val processed = try{
-      Process( //java -> Runtime.getRuntime.exec(cliStart + ...)
-        cliStart + cliProc + cliSuffix + " " +
-        docPath + " " + binPath + " " + jars + " " + className.replaceAll(_sc+"$", "") + " " + scalaBin + " " + cliSuffix
-      ) !! ProcessLogger(o => out += o , e => err += e)
+      Process("%s %s %s %s %s %s %s".format( //~= Runtime.getRuntime.exec(...) see http://mindprod.com/jgloss/exec.html
+        cliProc + cliSuffix,
+        //cliStart + cliProc + cliSuffix version before i started handling unix and discovered... TODO remove
+        docPath, binPath, jars, className.replaceAll(_sc+"$", ""), scalaBin, cliSuffix
+      )) !! ProcessLogger(o => out += o , e => err += e)
       true
     }catch{case e: IOException =>
       err.append(bug.read("compile"))

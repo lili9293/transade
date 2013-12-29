@@ -4,7 +4,10 @@
  * Description:
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
- *  This script is used to improve the manual (see the corresponding manual.html)
+ *
+ * This script is used as absolute js file to improve the manual. It takes care of the objects and methods that can be
+ * used without risking a language distortion.
+ * It should be included in the head of all manual files located here: ../../language/{language}/manual.html.
  *
  * Date: 12/24/13
  * Time: 6:08 AM
@@ -52,24 +55,30 @@ function transformClassElements(){
     }
     */
 
-    //transform all "a" elements with a class=node to an .xml like node
+    //transform all "a" elements with class=node to an .xml like node
     prefix = '<span class="node">&lt;</span>'
-    suffix = '<span class="node">/&gt;</span>'
+    suffix = '<span class="node">/&gt;&nbsp;' + nodeTerm + '</span>'
+    //the nodeTerm value is set in the respective language manual.js file
     nodes = $('a[class=node]') //jquery
     nodes.each(function(i){
         node = nodes[i]
         node.innerHTML = prefix + node.innerHTML.trim() + suffix //js
     })
 
-    //transform all "a" elements with a class=open to a self made button
+    //transform all "a" elements with class=open to a self made file opener with title
     refs = $('a[class=open]') //jquery
     refs.each(function(i){
         ref = refs[i]
         ref.innerHTML = "&nbsp;" + ref.innerHTML.trim() + "&nbsp;&nbsp;" //js
-        //ref.setAttribute("title", "")
+        ref.setAttribute("title", openTitle)
+        //the openTitle value is set in the respective language manual.js file
     })
 
-    //transform all "td" elements with a class=bullet to a bullet
+    //set the title all "input" elements with name=file
+    files = $("input[name=file]")
+    files.each(function(i){files[i].setAttribute("title", openTitle)})
+
+    //transform all "td" elements with class=bullet to a bullet
     bullets = $('td[class=bullet]') //jquery
     bullets.each(function(i){bullets[i].innerHTML = "&#x95;&nbsp;"}) //the bullet (js)
 
@@ -79,7 +88,7 @@ function transformClassElements(){
 /**
  *
  */
-function openSelectedFiles(fileIds){
+function openSelectedFiles(){
     var files = $("input[name=file]:checked")
     files.each(function(i){window.open(files[i].value, "_blank")})
     /*

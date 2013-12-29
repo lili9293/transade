@@ -71,11 +71,11 @@ object MainFrame extends SimpleSwingApplication{
     location = new Point(frameX, frameY)
     setContent(new Dimension(frameW, frameH))
     minimumSize = new Dimension(defW, defH)
-    iconImage = toolkit.getImage(imgPath.format("logo"))
+    iconImage = toolkit.getImage(imgPath.format("logo")) //the logo is self made. replace it at will
   }
 
   //warn if the configuration parameters aren't set properly
-  //This check has to take place after the main frame is created
+  //this check has to take place after the main frame is created
   isApiGoodToGo
 
 

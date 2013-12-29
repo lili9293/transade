@@ -18,7 +18,7 @@ import CoreAdmin._
  * Time: 4:46 PM
  */
 protected[transade] object FileAdmin {
-  /* TODO
+  /* TODO How to read file in jar
    * http://www.java-forums.org/advanced-java/5356-text-image-files-within-jar-files.html
    *   "Class.getResourceAsStream()"
    * http://stackoverflow.com/questions/8334501/scala-how-to-read-file-in-jar

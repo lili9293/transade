@@ -38,8 +38,6 @@ private object TransadeXmlAdmin {
 
 
   /********** methods (class related) - start **********/
-  def printD(a: Any){println(a); sys.exit(0)} //debug: to delete once i will be done
-
   /**
    * This method is used to create the scala class (file) and execute it.
    * @param classAttr =: [source id=""] attribute, body, authors, import, support methods
@@ -67,7 +65,6 @@ private object TransadeXmlAdmin {
     }
 
     report.append("%s<%s ".format(br+tab3, proc)) //report: <process>
-    //printD(classAttr._4) //TODO delete this
 
     if(classAttr._1.nonEmpty && classAttr._2.nonEmpty){ //id & body are the most important parameter.
       val className = "%s_%s".format(classAttr._1.replaceAll("\\W+", ""), date("yyyyMMddHHmmss"))

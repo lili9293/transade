@@ -5,7 +5,7 @@ import deburnat.transade.core.admins.CoreAdmin
 
 /**
  * An algorithm for data transfer.
- * Project name: deburnat
+ * Project name: transade
  * Date: 10/2/13
  * Time: 1:00 AM
  * @author Patrick Meppe (tapmeppe@gmail.com)

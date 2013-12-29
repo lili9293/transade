@@ -10,7 +10,8 @@
             <script src="../../manual/js/jquery-1.10.2.dev.js"></script>
             uncomment this to take a look at the jquery code itself
         -->
-        <script src="../../manual/js/manual.js"></script>
+        <script src="manual.js"></script><!--the relative js file-->
+        <script src="../../manual/js/manual.js"></script><!--the absolute js file-->
     </head>
     <body>
         <h1>Welcome to the TRANSAD&eacute; manual</h1>
@@ -40,7 +41,7 @@
                         in a web application or the main class in a java application.<br>
                         The root always has to be the <a class="node">transade</a>.
                         Which in turn is made of two principal nodes: the <a class="node">references</a> - and
-                        the <a class="node">transfer</a>'s.
+                        the <a class="node">transfer</a>s.
                     </div><!--CHAPTER 1.1 END-->
 
                     <!--CHAPTER 1.2 START-->
@@ -75,12 +76,12 @@
                     <div>
                         The <a class="node">transfer</a> is the second child
                         of the <a class="node">transade</a>. It should contain the logic that eventually will
-                        determine how to transfer the data. It can be be created just like <a class="node">references</a>'s.
+                        determine how to transfer the data. It can be be created just like <a class="node">references</a>s.
                         Yet unlike them the <a class="node">transfer</a> occurs <a class="emphasis">
                         at least once</a>.<br>
                         Each <a class="node">transfer</a> is made of one or more
-                        <a class="node">source</a>'s, which in turn contain one or more <a class="node">target</a>'s.
-                        The combination of one <a class="node">source</a> and its <a class="node">target</a>'s is defined as
+                        <a class="node">source</a>s, which in turn contain one or more <a class="node">target</a>s.
+                        The combination of one <a class="node">source</a> and its <a class="node">target</a>s is defined as
                         <a class="emphasis">one computation unit</a>. Each <a class="node">source</a> or <a class="node">target</a>
                         is defined a specific <a class="emphasis">format</a> and its respective <a class="emphasis">definitions</a>.
                         Click here
@@ -95,8 +96,8 @@
                                 The second node will the second and so on.
                             </td></tr>
                             <tr><td class="bullet"></td><td>
-                                However all selected <a class="node">transfer</a>'s
-                                will be started and processed <a class="emphasis">concurrently</a>.
+                                However all selected <a class="node">transfer</a>s
+                                are started and processed <a class="emphasis">concurrently</a>.
                             </td></tr>
                         </table>
                     </div><!--CHAPTER 1.3 END-->
@@ -105,7 +106,7 @@
                     <br><label><input type="checkbox" name="file" id="reportXmlXml" value="../../schemas/xml/reportXml.xml"></label>
                     <a class="open" target="_blank" href="../../schemas/xml/reportXml.xml">The (report transade).xml file </a>
                     <div>
-                        Once the computation of all the selected <a class="node">transfer</a>'s done, the application generates
+                        Once the computation of all the selected <a class="node">transfer</a>s done, the application generates
                         a report file named <a class="empahsis">report.pdf</a>. This file gives an overview of how good the parsing
                         stage was and how successful the compiling and execution stages were.
                     </div><!--CHAPTER 1.4 END-->
@@ -144,15 +145,9 @@
                         </a>
                     </div><!--CHAPTER 1.6 END-->
                     <br>
-                    <script>
-                        var fileIds = [ //the file checkbox ids
-                            "transadeXml", "referencesXml", "transferXml", "groupsXml", "reportXmlXml", "reportScalaXml",
-                            "transadeXsd", "referencesXsd", "transferXsd", "reportXmlXsd", "reportScalaXsd", "groupsXsd"
-                        ]
-                    </script>
                     <table class="max" style="margin-right:50px;"><tr><td class="max" style="text-align:right;">
                         <input type="button" value="open all the selected files" class="titleMini" style="margin-right:30px;"
-                               onclick="openSelectedFiles(fileIds)">
+                               onclick="openSelectedFiles()">
                     </td></tr></table>
 
                 </div>
@@ -167,8 +162,8 @@
                 </legend>
                 <div id="chapterTwoDiv" class="invisible"><table>
                     <tr><td>
-                        This chapter presents the most useful and basic features of the gui.
-                        Just like on the GUI the progress (top to bottom) in this chapter event based.<br><br>
+                        This chapter presents the most useful and basic features of the <a class="emphasis">gui</a> (graphic user interface).
+                        Just like on the gui the progress (top to bottom) in this chapter event based.<br><br>
                     </td></tr>
                     <tr><td><!--CHAPTER 2.1 START-->
                         <img id="chapterTwoOneClick" class="clickableMini , titleMini"
@@ -179,7 +174,7 @@
                             following <a class="emphasis">warning</a> will be prompted.<br><br>
                             <img src="../../manual/images/config.png" alt="../../manual/images/config.png">
                             <br><br>
-                            The settings section is located at the <a class="emphasis">top right</a> of the GUI and is represented by the
+                            The settings section is located at the <a class="emphasis">top right</a> of the gui and is represented by the
                             <img src="../../manual/images/settings.png" alt="../../manual/images/settings.png" class="symbol"> symbol.
                             Once selected, the settings/configuration frame menu will pop up.<br><br>
                             <img class="api" src="../../manual/images/settingsPopUp.png" alt="../../manual/images/settingsPopUp.png">
@@ -197,7 +192,7 @@
                             The application provides two ways to upload (transade).xml files.
                             <table>
                                 <tr><td class="bullet"></td><td>
-                                    The most common way is to use the <a class="emphasis">file chooser</a> on the <a class="emphasis">top left</a> side of the GUI.
+                                    The most common way is to use the <a class="emphasis">file chooser</a> on the <a class="emphasis">top left</a> side of the gui.
                                     <br><br>
                                     <img class="api" src="../../manual/images/fileChooser.png" alt="../../manual/images/fileChooser.png">
                                     <br><br>
@@ -209,7 +204,7 @@
                                 </td></tr>
                                 <tr><td colspan="2">
                                     No further actions are required for the download. Once done the application presents
-                                    all the <a class="node">transfer</a>'s in form of a list.
+                                    all the <a class="node">transfer</a>s in form of a list.
                                 </td></tr>
                             </table><br>
                         </div>
@@ -219,19 +214,19 @@
                              src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoThree')">
                         <a class="titleMini">The nodes selection</a>
                         <div id="chapterTwoThreeDiv" class="invisible">
-                            Once a (transade).xml file is successfully uploaded all the <a class="node">transfer</a>'s are
+                            Once a (transade).xml file is successfully uploaded all the <a class="node">transfer</a>s are
                             presented in form of a <a class="emphasis">checkbox list of their identifier</a> in the current page.
                             The identifier is the value attribute <a class="emphasis">id</a> (click here
                             <a class="open" target="_blank" href="../../schemas/xml/transfer.xml">the (transade).xml file</a>
                             for more information). To choose which
-                            <a class="node">transfer</a>'s to execute simply check its checkbox.<br><br>
+                            <a class="node">transfer</a>s to execute simply check its checkbox.<br><br>
                             <img class="api" src="../../manual/images/pageCheckBox.png" alt="../../manual/images/pageCheckBox.png">
                             <br><br>
-                            At times before choosing certain <a class="node">transfer</a>'s one might first need to take a look at logic
-                            residing in the given node. To avoid going back and fort between the application GUI and the .xml editor
-                            the GUI provides a handy feature allowing the user to have a selective look at the original file.
+                            At times before choosing certain <a class="node">transfer</a>s one might first need to take a look at logic
+                            residing in the given node. To avoid going back and fort between the application gui and the .xml editor
+                            the gui provides a handy feature allowing the user to have a selective look at the original file.
                             By right clicking the <a class="node">transfer</a> identifier a tree representing the node will appear
-                            in the section located in the east canter of the GUI. This tree enables a view of the node.
+                            in the section located in the east canter of the gui. This tree enables a view of the node.
                             Note: a node doesn't have to be selected to be viewable.
                             <br><br>
                             <img class="api" src="../../manual/images/tree.png" alt="../../manual/images/tree.png">
@@ -256,7 +251,7 @@
                                 <tr><td class="bullet"></td><td>
                                     The <img class="symbol" src="../../manual/images/nodeblue.png" alt="../../manual/images/nodeblue.png">
                                     (also known as the <a class="emphasis">end lamp</a>) signalizes that a file as been successfully downloaded;
-                                    some or all <a class="node">transfer</a>'s residing in within have been parsed, compiled and eventually executed.
+                                    some or all <a class="node">transfer</a>s residing in within have been parsed, compiled and eventually executed.
                                 </td></tr>
                             </table><br>
                         </div>
@@ -266,8 +261,8 @@
                              src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoFour')">
                         <a class="titleMini">The nodes execution</a>
                         <div id="chapterTwoFourDiv" class="invisible">
-                            The node execution section resides at the upper south side of the GUI. The execution is pretty straight forward.
-                            Once all the <a class="node">transfer</a>'s selected, simply set the <a class="emphasis">3 running options</a> and click the
+                            The node execution section resides at the upper south side of the gui. The execution is pretty straight forward.
+                            Once all the <a class="node">transfer</a>s selected, simply set the <a class="emphasis">3 running options</a> and click the
                             <img class="symbol" src="../../manual/images/run.png" alt="../../manual/images/run.png"> symbol.
                             <br><br>
                             <img class="api" src="../../manual/images/execution.png" alt="../../manual/images/execution.png">
@@ -278,18 +273,18 @@
                                     The <a class="emphasis">computation mode</a>. 3 modes are available.
                                     <table>
                                         <tr><td class="bullet"></td><td>
-                                            <a class="emphasis">PREVIEW</a>: simply parse the <a class="node">transfer</a>'s and
+                                            <a class="emphasis">PREVIEW</a>: simply parse the <a class="node">transfer</a>s and
                                             create the adequate .scala classes.<br>
                                             It's recommended to use this mode in the early stage of the development.
                                         </td></tr>
                                         <tr><td class="bullet"></td><td>
-                                            <a class="emphasis">BETA COMPILE</a>: parse the <a class="node">transfer</a>'s and
+                                            <a class="emphasis">BETA COMPILE</a>: parse the <a class="node">transfer</a>s and
                                             create, compile and execute the adequate .scala classes.<br>
                                             It's recommended to use this mode once the result of the PREVIEW mode are satisfying,
                                             before the development, to compare the results and the .scala classes.
                                         </td></tr>
                                         <tr><td class="bullet"></td><td>
-                                            <a class="emphasis">USER COMPILE</a>: parse the <a class="node">transfer</a>'s and
+                                            <a class="emphasis">USER COMPILE</a>: parse the <a class="node">transfer</a>s and
                                             create, compile, execute and delete the adequate .scala classes.<br>
                                             This is the mode to used during the development.
                                         </td></tr>
@@ -301,7 +296,7 @@
                                 </td></tr>
                                 <tr><td class="bullet"></td><td>
                                     (<a class="emphasis">optional</a>) And the possibility of saving the loaded files,
-                                    the selected <a class="node">transfer</a>'s and the setting of the options stated above as one template.
+                                    the selected <a class="node">transfer</a>s and the setting of the options stated above as one template.
                                 </td></tr>
                             </table><br>
                         </div>
@@ -309,13 +304,19 @@
                     <tr><td><!--CHAPTER 2.5 START-->
                         <img id="chapterTwoFiveClick" class="clickableMini , titleMini"
                              src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoFive')">
-                        <a class="titleMini">The output section</a>
+                        <a class="titleMini">Others</a>
                         <div id="chapterTwoFiveDiv" class="invisible">
-                            In the south area of the GUI there is a section reserved for the outputs made during a session life span.
+                            The output section:<br>
+                            In the south area of the gui there is a section reserved for the outputs made during a session life span.
                             These outputs are event based. So basically all major events are recorded in the output section.
                             This section is resizable for a better view but not editable.
                             <br><br>
                             <img class="api" src="../../manual/images/output.png" alt="../../manual/images/output.png">
+                            <br><br>
+                            Furthermore:<br>
+                            It is worth mentioning that this chapter simply presents the features minimally required to use the gui.
+                            I have made the experience that <a class="emphasis">learning by doing</a> is the best way of learning.
+                            Therefore i strongly urge you to discover the gui by yourself. There are much more features to discover.
                         </div>
                     </td></tr><!--CHAPTER 2.5 END-->
                 </table></div>
