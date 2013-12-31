@@ -1,24 +1,26 @@
 package deburnat.transade
 
-import collection.mutable.Map
+import deburnat.transade.gui._
+
 import swing._
 import BorderPanel.Position._
-
 import javax.swing.WindowConstants
+import center.CenterPane
+import north.NorthPanel
+import components.TransOptionPane.confirm
 
-import deburnat.transade.gui.admins.GuiAdmin
+import collection.mutable.Map
+import admins.GuiAdmin //do not merge with the statement below
 import GuiAdmin._
-import deburnat.transade.gui.center.CenterPane
-import deburnat.transade.gui.north.NorthPanel
-import deburnat.transade.gui.components.TransOptionPane.confirm
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/25/13
- * Time: 8:50 AM
+ * An algorithm for data transfer.
+ * Project name: transade
+ * Date: 10/2/13
+ * Time: 1:00 AM
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ *
+ * This object is used to start the application.
  */
 object MainFrame extends SimpleSwingApplication{
 
@@ -53,6 +55,7 @@ object MainFrame extends SimpleSwingApplication{
         labXmlFilePaths -> centerPane.getPaths, labLocX -> loc.x, labLocY -> loc.y,
         labWidth -> _size.width, labHeight -> _size.height
       ))
+
       super.closeOperation
     }
 
@@ -66,7 +69,6 @@ object MainFrame extends SimpleSwingApplication{
 
 
     //SETTINGS OF THE MAIN FRAME
-    println(view)
     title = view.read("title")
     location = new Point(frameX, frameY)
     setContent(new Dimension(frameW, frameH))

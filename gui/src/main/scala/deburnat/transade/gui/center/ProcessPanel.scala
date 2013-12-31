@@ -1,28 +1,36 @@
 package deburnat.transade.gui.center
 
-import collection.mutable.Map
-import swing.{Orientation, BorderPanel, CheckBox, ComboBox, BoxPanel, Swing, event}
-import event.{FocusGained, FocusLost, MouseClicked}
-import Orientation._
-import BorderPanel.Position._
-import scala.xml.Node
+import deburnat.transade.gui.{north, components, admins}
 
-import deburnat.transade.gui.admins.GuiAdmin._
-import deburnat.transade.gui.admins.TemplatesAdmin.{tMode, tShow}
-import deburnat.transade.Mode._
-import deburnat.transade.gui.north.{TemplatesComboBox, TemplateSelectedEvent}
-import deburnat.transade.gui.components.{TransOptionPane, MonoTextField, LButton}
+import swing.{BorderPanel, CheckBox, ComboBox, Swing, event}
+import event.{FocusGained, FocusLost, MouseClicked}
+import BorderPanel.Position._
+import north.{TemplatesComboBox, TemplateSelectedEvent}
+import components.{HBoxPanel, TransOptionPane, MonoTextField, LButton}
 import TransOptionPane.warn
 
+import scala.xml.Node
+import collection.mutable.Map
+import admins.GuiAdmin._
+import admins.TemplatesAdmin.{tMode, tShow}
+import deburnat.transade.Mode._
+
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/28/13
- * Time: 8:56 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ *
+ * This class is used to process all (TRANSADé).xml files.
+ * @param tabbedPane see the TransTabbedPane class.
+ * @param nodeCheckBoxMapMap The collection of all maps (all pages) made of all [transfer] nodes and their checkbox.
+ * @param templates see the gui.north.TemplatesComboBox class.
  */
-protected[center] class LoadPanel(
+protected[center] class ProcessPanel(
   tabbedPane: TransTabbedPane, nodeCheckBoxMapMap: Map[Int, Map[Node, CheckBox]],
   templates: TemplatesComboBox
 ) extends BorderPanel{
@@ -40,7 +48,7 @@ protected[center] class LoadPanel(
     )
 
     //WEST
-    layout(new BoxPanel(Horizontal){
+    layout(new HBoxPanel{
       contents += Swing.HStrut(13) //to enable the alignment on the gui
       contents += modeComboBox
       contents += Swing.HStrut(10)

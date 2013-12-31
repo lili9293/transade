@@ -2,7 +2,6 @@ package deburnat.transade.core.storages
 
 import deburnat.transade.core.admins.CoreAdmin.{_platform, st, _st}
 
-
 /**
  * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)

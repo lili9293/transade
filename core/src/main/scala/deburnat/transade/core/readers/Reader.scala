@@ -25,7 +25,7 @@ class Reader(lineLen: Int){
    * @return A string object representing the structured text.
    */
   def read(text: String, n: Int): String = {
-    val tabs = (0 until n).map(_ => tb1).mkString
+    val tabs = (0 until n).map(tb1).mkString
     val (seqs, output, rowLen) = (
       //first reduce all the gaps to gaps of 1 character length
       //then split the text using the split character

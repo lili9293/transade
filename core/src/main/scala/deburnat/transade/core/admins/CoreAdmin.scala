@@ -2,9 +2,7 @@ package deburnat.transade.core.admins
 
 import collection.mutable.{ListBuffer, Map}
 import sys.process.{ProcessLogger, Process}
-
 import java.io.{IOException, File}
-
 import deburnat.transade.core.readers.{XmlReader, Reader}
 import Reader.read
 import FileAdmin._
@@ -240,7 +238,7 @@ protected[transade] final class CoreAdmin(dirPath: String, language: String, val
 
   val (goodToGo, view, languages, manualFile) = ( //the language has to come first
     setLanguage(language) && setDirPath(dirPath), CoreAdmin.view,
-    new File(langDir).listFiles.map(f => f.getName), new File(manualPath.mkString)
+    new File(langDir).listFiles.map(_.getName), new File(manualPath.mkString)
   )
 
   /**
@@ -252,7 +250,7 @@ protected[transade] final class CoreAdmin(dirPath: String, language: String, val
 
     schemata.map{schema =>
       val dir = _dir +sep+schema._1+sep //the new ../schemas/... directory
-      schema._2.map{file => copyFile(file.getPath, dir+file.getName).isFile}
+      schema._2.map(file => copyFile(file.getPath, dir+file.getName).isFile)
     }
 
     _dir

@@ -4,16 +4,27 @@ import swing.Component
 import javax.swing.JPopupMenu
 
 /**
- * An algorithm for data transfer.
- * Project name: deburnat
- * Date: 9/2/13
- * Time: 11:24 PM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ *
+ * This class is an extender of the JPopupMenu class (see JPopupMenu.java specification).
+ * This had to be done because until yet scala doesn't provide a PopupMenu class.
+ * @param component The component to present/show.
  */
 protected[gui] class PopupMenu(component: Component) extends Component{
   override lazy val peer = new JPopupMenu
   peer.add(component.peer)
 
+  /**
+   * This method is invoked to show the constructor component.
+   * @param invoker The component from where the popup is invoked.
+   */
   def show(invoker: Component){
     peer.show(invoker.peer, - component.preferredSize.width, invoker.preferredSize.height)
   }

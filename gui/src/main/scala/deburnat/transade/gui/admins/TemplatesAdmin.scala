@@ -1,24 +1,28 @@
 package deburnat.transade.gui.admins
 
-import scala.collection.mutable.ArrayBuffer
+import collection.mutable.ArrayBuffer
 import java.io.File
 import deburnat.transade.gui.admins.GuiAdmin._
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/30/13
- * Time: 11:20 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ *
+ * This object represents the templates administrator.
  */
 protected[gui] object TemplatesAdmin {
 
-  val (tDir, tRoot, tDate, tPath, tMode, tShow, tTrans, tSep) = (//template related attributes
+  val (tDir, tRoot, tDate, tPath, tMode, tShow, tTrans, tSep, ph) = (//template related attributes
     templatesDir + sep + "%s" + _xml, "template", "date",
-    "xmlfilepath", "mode", "showreport", "transferids", _sep+hash+cc
+    "xmlfilepath", "mode", "showreport", "transferids", _sep+hash+cc,
+    (0 until 40).map(_ => " ").mkString
   )
-  private val ph = (0 until 40).map(i => " ").mkString
 
   /**
    * The method is used to get a list of all the templates currently available.
@@ -26,9 +30,8 @@ protected[gui] object TemplatesAdmin {
    * invoked by the TemplateComboBox during its initialisation.
    * @return
    */
-  def getTemplates: Array[String] = (
-    ArrayBuffer(ph) ++ new File(templatesDir)
-      .listFiles.filter(file => file.getName.endsWith(_xml))
-      .map(file => file.getName.replaceAll(_xml+"$", ""))
-  ).toArray
+  def getTemplates: ArrayBuffer[String] = //the default (empty) template always has to be first
+    ArrayBuffer(ph) ++ new File(templatesDir).listFiles
+    .filter{_.getName.endsWith(_xml)}.map{_.getName.replaceAll(_xml+"$", "")}
+
 }

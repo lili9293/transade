@@ -4,8 +4,6 @@
  */
 
 /***** the elements *****/
-h1 {text-decoration:underline;}
-
 body {
     background-color:white;
     background-image:url("images/back40.gif");
@@ -59,6 +57,8 @@ span.node{
 .invisible{
     display:none;
 }
+
+.line {text-decoration:underline;}
 
 .open{
     border:solid 1px;

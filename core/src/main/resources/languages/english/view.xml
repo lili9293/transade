@@ -22,10 +22,7 @@
     <confirmtemplatenew>This is a new template.</confirmtemplatenew>
     <confirmtitle>Your action in summary.</confirmtitle>
     <confirmyes>Yes</confirmyes>
-    <download>download the schemas</download>
     <files>files</files>
-    <info>Information</info>
-    <manual>show the GUI manual</manual>
     <modebetacompile>beta compile mode</modebetacompile>
     <modepreview>preview mode</modepreview>
     <modeusercompile>user compile mode</modeusercompile>
@@ -50,7 +47,7 @@
     <tooltipcheckboxclick>Left click to check. Right click to visualize the node.</tooltipcheckboxclick>
     <tooltipdelete>Click here to remove the current item from the template list.</tooltipdelete>
     <tooltipfilechooser>Left click to use the file chooser. Right click to type.</tooltipfilechooser>
-    <tooltipinfo>Click on this button for more information about the software.</tooltipinfo>
+    <tooltipmanual>click to view the application manual</tooltipmanual>
     <tooltipopenreport>
         Check if you want to view the report file right after the computation.
     </tooltipopenreport>

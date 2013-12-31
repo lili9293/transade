@@ -1,7 +1,7 @@
 package deburnat.transade.core.readers
 
+import xml.Elem
 import deburnat.transade.core.admins.CoreAdmin.textPh
-import scala.xml.Elem
 
 /**
  * Project name: transade

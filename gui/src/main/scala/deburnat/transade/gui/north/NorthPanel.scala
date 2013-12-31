@@ -1,45 +1,54 @@
 package deburnat.transade.gui.north
 
+import deburnat.transade.gui.{admins, components}
+
 import swing._
 import BorderPanel.Position.{Center, East}
-
-import java.io.File
-
-import deburnat.transade.gui.admins.GuiAdmin._
-import deburnat.transade.gui.admins.TemplatesAdmin._
-import deburnat.transade.gui.components.{LButton, TransOptionPane}
+import java.awt.Desktop.getDesktop
+import components.{HBoxPanel, LButton, TransOptionPane}
 import TransOptionPane._
 
+import java.io.File
+import admins.GuiAdmin._
+import admins.TemplatesAdmin._
+
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/27/13
- * Time: 3:04 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ *
+ * This class represents the north panel of the application. It is made of the loader fields,
+ * the info and settings buttons.
  */
 protected[transade] class NorthPanel extends BorderPanel{
   //these objects are all accessed by the MainFrame itself to enable its reset
   val templates= new TemplatesComboBox
   val fileChooser = new TransFileChooser(templates)
-  val deleteButton = new LButton("delete", { //onClick method
-    val item = templates.item
-    if(item.nonEmpty){
-      if(confirm("templatedelete")) delete(item) //no else
-    }else warn("item")
-  }){
+  val deleteButton = new LButton("delete", if(templates.nonEmpty){ //onClick block
+    if(confirm("templatedelete")) delete(templates.item) //no else
+  }else warn("item")){
     tooltip = tRead("delete")
-    def doClick(){delete(templates.item)} //at this point the item can't be empty so need for a check
+
+    /**
+     * This method is used to delete the currently selected template.
+     * At this point the item can't be empty so need for a check
+     */
+    def doClick(){delete(templates.item)}
   }
 
   /**
    * This method is used to permanently remove the given item from
    * the templates.
-   * @param item
+   * @param item The template to delete.
    */
   private def delete(item: String){
     val file = new File(tDir.format(item))
-    if(file.exists)
+    if(file.exists) //the file actually always be existent, but you never know
       if(file.delete){
         templates -= item
         warn("itemsuccess")
@@ -49,7 +58,7 @@ protected[transade] class NorthPanel extends BorderPanel{
   }
 
 
-  layout(new BoxPanel(Orientation.Horizontal){ //a BorderPanel at the place of a BoxPanel can also do the trick
+  layout(new HBoxPanel{ //a BorderPanel at the place of a BoxPanel can also do the trick
     contents += fileChooser
     contents += Swing.HStrut(50)
     contents += templates
@@ -58,16 +67,16 @@ protected[transade] class NorthPanel extends BorderPanel{
     border = Swing.EmptyBorder(0, 10, 0, 300)
   }) = Center
 
-  layout(new BoxPanel(Orientation.Horizontal){
+  layout(new HBoxPanel{
     contents += new Separator(Orientation.Vertical)
     contents += Swing.HStrut(10)
-    //the info button
-    val info = new InfoPopupMenu
-    contents += new LButton("info", {info.show(this.contents(2))}) //onClick
+
+    val admin = coreAdmin //the manual button
+    contents += new LButton(manual, getDesktop.browse(admin.manualFile.toURI)) //show the manual
     contents += Swing.HStrut(10)
-    //the settings button
-    val settings = new SettingsPopupMenu
-    contents += new LButton("settings", {settings.show(this.contents(4))}) //onClick
+
+    val settings = new SettingsPopupMenu //the settings button
+    contents += new LButton("settings", settings.show(this.contents(4))) //onClick
     contents += Swing.HStrut(10)
   }) = East
 

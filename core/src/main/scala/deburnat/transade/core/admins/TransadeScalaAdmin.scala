@@ -1,11 +1,9 @@
 package deburnat.transade.core.admins
 
 import xml.Elem
-
 import java.io.File
-
+import CoreAdmin._
 import deburnat.transade.core.readers.Reader.read
-import CoreAdmin.{a, _c, imp, sc, _sc, proc, br, tab1, tab2, timePh, bug, date, process, reportProcess}
 
 /**
  * Project name: transade
@@ -31,7 +29,7 @@ protected[core] object TransadeScalaAdmin {
     val scalaFileName = scalaFile.getName.replaceAll(_sc+"$", "")
     val (processed, out, err) = process(
       scalaFile.getParentFile.getCanonicalPath, //docPath = parent path
-      (impRoot \\ imp).map{_.text}.mkString(_c), //jars
+      (impRoot \\ imp).map(_.text).mkString(_c), //jars
       scalaFileName
     )
     val (report, start) = (

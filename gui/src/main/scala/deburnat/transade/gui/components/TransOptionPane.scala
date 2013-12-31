@@ -2,17 +2,22 @@ package deburnat.transade.gui.components
 
 import javax.swing.{Icon, ImageIcon, JOptionPane}
 import JOptionPane.{getRootFrame, showOptionDialog, CLOSED_OPTION, YES_OPTION, YES_NO_OPTION, QUESTION_MESSAGE}
-
 import deburnat.transade.MainFrame.top.getCenter
 import deburnat.transade.gui.admins.GuiAdmin._
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/27/13
- * Time: 8:28 PM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ *
+ * This object provides 2 types of option panes:
+ * - the warning option pane
+ * - the confirmation option pane
  */
 protected[transade] object TransOptionPane{
 
@@ -86,7 +91,5 @@ protected[transade] object TransOptionPane{
   ) == YES_OPTION
 
   def warn(label: String):Boolean = _warn(wRead(label))
-
-  def printTest = println((0 to 100).map(i => 'A').toString)
 }
 

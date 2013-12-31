@@ -1,10 +1,8 @@
 package deburnat.transade.core.admins
 
 import java.io.{FileOutputStream, File}
-
-import com.lowagie.text.{Font, Paragraph, Document}
+import com.lowagie.text.{Font, Paragraph, Document} //do not merge with the statement below
 import com.lowagie.text.pdf.PdfWriter
-
 import CoreAdmin._
 import FileAdmin.save
 import deburnat.transade.core.readers.Reader
@@ -38,7 +36,7 @@ protected[transade] object PdfCreator {
    */
   def saveReport(report: String, paths: String) = {
     val filePath = getDirPath + reportFileName + _pdf //the report file path
-
+    println(pdf)
     try{
       val (doc, file) = (new Document, new File(filePath)) //initialize the document
 
@@ -75,7 +73,7 @@ protected[transade] object PdfCreator {
 
       doc.close //close the document
       file //return
-    }catch {case e: Exception => //DocumentException
+    }catch{case e: Exception => //DocumentException
       /* TEMPLATE
         <report exception={e.getClass.getSimpleName}>
           {bug.read(pdf, 2, filePath)+br+Reader.read(e.getMessage, 2)}

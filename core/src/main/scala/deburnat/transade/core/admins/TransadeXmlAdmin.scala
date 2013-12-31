@@ -2,11 +2,11 @@ package deburnat.transade.core.admins
 
 import xml.{Node, Elem}
 import collection.mutable.{Map, ListBuffer}
-
 import FileAdmin.save
 import CoreAdmin._
-import deburnat.transade.core.readers.{XmlReader, Reader}
-import deburnat.transade.core.storages.{IStorage, Storage}
+import deburnat.transade.core.{readers, storages}
+import readers.{XmlReader, Reader}
+import storages.{IStorage, Storage}
 
 /**
  * Project name: transade
@@ -96,7 +96,7 @@ private object TransadeXmlAdmin {
             }else{ //build the jar argument to compile the parsed class
               val jars = jarFileNames.keys
               data ++= "<%s %s=%s>".format(imps, sc, a+className+a) + //<imports>
-                jars.map{"%s<%s>%s</%s>".format(br+tb1, imp, _, imp)}.mkString + //<import>jar</import>
+                jars.map("%s<%s>%s</%s>".format(br+tb1, imp, _, imp)).mkString + //<import>jar</import>
                 br + "</%s>".format(imps) //</imports>
 
               jars.mkString(_c) //jars

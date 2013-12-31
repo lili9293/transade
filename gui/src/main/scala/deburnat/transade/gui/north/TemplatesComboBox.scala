@@ -2,14 +2,14 @@ package deburnat.transade.gui.north
 
 import swing.{Publisher, Component, event}
 import event.Event
-import collection.mutable.ArrayBuffer
-
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.JComboBox
 
-import deburnat.transade.gui.admins.TemplatesAdmin._
-import deburnat.transade.gui.admins.GuiAdmin._
-import deburnat.transade.core.readers.XmlReader
+import collection.mutable.ArrayBuffer
+import deburnat.transade.{core, gui}
+import core.readers.XmlReader
+import gui.admins.TemplatesAdmin._
+import gui.admins.GuiAdmin._
 
 /**
  * Project name: transade
@@ -20,14 +20,16 @@ import deburnat.transade.core.readers.XmlReader
  *
  * Date: 9/1/13
  * Time: 12:58 AM
- *
- *
  */
-protected[gui] class TemplatesComboBox extends Component with ActionListener with Publisher{
-  private lazy val _templates = getTemplates
-  private lazy val templates: ArrayBuffer[String] = new ArrayBuffer() ++= _templates
 
-  override lazy val peer = new JComboBox(_templates)
+/**
+ * This class is an extender of the javax.swing.JComboBox class (see JComboBox.java specification).
+ * It provides a list of the currently saved templates and couple methods enabling their render.
+ */
+protected[gui] final class TemplatesComboBox extends Component with ActionListener with Publisher{
+  private lazy val templates: ArrayBuffer[String] = getTemplates
+
+  override lazy val peer = new JComboBox(templates.toArray) //
   //http://docs.oracle.com/javase/tutorial/uiswing/components/combobox.html#listeners
   tooltip = tRead("templatechoose")
 
@@ -53,7 +55,10 @@ protected[gui] class TemplatesComboBox extends Component with ActionListener wit
     reset
   }
 
-  //
+  //this method is used to determine whether or not the item default (empty)
+  def nonEmpty: Boolean = {item != ph}
+
+  //self explanatory
   def contains(item: String) = templates.contains(item)
   def item = peer.getSelectedItem.asInstanceOf[String] //get the current selected item.
   def reset{peer.setSelectedIndex(0)} //used by the -= method and the class TransFileChooser
@@ -63,15 +68,15 @@ protected[gui] class TemplatesComboBox extends Component with ActionListener wit
   def actionPerformed(e: ActionEvent){ //reactions
     val template = e.getSource.asInstanceOf[JComboBox[String]].getSelectedItem.asInstanceOf[String]
     if(template.trim.nonEmpty) publish(TemplateSelectedEvent(new XmlReader(tDir.format(template))))
-      //received by TransFileChooser, TransTabbedPane & LoadPanel
+      //received by TransFileChooser, TransTabbedPane & ProcessPanel
   }
 }
 
 /**
  * This event is
  * - fired/published as soon as an item (template) in the template combo box is selected and
- * - handled/received by the TransferFileChooser, gui.center.LoadPanel and gui.center.TransTabbedPane.
- * @param reader The selected template (.xml) file reader
+ * - handled/received by the TransferFileChooser, gui.center.ProcessPanel and gui.center.TransTabbedPane.
+ * @param reader The selected (template).xml file reader
  */
 protected[gui] case class TemplateSelectedEvent(reader: XmlReader) extends Event
 

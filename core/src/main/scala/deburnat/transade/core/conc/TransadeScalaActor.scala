@@ -3,7 +3,6 @@ package deburnat.transade.core.conc
 import collection.mutable.Map
 import xml.Elem
 import actors.Actor
-
 import deburnat.transade.core.admins.{CoreAdmin, TransadeScalaAdmin}
 import CoreAdmin.{br, tab1, proc, bug}
 import deburnat.transade.core.readers.Reader.read

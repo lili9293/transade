@@ -1,7 +1,6 @@
 package deburnat.transade.core.conc
 
 import actors.Actor
-
 import deburnat.transade.core.admins.{CoreAdmin, TransadeXmlAdmin}
 import CoreAdmin.{br, tab1, bug}
 import deburnat.transade.core.readers.Reader.read

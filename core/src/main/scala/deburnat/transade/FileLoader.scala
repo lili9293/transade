@@ -1,14 +1,18 @@
 package deburnat.transade
 
-import deburnat.transade.core.loaders.{XmlFileLoader, ScalaFileLoader}
-import deburnat.transade.core.admins.CoreAdmin
+import deburnat.transade.core.{loaders, admins}
+import loaders.{XmlFileLoader, ScalaFileLoader}
+import admins.CoreAdmin
 
 /**
- * An algorithm for data transfer.
  * Project name: transade
- * Date: 10/2/13
- * Time: 1:00 AM
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
  *
  * This class represents the application main file loader.
  * It is the .xml & .scala file loader wrapper.

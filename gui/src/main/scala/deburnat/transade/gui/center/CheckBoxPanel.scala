@@ -1,36 +1,43 @@
 package deburnat.transade.gui.center
 
-import xml.Node
-import swing.{Publisher, ScrollPane, BoxPanel, CheckBox}
-import swing.Orientation._
-import swing.event.{Event, MouseClicked}
-import collection.mutable.{ListBuffer, Map}
+import swing.{ScrollPane, CheckBox, event}
+import event.{Event, MouseClicked}
 
+import xml.Node
+import collection.mutable.Map
 import deburnat.transade.gui.admins.GuiAdmin._
-import deburnat.transade.gui.components.TransOptionPane._
+import deburnat.transade.gui.components.{TransOptionPane, VBoxPanel}
+import TransOptionPane._
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/27/13
- * Time: 8:28 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
  *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ */
+
+/**
  * This case class is used by CenterPane to update the split pane once a file selected.
  * The CoreAdmin.setFile method has to be invoked prior to the CenterPane's invocation.
+ * @param xmlFilePath The path of the (TRANSADé).xml file.
+ * @param transfers The [transfer] nodes, that the file is containing.                    
  * @param compLists allCheckBox -> the "all" checkbox and help saving the chosen file xmlFilePath.
  *                  boxPane -> the scroll pane used to contain the dynamic check boxes.
  *                  treePane -> the scroll pane used to contain the dynamic trees.
- *
  * @param templateParams ids -> the checked transfers ids during the process of saving the selected template.
  *                       sep -> separator between 2 ids.
+ * @param setPageLastParams See TrasTabbedPane.setPageLastParams
+ * @param deleteTemplate See gui.north.NorthPanel.deleteButton.doClick
  */
 protected[center] case class CheckBoxPanel(
   xmlFilePath: String, transfers: Seq[Node],
   compLists: (TransCheckBox, ScrollPane, ScrollPane),
   templateParams: (String, String),
-  setParamsAt: String => Unit, deleteTemplate: ()=> Unit
+  setPageLastParams: String => Unit, deleteTemplate: ()=> Unit
 ){
   /* The list of all dynamic check boxes within the page i of the TabbedPage
    * in which this case class is invoked.
@@ -42,7 +49,7 @@ protected[center] case class CheckBoxPanel(
     val allCheckBox = compLists._1
 
     //update the left split pane component
-    compLists._2.contents = new BoxPanel(Vertical){ //boxPanes
+    compLists._2.contents = new VBoxPanel{ //boxPanes
       //the loop
       transfers.foreach(node => { //transfer node
         val iD = (node \_id).text
@@ -79,7 +86,7 @@ protected[center] case class CheckBoxPanel(
       //For some reason it doesn't work properly without it
       if(mouseButton == 1) allCheckBox.publish(AllClickedEvent(allCheckBox.selected))
     }
-    setParamsAt(xmlFilePath) //update the page title
+    setPageLastParams(xmlFilePath) //update the page title
 
     //Some of the transfer node saved during the creation of the template are no longer available
     if(!ids.matches("^(%s)*$".format(templateParams._2))) _warn( //"".matches("^()*$") = true
@@ -87,14 +94,18 @@ protected[center] case class CheckBoxPanel(
       view.read("warntemplatemissing", br + ids.replaceAll(templateParams._2+"$", "").replace(templateParams._2, c+" "))
     )
   }catch{case e: NullPointerException =>
-    if(setParamsAt == null) 'DO_NOTHING
+    if(setPageLastParams == null) 'DO_NOTHING
       //caused by TransTabbedPane if during the ini of the app one of the previously saved files is no longer available
     else if(deleteTemplate == null) warn("schema")
       //caused by the TransFileChooser if the file hasn't been set or a file with a wrong schema has been selected
     else if(_confirm(view.read("confirmtemplateerror", xmlFilePath))) deleteTemplate
       //caused by the TemplatesComboBox if either the xml file path retrieved from the template stored file
-      //is no longer up to date or the file itself no longer uses the deburnat format.
+      //is no longer up to date or the file itself no longer uses the TRANSADé format.
   }
 }
 
+/**
+ * This event is fired as soon as an All-checkbox is clicked.
+ * @param state The state of the clicked All-checkbox.
+ */
 protected[center] case class AllClickedEvent(state: Boolean) extends Event

@@ -5,41 +5,45 @@ import Orientation.{Horizontal, Vertical}
 import BorderPanel.Position.{North, Center, South, East}
 import Swing.{EmptyBorder, VStrut}
 import event.KeyReleased
-import collection.mutable.Map
-
 import javax.swing.ImageIcon
 import javax.swing.border.TitledBorder
-
-import deburnat.transade.gui.admins.GuiAdmin._
-import deburnat.transade.gui.components.{MonoTextField, PopupMenu, LButton, TransOptionPane}
+import deburnat.transade.gui.components._
 import TransOptionPane._
 
+import collection.mutable.Map
+import deburnat.transade.gui.admins.GuiAdmin._
+
 /**
- * An algorithm for data transfer.
- * Project name: deburnat
- * Date: 9/2/13
- * Time: 1:30 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ *
+ * This class is used to the present the settings section of the application via a popup.
  */
-protected[north] class SettingsPopupMenu extends PopupMenu(new BorderPanel{
+protected[north] final class SettingsPopupMenu extends PopupMenu(new BorderPanel{
 
   private val (w, checkLabel, _dirPath, _language, iconOk, iconNotOk) = (
     350, new Label, dirPath, language,
     new ImageIcon(imgPath.format("ok")), new ImageIcon(imgPath.format("notOk"))
   )
-  private val dirTextField = new MonoTextField(_dirPath){
+
+  //DIRECTORY
+  private val dirTextField = new MonoTextField(_dirPath){ //the directory text field
     //preferredSize = new Dimension(w, h)
     //maximumSize = new Dimension(w, h)
-    def updateCheckLabel = if(isDirPathValid(text)) checkLabel.icon = iconOk
-    else checkLabel.icon = iconNotOk
+    def updateCheckLabel{checkLabel.icon = if(isDirPathValid(text)) iconOk else iconNotOk}
 
     tooltip = pRead("dirtooltip")
     updateCheckLabel
     listenTo(keys)
     reactions += {case e: KeyReleased => updateCheckLabel}
   }
-
-  private val dirPanel = new BoxPanel(Horizontal){
+  private val dirPanel = new HBoxPanel{ //the directory panel
     contents += dirTextField
     contents += checkLabel
     border = new TitledBorder(pRead("dirtitle"))
@@ -47,11 +51,10 @@ protected[north] class SettingsPopupMenu extends PopupMenu(new BorderPanel{
   layout(dirPanel) = North
 
   //RADIO BUTTONS
-  private val (radioGroup, radios) = (new ButtonGroup, coreAdmin.languages.map(s => new RadioButton(s)))
+  private val (radioGroup, radios) = (new ButtonGroup, coreAdmin.languages.map(new RadioButton(_)))
   private val default = if(_language.nonEmpty) radios.find(r => r.text == _language).get else new RadioButton("")
   radioGroup.buttons ++= radios
   radioGroup.select(default)
-
   private val radioPane = new ScrollPane{
     viewportView = new BoxPanel( //orientation ratio: not more than 3 items per lines
       if(coreAdmin.languages.length * 100 > w) Vertical else Horizontal
@@ -65,6 +68,7 @@ protected[north] class SettingsPopupMenu extends PopupMenu(new BorderPanel{
   }
   layout(radioPane) = Center
 
+  //TICK BUTTON
   private val tickPanel = new BorderPanel{
     layout(VStrut(10)) = North
 
@@ -93,6 +97,7 @@ protected[north] class SettingsPopupMenu extends PopupMenu(new BorderPanel{
     })) = East
   }
   layout(tickPanel) = South
+
 
   border = new TitledBorder(pRead("title"))
   preferredSize = new Dimension(w,

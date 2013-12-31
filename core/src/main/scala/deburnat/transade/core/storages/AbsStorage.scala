@@ -1,14 +1,10 @@
 package deburnat.transade.core.storages
 
 import collection.mutable.{ListBuffer, Map}
-
 import java.io.{FileOutputStream, File}
 import java.util.jar.{JarEntry, JarFile, JarOutputStream}
-
-import deburnat.transade.core.admins.CoreAdmin
+import deburnat.transade.core.admins.CoreAdmin //do not merge with the statement below
 import CoreAdmin._
-import java.util.NoSuchElementException
-import scala.NoSuchElementException
 
 /**
  * Project name: transade

@@ -1,13 +1,12 @@
 package deburnat.transade.core.loaders
 
-import xml.{Elem, Node}
-
+import xml.Node
 import java.io.File
-
-import deburnat.transade.core.admins.{CoreAdmin, PdfCreator}
-import CoreAdmin._
-import deburnat.transade.core.conc.{TransadeNodes, Concurrency}
+import deburnat.transade.core.{admins, conc}
 import deburnat.transade.Mode._
+import admins.{CoreAdmin, PdfCreator}
+import CoreAdmin._
+import conc.{TransadeNodes, Concurrency}
 
 /**
  * An algorithm for data transfer.

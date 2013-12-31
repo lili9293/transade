@@ -3,23 +3,24 @@ package deburnat.transade.gui.components
 import swing.{Swing, Label}
 import swing.Alignment._
 import swing.event.{MouseExited, MouseEntered, MouseClicked}
-
 import javax.swing.ImageIcon
 import java.awt.{Color, Cursor}
 
 import deburnat.transade.gui.admins.GuiAdmin._
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/27/13
- * Time: 11:07 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
  *
+ * Date: 9/2/13
+ * Time: 4:13 AM
  *
  * This class is used to create a text-less button-like label.
- * @param imgFileName
+ * @param imgFileName The name of the corresponding -image and -"toolTip" node in the view.xml file.
+ * @param onClick The method to invoke once the button/label is clicked.
  */
 protected[gui] class LButton(imgFileName: String, onClick: => Unit) extends Label{
   private val (defCursor, handCursor) = (Cursor.getDefaultCursor, new Cursor(Cursor.HAND_CURSOR))

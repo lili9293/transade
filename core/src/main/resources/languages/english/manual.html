@@ -14,9 +14,9 @@
         <script src="../../manual/js/manual.js"></script><!--the absolute js file-->
     </head>
     <body>
-        <h1>Welcome to the TRANSAD&eacute; manual</h1>
+        <h1 class="line">Welcome to the TRANSAD&eacute; manual</h1>
         <table>
-            <tr><td>&ensp;</td><td class="max"><fieldset><!--CHAPTER 1 START-->
+            <tr><td class="max"><fieldset><!--CHAPTER 1 START-->
                 <legend>
                     <img id="chapterOneClick" class="clickable , title"
                          src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterOne')">
@@ -152,7 +152,7 @@
 
                 </div>
             </fieldset><br></td></tr><!--CHAPTER 1 END-->
-            <tr><td>&ensp;</td><td><fieldset><!--CHAPTER 2 START-->
+            <tr><td><fieldset><!--CHAPTER 2 START-->
                 <legend>
                     <img id="chapterTwoClick" class="clickable , title"
                          src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwo')">
@@ -237,23 +237,7 @@
                             <img class="api" src="../../manual/images/pageLamp.png" alt="../../manual/images/pageLamp.png">
                             <br><br>
                             There are 3 lamps in total, each of them representing one possible page status.
-                            <table>
-                                <tr><td class="bullet"></td><td>
-                                    The <img class="symbol" src="../../manual/images/nodeblack.png" alt="../../manual/images/nodeblack.png">
-                                    (also known as the <a class="emphasis">default lamp</a>) means that the page has never been used before. As one can imagine it is the
-                                    default lamp/status.
-                                </td></tr>
-                                <tr><td class="bullet"></td><td>
-                                    The <img class="symbol" src="../../manual/images/nodegreen.png" alt="../../manual/images/nodegreen.png">
-                                    (also known as the <a class="emphasis">good to go lamp</a>) indicates that a file as been successfully downloaded on the page and everything
-                                    is good to go.
-                                </td></tr>
-                                <tr><td class="bullet"></td><td>
-                                    The <img class="symbol" src="../../manual/images/nodeblue.png" alt="../../manual/images/nodeblue.png">
-                                    (also known as the <a class="emphasis">end lamp</a>) signalizes that a file as been successfully downloaded;
-                                    some or all <a class="node">transfer</a>s residing in within have been parsed, compiled and eventually executed.
-                                </td></tr>
-                            </table><br>
+                            <br>
                         </div>
                     </td></tr><!--CHAPTER 2.3 END-->
                     <tr><td><!--CHAPTER 2.4 START-->
@@ -306,14 +290,33 @@
                              src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoFive')">
                         <a class="titleMini">Others</a>
                         <div id="chapterTwoFiveDiv" class="invisible">
-                            The output section:<br>
+                            <a class="line">The lamps system:</a><br>
+                            <table>
+                                <tr><td class="bullet"></td><td>
+                                    The <img class="symbol" src="../../manual/images/nodeblack.png" alt="../../manual/images/nodeblack.png">
+                                    (also known as the <a class="emphasis">default lamp</a>) means that the page has never been used before. As one can imagine it is the
+                                    default lamp/status.
+                                </td></tr>
+                                <tr><td class="bullet"></td><td>
+                                    The <img class="symbol" src="../../manual/images/nodegreen.png" alt="../../manual/images/nodegreen.png">
+                                    (also known as the <a class="emphasis">good to go lamp</a>) indicates that a file as been successfully downloaded on the page and everything
+                                    is good to go.
+                                </td></tr>
+                                <tr><td class="bullet"></td><td>
+                                    The <img class="symbol" src="../../manual/images/nodeblue.png" alt="../../manual/images/nodeblue.png">
+                                    (also known as the <a class="emphasis">end lamp</a>) signalizes that a file as been successfully downloaded;
+                                    some or all <a class="node">transfer</a>s residing in within have been parsed, compiled and eventually executed.
+                                </td></tr>
+                            </table>
+                            <br>
+                            <a class="line">The output section:</a><br>
                             In the south area of the gui there is a section reserved for the outputs made during a session life span.
                             These outputs are event based. So basically all major events are recorded in the output section.
                             This section is resizable for a better view but not editable.
                             <br><br>
                             <img class="api" src="../../manual/images/output.png" alt="../../manual/images/output.png">
                             <br><br>
-                            Furthermore:<br>
+                            <a class="line">Furthermore:</a><br>
                             It is worth mentioning that this chapter simply presents the features minimally required to use the gui.
                             I have made the experience that <a class="emphasis">learning by doing</a> is the best way of learning.
                             Therefore i strongly urge you to discover the gui by yourself. There are much more features to discover.
@@ -321,7 +324,7 @@
                     </td></tr><!--CHAPTER 2.5 END-->
                 </table></div>
             </fieldset><br></td></tr><!--CHAPTER 2 END-->
-            <tr><td>&ensp;</td><td><fieldset><!--CHAPTER 3 START-->
+            <tr><td><fieldset><!--CHAPTER 3 START-->
                 <legend>
                     <img id="chapterThreeClick" class="clickable , title"
                          src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterThree')">

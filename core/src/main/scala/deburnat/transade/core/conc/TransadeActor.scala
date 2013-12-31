@@ -2,9 +2,7 @@ package deburnat.transade.core.conc
 
 import actors.Actor
 import collection.mutable.ListBuffer
-import deburnat.transade.core.{admins, readers}
-import admins.CoreAdmin.{br, tab1, proc, bug, getExceptionNode}
-import deburnat.transade.core.readers.Reader._
+import deburnat.transade.core.admins.CoreAdmin.br
 
 /**
  * Project name: transade

@@ -1,30 +1,43 @@
 package deburnat.transade.gui.center
 
-import scala.collection.mutable.{ListBuffer, Map}
-import scala.swing._
-import scala.xml.Node
+import deburnat.transade.{core, Mode, gui}
 
+import swing._
 import java.awt.Desktop.getDesktop
+import gui.admins.GuiAdmin._
+import gui.admins.TemplatesAdmin._
+import gui.components.TransOptionPane._
+import gui.north.TemplatesComboBox
 
-import deburnat.transade.Mode
-import deburnat.transade.core.admins.FileAdmin.save
-import deburnat.transade.gui.components.TransOptionPane
-import TransOptionPane._
-import deburnat.transade.gui.admins.{GuiAdmin, TemplatesAdmin}
-import GuiAdmin._
-import TemplatesAdmin._
-import deburnat.transade.core.readers.Reader._
-import deburnat.transade.gui.north.TemplatesComboBox
+import collection.mutable.{ListBuffer, Map}
+import scala.xml.Node //do not remove the "scala" package name
+import core.admins.FileAdmin.save
+import core.readers.Reader._
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/30/13
- * Time: 11:40 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ *
+ * This object contains the method used once the "run" button is clicked.
  */
 protected[center] object RunButton{
+  /**
+   * This method used once the "run" button is clicked.
+   * @param nodeCheckBoxMap A map made of all [transfer] nodes and their checkbox residing on a given page.
+   * @param templates see the gui.north.TemplatesComboBox class
+   * @param mode The set computation mode.
+   * @param showReport The decision about whether to show the report at the end of the process or not.
+   * @param templateTextField The template text field object.
+   * @param resetTemplateTextField The method used to reset the template text field object.
+   * @param xmlFilePath The (TRANSADé).xml file path.
+   * @param setComputationDone see the TransTabbedPane.setComputationDone method.
+   */
   def onClick(
     nodeCheckBoxMap: Map[Node, CheckBox], templates: TemplatesComboBox,
     mode: (String, String), showReport: Boolean, //(view text, view label)
@@ -39,10 +52,10 @@ protected[center] object RunButton{
        * IF active page as already been set THEN dynCheckBoxes.length = allTransfers.length
        * ELSE dynCheckBoxes.length = 0
        */
-      val selectedTransfers = nodeCheckBoxMap.filter(kv => kv._2.selected).map(kv => {
+      val selectedTransfers = nodeCheckBoxMap.filter(_._2.selected).map{kv =>
         ids += kv._2.text
         kv._1
-      }).toSeq
+      }.toSeq
 
       if(selectedTransfers.nonEmpty){
         val msg = "%s: %s%s: %s".format(
@@ -63,7 +76,7 @@ protected[center] object RunButton{
           val files = fileLoader.xml.compute(selectedTransfers, Mode.toMode(mode._2))
 
           //Step 2: handle the new template
-          if(templateName.nonEmpty){ //the template is adequately set in the LoadPanel case class
+          if(templateName.nonEmpty){ //the template is adequately set in the ProcessPanel case class
             /*
             <template name={templateName}>
               <date>{date}</date> //tDate

@@ -2,24 +2,29 @@ package deburnat.transade.gui.admins
 
 import collection.mutable.{ListBuffer, Map}
 import swing.{Alignment, Dimension, Label}
-import actors.{Actor, TIMEOUT}
-import math.max
-
 import java.awt.{Font, Color}
-
-import deburnat.transade.core.admins._
-import FileAdmin._
-import deburnat.transade.core.readers.XmlReader
-import deburnat.transade.FileLoader
 import deburnat.transade.gui.components.TransOptionPane.warn
 
+import actors.{Actor, TIMEOUT}
+import math.max
+import deburnat.transade.{core, FileLoader}
+import core.admins._
+import FileAdmin._
+import core.readers.XmlReader
+
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/27/13
- * Time: 11:30 PM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ */
+
+/**
+ * This object represents the GUI administrator.
  */
 protected[transade] object GuiAdmin extends Admin{
 
@@ -62,7 +67,7 @@ protected[transade] object GuiAdmin extends Admin{
   val output = (s: String) => {//output method
     outputLabel.text += //update the output Label
       date+_br+
-      s.replace(br, "").replaceAll(" {2,}", " ").split(hash).map(s => s.trim).mkString(_br) + //restructuring the text.
+      s.replace(br, "").replaceAll(" {2,}", " ").split(hash).map(_.trim).mkString(_br) + //restructuring the text.
       _br+_br
   }
   private var (_dirPath, _language, _xmlFilePaths) = (
@@ -137,7 +142,7 @@ protected[transade] object GuiAdmin extends Admin{
         if(!_coreAdmin.goodToGo) warn("goodtogo") //warn if the configuration parameters aren't set
         exit
       }catch{case e: java.lang.ExceptionInInitializerError => }
-      //thrown if the "warn" method is invoked before the ini is done.
+      //thrown if the "warn" method is invoked before the initialization of thee main frame is done.
     }}
   }}.start
 

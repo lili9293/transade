@@ -2,35 +2,36 @@ package deburnat.transade.gui.north
 
 import swing.{Publisher, Point, event}
 import event._
+import javax.swing.{JFileChooser, filechooser}
+import filechooser.FileNameExtensionFilter
+import deburnat.transade.gui.admins.GuiAdmin.{xml, _xml, view, tRead}
 
 import java.io.File
-import javax.swing.JFileChooser
-import javax.swing.filechooser.FileNameExtensionFilter
-
-import deburnat.transade.gui.admins.GuiAdmin.{xml, _xml, view, tRead}
 import deburnat.transade.gui.components.MonoTextField
 
-/*
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/25/13
- * Time: 6:27 PM
+/**
+ * An algorithm for data transfer.
+ * Project name: transade
+ * Date: 10/2/13
+ * Time: 1:00 AM
  * @author Patrick Meppe (tapmeppe@gmail.com)
- *
- *
- * This is a derivative object of type scala.swing.Component.
+ */
+
+/**
+ * This is an extender of the scala.swing.MonoTextField class.
  * By additionally extending the scala.swing.Publisher trait it inherits the ability to be listened
  * by other components such as the TabbedPane component below.
+ * @param templates see TemplatesComboBox.scala
  */
 protected[gui] class TransFileChooser(templates: TemplatesComboBox)
 extends MonoTextField with Publisher{
   /**
-   *
-   * @param path
-   * @param point
+   * This method is used to open the file chooser.
+   * @param path The current path
+   * @param point The location where the file chooser should appear.
+   * @return The newly chosen path otherwise the path prior to the method invocation.
    */
-  def openFileChooserAt(path: String, point: Point): String = {
+  private def openFileChooserAt(path: String, point: Point): String = {
     val file = new File(path)
 
     /* An extension of the javax.swing.JFileChooser was chosen over the scala.swing.FileChooser
@@ -45,7 +46,7 @@ extends MonoTextField with Publisher{
         dialog
       }
       setFileSelectionMode(JFileChooser.FILES_ONLY)
-      setFileFilter(new FileNameExtensionFilter(_xml+" "+ view.read("files"), xml))
+      setFileFilter(new FileNameExtensionFilter(_xml+" "+ view.read("files"), xml)) //only .xml files can be chosen
     }
 
     if(MoveableFileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){

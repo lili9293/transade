@@ -3,9 +3,7 @@ package deburnat.transade.core.loaders
 import xml.{Elem, XML}
 import XML.loadFile
 import collection.mutable.{ListBuffer, Map}
-
 import java.io.File
-
 import deburnat.transade.core.admins.{PdfCreator, CoreAdmin}
 import CoreAdmin._
 import deburnat.transade.core.conc.Concurrency

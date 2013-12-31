@@ -1,10 +1,7 @@
 package deburnat.transade.core.admins
 
 import io.Source.fromFile
-import sys.process.{ProcessLogger, Process}
-
 import java.io.{FileWriter, IOException, File}
-
 import CoreAdmin._
 
 /**
@@ -31,8 +28,7 @@ protected[transade] object FileAdmin {
    * In the inner jars directory only .jar files are allowed. The lazy prefix is optional.
    */
   private lazy val docFlags =
-    new File(platform("jars")).listFiles
-    .filter(file => file.getName.endsWith(jar)).map(file => file.getName) ++ Array(schemas)
+    new File(platform("jars")).listFiles .filter(_.getName.endsWith(jar)).map(_.getName)
 
   /**
    * This method is used to create a new file or save data in a new file.
@@ -87,11 +83,7 @@ protected[transade] object FileAdmin {
         //The process opening pdf files is either AcroRd32.exe or AcroRd64.exe
         Runtime.getRuntime.exec(cliKillAcro.format(32))
         Runtime.getRuntime.exec(cliKillAcro.format(64))
-        /* Scala alternative: for once scala is the chatty one :)
-         * //simply kill the Adobe process, nothing more
-         * Process(cliKillAcro.format(32)) !! ProcessLogger(o => "", e => "")
-         * Process(cliKillAcro.format(64)) !! ProcessLogger(o => "", e => "")
-         */
+
         var (i, r2) = (0, file2.delete)
         while(i < 10 && !r2){//print(i +" ") //give the OS enough time to shut down the process
           Thread.sleep(50)
@@ -105,44 +97,46 @@ protected[transade] object FileAdmin {
     r1 && r2 //both have to be true to consider it as a success
   }catch{case e: IOException => false} //the file couldn't be deleted
 
+
   /**
    * This method is used to adequately clean the the {application}/doc directory.
-   * It creates the {application}/doc directory if it doesn't exist.
+   * @note All the files are deleted with the exception of the .jar files (purpose =: gain in speed)
    * @param doc The doc directory path.
-   * @return True if everything goes as planed otherwise false.
+   * @return see the emptyDir method.
    */
-  protected[admins] def emptyDocDir(doc: StringBuilder): Boolean = if(doc.mkString.trim.nonEmpty){
-    val _doc = new File(doc.mkString)
-    if(_doc.exists){
-      val files = _doc.listFiles
-      if(files.nonEmpty) files.map(file => if(docFlags.contains(file.getName)) true else file.delete)
-        //all the files are deleted with the exception of
-        // - the .jar files (purpose =: gain in speed)
-        // - manuals and schemas (purpose =: avoid repetition)
-        .reduceLeft((r1, r2) => r1 && r2) //r1 && r2 =: if(r1 && r2) true else false
-      else true
-    }else{ //create the {application}/doc directory if it doesn't exist
-      _doc.mkdir
-      true
-    }
-  }else false
+  protected[admins] def emptyDocDir(doc: StringBuilder): Boolean = emptyDir(doc, f =>
+    if(docFlags.contains(f.getName)) true else f.delete
+  )
 
   /**
    * This method is used to adequately clean the the {application}/bin directory.
-   * It creates the {application}/bin directory if it doesn't exist.
+   * @note No rules required here. All binary files will be deleted.
    * @param bin The bin directory path.
+   * @return see the emptyDir method.
+   */
+  protected[admins] def emptyBinDir(bin: StringBuilder): Boolean = emptyDir(bin, _.delete)
+
+
+  /**
+   * This method is used to adequately clean the given directory.
+   * It creates the directory if it doesn't exist.
+   * @param dir The directory path.
+   * @param deleteFile The method object that contains all the rules to delete a file.
    * @return True if everything goes as planed otherwise false.
    */
-  protected[admins] def emptyBinDir(bin: StringBuilder): Boolean = if(bin.mkString.trim.nonEmpty){
-    val _bin = new File(bin.mkString)
-    if(_bin.exists){
-      val files = _bin.listFiles
-      if(files.nonEmpty) files.map(file => file.delete).reduceLeft((r1, r2) => r1 && r2)
-      else true
-    }else{ //create the {application}/bin directory if it doesn't exist
-      _bin.mkdir
-      true
-    }
-  }else false
+  private def emptyDir(dir: StringBuilder, deleteFile: File => Boolean): Boolean = {
+    val dirStr = dir.mkString.trim
+    if(dirStr.nonEmpty){
+      val dirFile = new File(dirStr)
+      if(dirFile.exists){
+        val files = dirFile.listFiles
+        if(files.nonEmpty) files.map(deleteFile(_)).reduceLeft(_ && _) else true
+          //(r1, r2) => r1 && r2 //r1 && r2 =: if(r1 && r2) true else false
+      }else{ //create the directory if it doesn't exist
+        dirFile.mkdir
+        true
+      }
+    }else false
+  }
 
 }

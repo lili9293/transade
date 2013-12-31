@@ -1,24 +1,31 @@
 package deburnat.transade.gui.center
 
-import collection.mutable.{ListBuffer, Map}
-import xml.Node
+import deburnat.transade.gui.{admins, north, components}
+
 import swing._
 import BorderPanel.Position._
 import Orientation._
-
 import javax.swing.{JTabbedPane, ImageIcon, SwingConstants}
+import north.{TemplateSelectedEvent, TransFileChosenEvent, TemplatesComboBox, TransFileChooser}
+import components.HBoxPanel
 
-import deburnat.transade.gui.admins.GuiAdmin._
-import deburnat.transade.gui.north.{TemplateSelectedEvent, TransFileChosenEvent, TemplatesComboBox, TransFileChooser}
-import deburnat.transade.gui.admins.TemplatesAdmin._
+import collection.mutable.{ListBuffer, Map}
+import xml.Node
+import admins.GuiAdmin._
+import admins.TemplatesAdmin._
 
 /**
- * An algorithm for data transfer.
- * Project name: deburnat
- * Date: 9/2/13
- * Time: 11:39 PM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
  */
+
+//This is the TransTabbedPane class attributes repository.
 private object TransTabbedPane{
   val (pathsSep, idxPathsSep, iconBlack, iconGreen, iconBlue) = (
     c+_c+cc+hash, hash+cc+_c+c,
@@ -27,12 +34,21 @@ private object TransTabbedPane{
     new ImageIcon(imgPath.format("nodeblue")) //file as been computed
   )
 
-  def loop[Dt](block: Int => Dt) = (0 to 9).map{i => block(i)}
+  def loop[Dt](block: Int => Dt) = (0 to 9).map(block(_))
 }
 
+
+/**
+ * This class represents the collection of all pages used to visualize the (TRANSADé).xml files.
+ * @param nodeCheckBoxMapMap The collection of all maps (all pages) made of all [transfer] nodes and their checkbox.
+ * @param xmlFilePaths The (TRANSADé).xml file path.
+ * @param fileChooser see the gui.north.TransFileChooser class.
+ * @param templates see the gui.north.TemplatesComboBox class.
+ * @param deleteTemplate see the gui.north.NorthPanel.deleteButton.doClick method
+ */
 protected[center] class TransTabbedPane(
-  nodeCheckBoxMapMap: Map[Int, Map[Node, CheckBox]],
-  xmlFilePaths: String, fileChooser: TransFileChooser, templates: TemplatesComboBox, deleteTemplate: ()=>Unit
+  nodeCheckBoxMapMap: Map[Int, Map[Node, CheckBox]], xmlFilePaths: String,
+  fileChooser: TransFileChooser, templates: TemplatesComboBox, deleteTemplate: ()=>Unit
 ) extends Component{
   import TransTabbedPane._
 
@@ -52,7 +68,7 @@ protected[center] class TransTabbedPane(
   }
 
   loop[Unit]{i =>
-    addPage{new BoxPanel(Horizontal){contents += new SplitPane(Vertical){
+    addPage{new HBoxPanel{contents += new SplitPane(Vertical){
       continuousLayout = true
       oneTouchExpandable = true
       resizeWeight = 0.35
@@ -99,14 +115,14 @@ protected[center] class TransTabbedPane(
       val i = selectedIdx
       nodeCheckBoxMapMap(i) = CheckBoxPanel(
         e.xmlFilePath, fileLoader.xml.getTransfers(e.xmlFilePath),
-        (allCheckBoxes(i), boxPanes(i), treePanes(i)), ("",""), setParamsAt, null //no template to delete
+        (allCheckBoxes(i), boxPanes(i), treePanes(i)), ("",""), setPageLastParams, null //no template to delete
       ).nodeCheckBoxMap
 
     case TemplateSelectedEvent(r) => //react accordingly if a template is selected
       val (i, xmlFilePath) = (selectedIdx, r.read(tPath))
       nodeCheckBoxMapMap(i) = CheckBoxPanel(
         xmlFilePath, fileLoader.xml.getTransfers(xmlFilePath), (allCheckBoxes(i), boxPanes(i), treePanes(i)),
-        (r.read(tTrans), tSep), setParamsAt, deleteTemplate
+        (r.read(tTrans), tSep), setPageLastParams, deleteTemplate
       ).nodeCheckBoxMap
   }
   /***** TABBED PANE - END *****/
@@ -115,7 +131,11 @@ protected[center] class TransTabbedPane(
   /***** METHODS - START *****/
   private def addPage(page: Component) = peer.addTab("", iconBlack, page.peer)
 
-  private def setParamsAt(toolTipText: String) = {
+  /**
+   * The method used to set the page last parameters.
+   * @param toolTipText The path of the (TRANSADé).xml file.
+   */
+  private def setPageLastParams(toolTipText: String) = {
     val idx = selectedIdx
     peer.setIconAt(idx, iconGreen)
     peer.setToolTipTextAt(idx, toolTipText)
@@ -123,6 +143,10 @@ protected[center] class TransTabbedPane(
 
   def selectedTitle = peer.getTitleAt(selectedIdx)
   def selectedIdx = peer.getSelectedIndex
+
+  /**
+   * The method is used to set the end lamp (blue icon)
+   */
   def setComputationDone = peer.setIconAt(selectedIdx, iconBlue)
 
   def getPath(idx: Int): String = try{allCheckBoxes(idx).tooltip}catch{case e: IndexOutOfBoundsException => ""}
@@ -133,6 +157,10 @@ protected[center] class TransTabbedPane(
 }
 
 
+/**
+ * This class is used to create the all checkbox.
+ * @param label The checkbox label.
+ */
 protected[center] class TransCheckBox(label: String) extends CheckBox(label) with Publisher{
   listenTo(mouse.clicks)
 }

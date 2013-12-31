@@ -2,22 +2,25 @@ package deburnat.transade.gui.center
 
 import swing._
 import Orientation.Horizontal
-import swing.BorderPanel.Position._
-import collection.mutable.Map
-import xml.Node
-
+import BorderPanel.Position._
 import javax.swing.border.TitledBorder
 
+import collection.mutable.Map
+import xml.Node
 import deburnat.transade.gui.admins.GuiAdmin._
 import deburnat.transade.gui.north.{TransFileChooser, TemplatesComboBox}
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/27/13
- * Time: 3:17 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 9/2/13
+ * Time: 4:13 AM
+ *
+ * This class represents the center and south panes.
  */
 protected[transade] class CenterPane(
   xmlFilePaths: String, fileChooser: TransFileChooser, templates: TemplatesComboBox, deleteTemplate: ()=> Unit
@@ -37,7 +40,7 @@ protected[transade] class CenterPane(
   topComponent = new BorderPanel{
     layout(tabbedPane) = Center
     //the mode ComboBox, the template TextField and the compute Button
-    layout(new LoadPanel(tabbedPane, nodeCheckBoxMapMap, templates)) = South
+    layout(new ProcessPanel(tabbedPane, nodeCheckBoxMapMap, templates)) = South
   }
   bottomComponent = new ScrollPane{ //the output area
     border = new TitledBorder(oRead("title"))

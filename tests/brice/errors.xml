@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    In case of error reports,
+    a similar file with your tester directory name as file name should be saved in the _ERRORS directory.
+-->
+<errors>
+    <error creationdate="" lastmoddate="" status="" testpath="">
+        <!--
+            One error node for one error.
+            creationdate: use=mandatory; description=the creation data of the node; format=DD.MM.YYYY
+            lastmoddate: use=mandatory; description= the last modification date of the node; format=DD.MM.YYYY
+            status: use=mandatory; description=the current error status. We will use the lamp system,
+              ergo there are 3 possible values: green (good), yellow (hmmm), red (bad).
+            testpath: use:optional; description=If the error is related to the big picture of the test,
+              type in the path of the uploaded test directory.
+        -->
+        Description of the error
+    </error>
+</errors>

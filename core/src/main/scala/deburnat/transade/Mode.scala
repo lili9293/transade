@@ -1,13 +1,14 @@
 package deburnat.transade
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 7/25/13
- * Time: 5:21 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
  *
+ * Date: 9/2/13
+ * Time: 4:13 AM
  *
  * This enumerator object is used to set the mode of the XmlFileLoader object.
  */
