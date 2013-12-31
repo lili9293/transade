@@ -1,5 +1,7 @@
 package deburnat.transade
 
+import java.awt.Desktop.getDesktop
+
 import deburnat.transade.core.{loaders, admins}
 import loaders.{XmlFileLoader, ScalaFileLoader}
 import admins.CoreAdmin
@@ -11,8 +13,8 @@ import admins.CoreAdmin
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 9/2/13
- * Time: 4:13 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This class represents the application main file loader.
  * It is the .xml & .scala file loader wrapper.
@@ -20,7 +22,7 @@ import admins.CoreAdmin
  * It's reserved for the GUI.
  * @param admin The application administrator
  */
-final class FileLoader(admin: CoreAdmin) {
+final class FileLoader(val admin: CoreAdmin) {
   /**
    * This class represents the application main file loader.
    * It is the .xml & .scala file loader wrapper.
@@ -45,4 +47,5 @@ final class FileLoader(admin: CoreAdmin) {
   //xml =: the .xml file loader
   //scala =: the .scala file loader
   val (xml, scala) = (new XmlFileLoader(admin), new ScalaFileLoader(admin))
+
 }

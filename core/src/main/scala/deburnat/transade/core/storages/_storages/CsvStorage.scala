@@ -5,12 +5,14 @@ import deburnat.transade.core.admins.CoreAdmin.{tb1, tb3, tb4, tb5, tb6, a, c, c
 import deburnat.transade.core.storages.AbsStorage
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/9/13
- * Time: 2:03 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 1/1/14
+ * Time: 12:00 AM
  */
 protected[_storages] final class CsvStorage extends AbsStorage{
   //http://viralpatel.net/blogs/java-read-write-csv-file/

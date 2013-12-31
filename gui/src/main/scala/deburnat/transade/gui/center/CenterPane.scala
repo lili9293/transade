@@ -17,8 +17,8 @@ import deburnat.transade.gui.north.{TransFileChooser, TemplatesComboBox}
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 9/2/13
- * Time: 4:13 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This class represents the center and south panes.
  */

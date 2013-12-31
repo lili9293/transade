@@ -9,8 +9,8 @@ import collection.mutable.Map
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 7/26/13
- * Time: 12:39 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This trait is the abstract form of a storage object.
  */

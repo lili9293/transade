@@ -10,8 +10,8 @@ import swing.Orientation.{Horizontal, Vertical}
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 9/2/13
- * Time: 4:13 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  */
 
 protected[gui] class HBoxPanel extends BoxPanel(Horizontal)

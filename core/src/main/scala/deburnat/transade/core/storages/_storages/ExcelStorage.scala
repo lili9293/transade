@@ -5,12 +5,14 @@ import deburnat.transade.core.admins.CoreAdmin.{a, c, cc, br, brr, tb1, tb2, tb3
 import deburnat.transade.core.storages.AbsStorage
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 7/26/13
- * Time: 11:56 PM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 1/1/14
+ * Time: 12:00 AM
  */
 protected[_storages] final class ExcelStorage extends AbsStorage {
   //http://viralpatel.net/blogs/java-read-write-excel-file-apache-poi/

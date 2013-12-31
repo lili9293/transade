@@ -14,11 +14,14 @@ import admins.GuiAdmin //do not merge with the statement below
 import GuiAdmin._
 
 /**
- * An algorithm for data transfer.
  * Project name: transade
- * Date: 10/2/13
- * Time: 1:00 AM
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This object is used to start the application.
  */

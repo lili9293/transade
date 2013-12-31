@@ -12,8 +12,8 @@ import deburnat.transade.core.readers.Reader.read
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 9/30/13
- * Time: 6:00 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  */
 protected[core] object TransadeScalaAdmin {
 

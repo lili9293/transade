@@ -10,11 +10,14 @@ import java.io.File
 import deburnat.transade.gui.components.MonoTextField
 
 /**
- * An algorithm for data transfer.
  * Project name: transade
- * Date: 10/2/13
- * Time: 1:00 AM
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 1/1/14
+ * Time: 12:00 AM
  */
 
 /**

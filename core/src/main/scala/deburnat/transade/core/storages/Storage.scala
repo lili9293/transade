@@ -9,8 +9,8 @@ import deburnat.transade.core.admins.CoreAdmin.{_platform, st, _st}
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 7/27/13
- * Time: 12:10 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This is the storage object wrapper.
  */

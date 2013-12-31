@@ -1,5 +1,7 @@
 package deburnat.transade.core.admins
 
+import java.awt.Desktop.getDesktop
+
 import collection.mutable.{ListBuffer, Map}
 import sys.process.{ProcessLogger, Process}
 import java.io.{IOException, File}
@@ -14,8 +16,8 @@ import FileAdmin._
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 7/25/13
- * Time: 6:08 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  */
 
 /**
@@ -233,27 +235,18 @@ protected[transade] object CoreAdmin extends Admin{
  * @param language The application language.
  * @param output This method object is used to keep the user informed about the computation progress.
  */
-protected[transade] final class CoreAdmin(dirPath: String, language: String, val output: String => Unit){
+final class CoreAdmin(dirPath: String, language: String, val output: String => Unit){
   import CoreAdmin._
 
-  val (goodToGo, view, languages, manualFile) = ( //the language has to come first
-    setLanguage(language) && setDirPath(dirPath), CoreAdmin.view,
-    new File(langDir).listFiles.map(_.getName), new File(manualPath.mkString)
+  val (goodToGo, languages) = ( //WARNING: the language setting has to come first
+    setLanguage(language) && setDirPath(dirPath), new File(langDir).listFiles.map(_.getName)
   )
+  protected[transade] val view = CoreAdmin.view
+  private val manualFile = new File(manualPath.mkString)
 
   /**
-   * This method is used to download the download (actually copy) the schema directory.
-   * @return A string object representing the new ../schema directory's path.
+   * This method is invoked to simply show the manual in the default web browsers
    */
-  def downloadSchemas: String = {
-    val _dir = getDocPath_ + schemas //the new schemas directory.
-
-    schemata.map{schema =>
-      val dir = _dir +sep+schema._1+sep //the new ../schemas/... directory
-      schema._2.map(file => copyFile(file.getPath, dir+file.getName).isFile)
-    }
-
-    _dir
-  }
+  def showManual{getDesktop.browse(manualFile.toURI)}
 
 }

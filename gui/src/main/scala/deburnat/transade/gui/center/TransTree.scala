@@ -16,8 +16,8 @@ import deburnat.transade.gui.admins.GuiAdmin._
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 9/2/13
- * Time: 4:13 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This case class is used to create the tree presentable on the GUI from the given [transfer] node.
  * @param transNode The given [transfer] node.

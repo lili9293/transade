@@ -14,8 +14,8 @@ import deburnat.transade.core.readers.Reader
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 8/24/13
- * Time: 8:38 PM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  */
 protected[transade] object PdfCreator {
   private val (title, titleFont, boldFont, normFont, xmlFont, read) = (

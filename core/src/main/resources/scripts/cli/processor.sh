@@ -1,9 +1,13 @@
 #!/bin/sh
-# An algorithm for data transfer.
 # Project name: transade
-# Date: 10/2/13
-# Time: 1:00 AM
 # @author Patrick Meppe (tapmeppe@gmail.com)
+# Description:
+#  An algorithm for the transfer of selected/adapted data
+#  from one repository to another.
+#
+# Date: 1/1/14
+# Time: 12:00 AM
+#
 # This script is used to compile and execute scala class on a linux operating system.
 
 # PARAMS

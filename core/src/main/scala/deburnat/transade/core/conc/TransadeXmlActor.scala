@@ -12,8 +12,8 @@ import deburnat.transade.core.readers.Reader.read
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 10/1/13
- * Time: 1:27 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This actor concurrently computes the (transade) .xml files.
  * @param nodes 1 =: [transfer] nodes, 2 =: [references] node

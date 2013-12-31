@@ -5,12 +5,12 @@
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
+ * Date: 1/1/14
+ * Time: 12:00 AM
+ *
  * This script is used as absolute js file to improve the manual. It takes care of the objects and methods that can be
  * used without risking a language distortion.
  * It should be included in the head of all manual files located here: ../../language/{language}/manual.html.
- *
- * Date: 12/24/13
- * Time: 6:08 AM
  */
 
 //self explanatory

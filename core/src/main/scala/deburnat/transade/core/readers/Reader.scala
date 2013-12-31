@@ -9,8 +9,8 @@ import deburnat.transade.core.admins.CoreAdmin._
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 9/2/13
- * Time: 4:13 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * The class is used to read texts in a structured way.
  * @param lineLen The maximal length of each line.

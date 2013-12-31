@@ -9,10 +9,9 @@ import deburnat.transade.core.admins.CoreAdmin.textPh
  * Description:
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
- *  
- * Date: 7/25/13
- * Time: 3:34 AM
- * @author Patrick Meppe (tapmeppe@gmail.com)
+ *
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * The class is used to read the texts residing within a given .xml file in a structured way.
  * @param filePath The .xml file path.

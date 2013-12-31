@@ -3,12 +3,14 @@ package deburnat.transade.core.storages._storages
 import deburnat.transade.core.storages.AbsStorage
 
 /**
- * An algorithm for dynamic programming. It uses internally a two-dimensional
- * matrix to store the previous results.
- * Project name: deburnat
- * Date: 8/9/13
- * Time: 2:04 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 1/1/14
+ * Time: 12:00 AM
  */
 abstract protected[_storages] final class XmlStorage extends AbsStorage{
 

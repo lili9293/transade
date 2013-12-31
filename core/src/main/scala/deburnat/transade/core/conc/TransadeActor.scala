@@ -11,8 +11,8 @@ import deburnat.transade.core.admins.CoreAdmin.br
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 12/17/13
- * Time: 11:39 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This actor concurrently computes the [transfer] nodes or the .scala files.
  */

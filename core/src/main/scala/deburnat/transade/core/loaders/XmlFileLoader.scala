@@ -9,11 +9,14 @@ import CoreAdmin._
 import conc.{TransadeNodes, Concurrency}
 
 /**
- * An algorithm for data transfer.
- * Project name: deburnat
- * Date: 9/30/13
- * Time: 6:18 AM
+ * Project name: transade
  * @author Patrick Meppe (tapmeppe@gmail.com)
+ * Description:
+ *  An algorithm for the transfer of selected/adapted data
+ *  from one repository to another.
+ *
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This class is used to load .xml files using the transade schema.
  * These files are called: (translade).xml files

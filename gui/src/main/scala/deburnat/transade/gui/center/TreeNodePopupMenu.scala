@@ -12,8 +12,8 @@ import deburnat.transade.gui.admins.GuiAdmin.br
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 9/2/13
- * Time: 4:13 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This case class is used to present/show xml nodes via a pop up.
  * @param text The text representing an xml node.

@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>TRANSAD&eacute;</title>
+        <link rel="shortcut icon" href="../../manual/images/logo.png">
         <!--CSS-->
         <link rel="stylesheet" type="text/css" href="../../manual/css/manual.css">
 
@@ -12,11 +13,12 @@
         -->
         <script src="manual.js"></script><!--the relative js file-->
         <script src="../../manual/js/manual.js"></script><!--the absolute js file-->
+        <!--TODO page icon-->
     </head>
     <body>
         <h1 class="line">Welcome to the TRANSAD&eacute; manual</h1>
-        <table>
-            <tr><td class="max"><fieldset><!--CHAPTER 1 START-->
+        <table class="max">
+            <tr><td ><fieldset><!--CHAPTER 1 START-->
                 <legend>
                     <img id="chapterOneClick" class="clickable , title"
                          src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterOne')">
@@ -149,7 +151,6 @@
                         <input type="button" value="open all the selected files" class="titleMini" style="margin-right:30px;"
                                onclick="openSelectedFiles()">
                     </td></tr></table>
-
                 </div>
             </fieldset><br></td></tr><!--CHAPTER 1 END-->
             <tr><td><fieldset><!--CHAPTER 2 START-->
@@ -157,19 +158,36 @@
                     <img id="chapterTwoClick" class="clickable , title"
                          src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwo')">
                     <a class="title">
-                        How to use the TRANSAD&eacute; graphic user interface
+                        How to use the TRANSAD&eacute; developer application
                     </a>
                 </legend>
                 <div id="chapterTwoDiv" class="invisible"><table>
                     <tr><td>
+                        The <a class="emphasis">API</a> (short form of the word application) is made of one big package working
+                        as a black box.
+                        <!--TODO finish this part & add a lil UML diagram presenting the black box-->
+                        <br>THIS CHAPTER CAN'T BE FULLY WRITTEN AS LONG AS THE API ITSELF IS DONE ...
+                    </td></tr>
+                </table></div>
+            </fieldset><br></td></tr><!--CHAPTER 2 END-->
+            <tr><td><fieldset><!--CHAPTER 3 START-->
+                <legend>
+                    <img id="chapterThreeClick" class="clickable , title"
+                         src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterThree')">
+                    <a class="title">
+                        How to use the TRANSAD&eacute; graphic user interface
+                    </a>
+                </legend>
+                <div id="chapterThreeDiv" class="invisible"><table>
+                    <tr><td>
                         This chapter presents the most useful and basic features of the <a class="emphasis">gui</a> (graphic user interface).
                         Just like on the gui the progress (top to bottom) in this chapter event based.<br><br>
                     </td></tr>
-                    <tr><td><!--CHAPTER 2.1 START-->
-                        <img id="chapterTwoOneClick" class="clickableMini , titleMini"
-                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoOne')">
+                    <tr><td><!--CHAPTER 3.1 START-->
+                        <img id="chapterThreeOneClick" class="clickableMini , titleMini"
+                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterThreeOne')">
                         <a class="titleMini">The configuration</a>
-                        <div id="chapterTwoOneDiv" class="invisible">
+                        <div id="chapterThreeOneDiv" class="invisible">
                             Right after running the application -for the first or without having ever configure it the
                             following <a class="emphasis">warning</a> will be prompted.<br><br>
                             <img src="../../manual/images/config.png" alt="../../manual/images/config.png">
@@ -183,12 +201,12 @@
                             This process can be repeated indefinitely.
                             <br><br>
                         </div>
-                    </td></tr><!--CHAPTER 2.1 END-->
-                    <tr><td><!--CHAPTER 2.2 START-->
-                        <img id="chapterTwoTwoClick" class="clickableMini , titleMini"
-                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoTwo')">
+                    </td></tr><!--CHAPTER 3.1 END-->
+                    <tr><td><!--CHAPTER 3.2 START-->
+                        <img id="chapterThreeTwoClick" class="clickableMini , titleMini"
+                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterThreeTwo')">
                         <a class="titleMini">The files upload</a>
-                        <div id="chapterTwoTwoDiv" class="invisible">
+                        <div id="chapterThreeTwoDiv" class="invisible">
                             The application provides two ways to upload (transade).xml files.
                             <table>
                                 <tr><td class="bullet"></td><td>
@@ -208,12 +226,12 @@
                                 </td></tr>
                             </table><br>
                         </div>
-                    </td></tr><!--CHAPTER 2.2 END-->
-                    <tr><td><!--CHAPTER 2.3 START-->
-                        <img id="chapterTwoThreeClick" class="clickableMini , titleMini"
-                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoThree')">
+                    </td></tr><!--CHAPTER 3.2 END-->
+                    <tr><td><!--CHAPTER 3.3 START-->
+                        <img id="chapterThreeThreeClick" class="clickableMini , titleMini"
+                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterThreeThree')">
                         <a class="titleMini">The nodes selection</a>
-                        <div id="chapterTwoThreeDiv" class="invisible">
+                        <div id="chapterThreeThreeDiv" class="invisible">
                             Once a (transade).xml file is successfully uploaded all the <a class="node">transfer</a>s are
                             presented in form of a <a class="emphasis">checkbox list of their identifier</a> in the current page.
                             The identifier is the value attribute <a class="emphasis">id</a> (click here
@@ -239,12 +257,12 @@
                             There are 3 lamps in total, each of them representing one possible page status.
                             <br>
                         </div>
-                    </td></tr><!--CHAPTER 2.3 END-->
-                    <tr><td><!--CHAPTER 2.4 START-->
-                        <img id="chapterTwoFourClick" class="clickableMini , titleMini"
-                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoFour')">
+                    </td></tr><!--CHAPTER 3.3 END-->
+                    <tr><td><!--CHAPTER 3.4 START-->
+                        <img id="chapterThreeFourClick" class="clickableMini , titleMini"
+                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterThreeFour')">
                         <a class="titleMini">The nodes execution</a>
-                        <div id="chapterTwoFourDiv" class="invisible">
+                        <div id="chapterThreeFourDiv" class="invisible">
                             The node execution section resides at the upper south side of the gui. The execution is pretty straight forward.
                             Once all the <a class="node">transfer</a>s selected, simply set the <a class="emphasis">3 running options</a> and click the
                             <img class="symbol" src="../../manual/images/run.png" alt="../../manual/images/run.png"> symbol.
@@ -284,12 +302,12 @@
                                 </td></tr>
                             </table><br>
                         </div>
-                    </td></tr><!--CHAPTER 2.4 END-->
-                    <tr><td><!--CHAPTER 2.5 START-->
-                        <img id="chapterTwoFiveClick" class="clickableMini , titleMini"
-                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterTwoFive')">
+                    </td></tr><!--CHAPTER 3.4 END-->
+                    <tr><td><!--CHAPTER 3.5 START-->
+                        <img id="chapterThreeFiveClick" class="clickableMini , titleMini"
+                             src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterThreeFive')">
                         <a class="titleMini">Others</a>
-                        <div id="chapterTwoFiveDiv" class="invisible">
+                        <div id="chapterThreeFiveDiv" class="invisible">
                             <a class="line">The lamps system:</a><br>
                             <table>
                                 <tr><td class="bullet"></td><td>
@@ -321,18 +339,18 @@
                             I have made the experience that <a class="emphasis">learning by doing</a> is the best way of learning.
                             Therefore i strongly urge you to discover the gui by yourself. There are much more features to discover.
                         </div>
-                    </td></tr><!--CHAPTER 2.5 END-->
+                    </td></tr><!--CHAPTER 3.5 END-->
                 </table></div>
-            </fieldset><br></td></tr><!--CHAPTER 2 END-->
-            <tr><td><fieldset><!--CHAPTER 3 START-->
+            </fieldset><br></td></tr><!--CHAPTER 3 END-->
+            <tr><td><fieldset><!--CHAPTER 4 START-->
                 <legend>
-                    <img id="chapterThreeClick" class="clickable , title"
-                         src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterThree')">
+                    <img id="chapterFourClick" class="clickable , title"
+                         src="../../manual/images/open.png" alt=" + " onclick="toggleChapter('chapterFour')">
                     <a class="title">
                         How to contact the TRANSAD&eacute; team
                     </a>
                 </legend>
-                <div id="chapterThreeDiv" class="invisible"><table>
+                <div id="chapterFourDiv" class="invisible"><table>
                     <!--maximum 4 entries in a row-->
                     <tr>
                         <td><table>
@@ -362,7 +380,7 @@
                         </table></td>
                     </tr>
                 </table></div>
-            </fieldset><br></td></tr><!--CHAPTER 3 END-->
+            </fieldset><br></td></tr><!--CHAPTER 4 END-->
         </table>
         <script>$(document).ready(transformClassElements())</script>
     </body>

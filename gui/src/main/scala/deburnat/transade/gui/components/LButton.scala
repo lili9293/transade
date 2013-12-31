@@ -15,8 +15,8 @@ import deburnat.transade.gui.admins.GuiAdmin._
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 9/2/13
- * Time: 4:13 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This class is used to create a text-less button-like label.
  * @param imgFileName The name of the corresponding -image and -"toolTip" node in the view.xml file.

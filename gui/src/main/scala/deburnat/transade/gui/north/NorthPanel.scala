@@ -4,7 +4,6 @@ import deburnat.transade.gui.{admins, components}
 
 import swing._
 import BorderPanel.Position.{Center, East}
-import java.awt.Desktop.getDesktop
 import components.{HBoxPanel, LButton, TransOptionPane}
 import TransOptionPane._
 
@@ -19,8 +18,8 @@ import admins.TemplatesAdmin._
  *  An algorithm for the transfer of selected/adapted data
  *  from one repository to another.
  *
- * Date: 9/2/13
- * Time: 4:13 AM
+ * Date: 1/1/14
+ * Time: 12:00 AM
  *
  * This class represents the north panel of the application. It is made of the loader fields,
  * the info and settings buttons.
@@ -72,7 +71,7 @@ protected[transade] class NorthPanel extends BorderPanel{
     contents += Swing.HStrut(10)
 
     val admin = coreAdmin //the manual button
-    contents += new LButton(manual, getDesktop.browse(admin.manualFile.toURI)) //show the manual
+    contents += new LButton(manual, admin.showManual) //show the manual
     contents += Swing.HStrut(10)
 
     val settings = new SettingsPopupMenu //the settings button
