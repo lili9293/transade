@@ -16,4 +16,12 @@
         -->
         Description of the error
     </error>
+    <error creationdate="9.2.2014" lastmoddate="9.2.2014" status="open" testpath="files/transade_example.xml">
+        Exception in thread "AWT-EventQueue-0" java.lang.IndexOutOfBoundsException: 0
+        at scala.collection.LinearSeqOptimized$class.apply(LinearSeqOptimized.scala:52)
+        at scala.collection.immutable.List.apply(List.scala:84)
+        at scala.xml.NodeSeq.apply(NodeSeq.scala:52)
+        at deburnat.transade.gui.center.TransTree$$anonfun$peer$1$$anonfun$apply$1.apply(TransTree.scala:91)
+        at deburnat.transade.gui.center.TransTree$$anonfun$peer$1$$anonfun$apply$1.apply(TransTree.scala:85)
+    </error>
 </errors>

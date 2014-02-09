@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<transade><!--html-->
+	<references/><!--header-->
+	<transfer id="transfer1">
+		<metadata projectname="My first transfer" admin="Chloe"><!--comments-->
+			We are currently getting to know TRANSADé
+			<description>
+				This transfer serves as an example.
+			</description>
+			...
+		</metadata>
+		
+		<source id="source1" format="SQL">
+			<definitions>
+				<def key="url" value="localhost"/>
+				<def key="username" value="root"/>
+				<def key="password" value=""/>
+				<def key="table" value="database1.table1"/>
+			</definitions>
+			
+			<target id="target1" format="EXCEL">
+				<definitions>
+					<def key="path" value="C:\Users\tap_tap_tap\Desktop\text1.xls"/>
+					<def key="location" value="0"/>
+				</definitions>
+			
+				<parse targetname="ID" sourcename="id"/>
+				<parse targetname="col1">
+					<sourcename>colA</sourcename>
+				</parse>
+				<!--DO NOT TRANSFER colB-->
+				<parse targetname="AGE">
+					<sourcename>age</sourcename>
+				</parse>				
+				<parse targetname="CATEGORY">
+						<if condition="${age} &lt; 8" sourcename="BABY"/>
+						<if condition="${age} &gt;= 8 &amp;&amp; ${age} &lt; 16" sourcename="TEENAGER"/>
+						<if condition="" sourcename="ADULT"/>
+				</parse>
+			</target>
+			
+			<target id="target2" format="mysql">
+			
+			</target>
+		</source>
+	</transfer>
+	
+	<transfer id="transfer2">
+	
+	</transfer>
+</transade>
